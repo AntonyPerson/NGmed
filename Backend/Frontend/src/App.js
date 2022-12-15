@@ -53,7 +53,6 @@ import createCache from "@emotion/cache";
 // Material Dashboard 2 React routes
 import routes from "routes/userRoutes";
 import AdminRoutes from "routes/AdminRoutes";
-import ToraHailitAdminRoutes from "routes/ToraHailitAdminRoutes";
 
 // Material Dashboard 2 React contexts
 import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
@@ -199,6 +198,7 @@ export default function App() {
     //   }
     //   return false;
     // });
+    // console.log(isAuthenticated());
     setUser(isAuthenticated());
     // console.groupCollapsed("User in App useEffect function");
     // console.log(user.user);
@@ -206,6 +206,7 @@ export default function App() {
     if (user.user === "DoNotExist" || user.user === "undefined") {
       return <Navigate to="/authentication/sign-in" />;
     }
+    // console.log(user);
     return <Navigate to="/" />;
   }, []);
 
