@@ -1,3 +1,4 @@
+/* eslint-disable react/self-closing-comp */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable spaced-comment */
 /* eslint-disable no-unused-vars */
@@ -54,41 +55,44 @@ import Icon from "@mui/material/Icon";
 //my components
 import HozlaPrintRequestForm from "layouts/Forms/HozlaPrintRequestForm";
 import AboutPage from "views/aboutpage/AboutPage";
-import { SvgIcon } from "@mui/material";
+import ExcelToJasonFileUploader from "layouts/Forms/ExcelToJasonFileUploader";
+import GraphicSleep from "layouts/GraphicSoldierDatas/GraphicSleep";
+import GraphicHeart from "layouts/GraphicSoldierDatas/GraphicHeart";
+import GraphicDistance from "layouts/GraphicSoldierDatas/GraphicDistance";
 // eslint-disable-next-line import/no-absolute-path
 
 const routes = [
   {
     type: "collapse",
     name: "העלת קובץ",
-    key: "requestForm",
+    key: "FileUpload",
     icon: <Icon fontSize="small">description</Icon>,
-    route: "/requestForm",
-    component: <HozlaPrintRequestForm />,
+    route: "/FileUpload",
+    component: <ExcelToJasonFileUploader />,
   },
   {
     type: "collapse",
     name: "קצב לב",
-    key: "userRequestsTable",
-    icon: <Icon fontSize="small">hotel</Icon>,
-    route: "/userRequestsTable",
-    component: <RegulsrUserRequestsTable />,
+    key: "Heart",
+    icon: <Icon fontSize="small">monitor_heart</Icon>,
+    route: "/Heart",
+    component: <GraphicHeart />,
   },
   {
     type: "collapse",
     name: "שעות שינה",
-    key: "userRequestsTable",
+    key: "Sleep",
     icon: <Icon fontSize="small">hotel</Icon>,
-    route: "/userRequestsTable",
-    component: <RegulsrUserRequestsTable />,
+    route: "/Sleep",
+    component: <GraphicSleep />,
   },
   {
     type: "collapse",
     name: "מרחק יומי",
-    key: "userRequestsTable",
-    icon: <Icon fontSize="small">table_view</Icon>,
-    route: "/userRequestsTable",
-    component: <RegulsrUserRequestsTable />,
+    key: "Distance",
+    icon: <Icon fontSize="small">map</Icon>,
+    route: "/Distance",
+    component: <GraphicDistance />,
   },
   {
     type: "collapse",

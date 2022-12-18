@@ -53,7 +53,7 @@ import {
 
 import NGMedLogo from "assets/images/NGMedLogoSVG.svg";
 import pikudtzafonLogo from "assets/images/unitsimg/pikudtzafon.png";
-import golanyLogo from "assets/images/unitsimg/pikudtzafon.png";
+import golanyLogo from "assets/images/unitsimg/golany.png";
 function Sidenav({ color, brand, brandName, routes, ...rest }) {
   const [controller, dispatch] = useMaterialUIController();
   const { miniSidenav, transparentSidenav, whiteSidenav, darkMode, sidenavColor } = controller;
