@@ -107,3 +107,27 @@ function GraphicSleep() {
 }
 
 export default GraphicSleep;
+
+//? How to use Git
+//* git checkout BranchName - command to switch to a differnt branch
+
+//* git checkout -b BranchName - command to create and switch to a differnt branch
+
+//* git pull origin BranchName - Get a remote Branch for the first time
+
+//* git push -u origin BranchName - Push a Branch for the first time for it to be romote(In Github)
+
+//* To save your Job in Github - push
+//! Happens on the branch that you are on
+// git add .
+// git commit -m "Title/description"
+// git push
+
+//* Get updates from Github - pull
+//! Happens on the branch that you are on
+// git pull
+
+//* Get updates from a branch to a Branch
+//! Happens on the branch that you are on
+// git pull origin BranchNameTopullFrom
+// git push
