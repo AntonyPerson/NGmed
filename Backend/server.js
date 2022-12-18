@@ -84,3 +84,4 @@ app.listen(port, () => {
 });
 
 //to run type: npm run devStart
+//! in nodeJS 18 and above localhost must be switched with 127.0.0.1 (alos works with Node js 16)
