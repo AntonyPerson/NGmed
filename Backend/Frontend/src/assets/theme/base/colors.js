@@ -260,7 +260,7 @@ const colors = {
     mekatnar: "#7D8F69",
     success: "#4caf4f",
     warning: "#ff9900",
-    error: "#f44336",
+    error: "#f61200",
     light: "#adb5bd",
     dark: "#404040",
   },

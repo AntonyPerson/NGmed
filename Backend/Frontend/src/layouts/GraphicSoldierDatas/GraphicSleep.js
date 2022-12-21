@@ -1,3 +1,6 @@
+/* eslint-disable react/jsx-no-bind */
+/* eslint-disable react/function-component-definition */
+/* eslint-disable import/no-unresolved */
 /* eslint-disable no-unused-vars */
 /**
 =========================================================
@@ -16,6 +19,7 @@ Coded by www.creative-tim.com
 
 // @mui material components
 import Grid from "@mui/material/Grid";
+import Icon from "@mui/material/Icon";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -32,7 +36,15 @@ import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
 import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
 import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
 import MixedChart from "examples/Charts/MixedChart";
+import { FormGroup } from "@mui/material";
+import { Input, Label } from "reactstrap";
+import { useState, useMemo, useEffect } from "react";
+import { signin, authenticate, isAuthenticated } from "auth/index";
+import axios from "axios";
+import MDTypography from "components/MDTypography";
+import DefaultLineChart from "examples/Charts/LineCharts/DefaultLineChart";
 
+const { user } = isAuthenticated();
 // // Dashboard components
 // import Projects from "layouts/dashboard/components/Projects";
 // import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
@@ -40,61 +52,179 @@ import MixedChart from "examples/Charts/MixedChart";
 function GraphicSleep() {
   const { sales, tasks } = reportsLineChartData;
 
+  // const [excelNames, setExcelNames] = useState({});
+  const [excelData, setExcelData] = useState([]);
+  const [isError, setIsError] = useState(false);
+  const [fileIndex, setFileIndex] = useState(-1);
+  const [sleepData, setSleepData] = useState({
+    reagularSleep: [[], [], []],
+  });
+
+  useEffect(() => {
+    console.log(user.personalnumber);
+    axios
+      .get(`http://localhost:5000/ExcelData/uploadedExcelsByPersonalnumber/${user.personalnumber}`)
+      .then((response) => {
+        console.log(response.data);
+        setExcelData(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsError(true);
+      });
+  }, []);
+
+  useMemo(() => {
+    if (fileIndex !== -1) {
+      //* regular sleep data
+      const sevenHourSleep = excelData[fileIndex].fileJason.map((excelRow, index) => 7);
+      sevenHourSleep.shift();
+      const soldierSleepHour = excelData[fileIndex].fileJason.map(
+        (excelRow, index) => index > 0 && parseFloat(excelRow.sleepDurationInHours)
+      );
+      soldierSleepHour.shift();
+      const sleepDates = excelData[fileIndex].fileJason.map(
+        (excelRow, index) => index > 0 && excelRow.calendarDate
+      );
+      sleepDates.shift();
+
+      //* Deep sleep data
+      const deepSleepHour = excelData[fileIndex].fileJason.map(
+        (excelRow, index) => index > 0 && parseFloat(excelRow.deepSleepDurationInHours)
+      );
+      deepSleepHour.shift();
+
+      //* REM sleep data
+      const remSleepHour = excelData[fileIndex].fileJason.map(
+        (excelRow, index) => index > 0 && parseFloat(excelRow.remSleepInHours)
+      );
+      remSleepHour.shift();
+
+      setSleepData({
+        sleepDates,
+        reagularSleep: [sevenHourSleep, soldierSleepHour],
+        deepSleepHour,
+        remSleepHour,
+      });
+      console.log("datasetsRefularSlepp");
+      console.log(sleepData.reagularSleep);
+    } else {
+      const sevenHourSleep = [];
+      const soldierSleepHour = [];
+      const sleepDates = [];
+      setSleepData({ reagularSleep: [sleepDates, sevenHourSleep, soldierSleepHour] });
+    }
+  }, [fileIndex]);
+
+  async function handleChange(evt) {
+    const { value } = evt.target;
+    await setFileIndex(parseInt(value, 10));
+    console.log(fileIndex);
+  }
   return (
     <DashboardLayout>
       <DashboardNavbar />
       <MDBox py={3}>
         <MDBox mt={4.5}>
-          <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={4}>
+          <MDBox
+            variant="gradient"
+            bgColor="mekatnar"
+            borderRadius="lg"
+            coloredShadow="mekatnar"
+            mx={2}
+            mt={-3}
+            p={3}
+            mb={3}
+            textAlign="center"
+            style={{ maxWidth: 450 }}
+          >
+            <FormGroup row>
+              <MDTypography variant="h4" fontWeight="medium" color="white" mb={2}>
+                בחר קובץ להצגת נתונים
+              </MDTypography>
+              <Input
+                // placeholder={textPlaceHolderInputs[5]}
+                name="ExcelFileSelctor"
+                type="select"
+                onChange={handleChange}
+              >
+                <option disabled selected="selected" value={-1}>
+                  בחר קובץ
+                </option>
+                {excelData.map((excelFile, index) => (
+                  <option key={excelFile.id} value={index}>
+                    {excelFile.fileName}
+                  </option>
+                ))}
+              </Input>
+            </FormGroup>
+          </MDBox>
+          <Grid container mt={5} className="justify-content-center" spacing={3}>
+            <Grid item xs={12} md={9} lg={9}>
               <MDBox mb={3}>
                 <MixedChart
-                  icon={{ color: "info", component: "leaderboard" }}
-                  title="Mixed Chart"
-                  description="Analytics Insights"
+                  icon={{ color: "mekatnar", component: "hotel" }}
+                  title="שעות שינה"
+                  description="הקו האדום מייצג את 7 שעות השינה המטכליות"
                   chart={{
-                    labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
+                    labels: sleepData.sleepDates,
                     datasets: [
                       {
                         chartType: "gradient-line",
                         label: "שעות שינה מטכליות",
                         color: "error",
-                        data: [7, 7, 7, 7, 7, 7, 7, 7, 7],
+                        data: sleepData.reagularSleep[0],
                       },
                       {
                         chartType: "bar",
                         label: "שעות שינה",
                         color: "mekatnar",
-                        data: [6.5, 8, 3, 8, 9, 9, 6, 4, 1],
+                        data: sleepData.reagularSleep[1],
                       },
                     ],
                   }}
                 />
               </MDBox>
             </Grid>
-            <Grid item xs={12} md={6} lg={4}>
+            <Grid mt={5} item xs={12} md={9} lg={9}>
               <MDBox mb={3}>
                 <ReportsLineChart
-                  color="success"
-                  title="daily sales"
-                  description={
-                    <>
-                      (<strong>+15%</strong>) increase in today sales.
-                    </>
-                  }
-                  date="updated 4 min ago"
-                  chart={sales}
+                  color="mekatnar"
+                  title="שעות שינה עמוקה"
+                  // description={
+                  //   <>
+                  //     (<strong>+15%</strong>) increase in today sales.
+                  //   </>
+                  // }
+                  // date="updated 4 min ago"
+                  chart={{
+                    labels: sleepData.sleepDates,
+                    datasets: {
+                      label: "מספר שעות",
+                      data: sleepData.deepSleepHour,
+                    },
+                  }}
                 />
               </MDBox>
             </Grid>
-            <Grid item xs={12} md={6} lg={4}>
+            <Grid mt={5} item xs={12} md={9} lg={9}>
               <MDBox mb={3}>
                 <ReportsLineChart
-                  color="dark"
-                  title="completed tasks"
-                  description="Last Campaign Performance"
-                  date="just updated"
-                  chart={tasks}
+                  color="mekatnar"
+                  title="שעות שינה REM"
+                  // description={
+                  //   <>
+                  //     (<strong>+15%</strong>) increase in today sales.
+                  //   </>
+                  // }
+                  // date="updated 4 min ago"
+                  chart={{
+                    labels: sleepData.sleepDates,
+                    datasets: {
+                      label: "מספר שעות",
+                      data: sleepData.remSleepHour,
+                    },
+                  }}
                 />
               </MDBox>
             </Grid>
@@ -107,3 +237,27 @@ function GraphicSleep() {
 }
 
 export default GraphicSleep;
+
+// ? How to use Git
+//* git checkout BranchName - command to switch to a differnt branch
+
+//* git checkout -b BranchName - command to create and switch to a differnt branch
+
+//* git pull origin BranchName - Get a remote Branch for the first time
+
+//* git push -u origin BranchName - Push a Branch for the first time for it to be romote(In Github)
+
+//* To save your Job in Github - push
+//! Happens on the branch that you are on
+// git add .
+// git commit -m "Title/description"
+// git push
+
+//* Get updates from Github - pull
+//! Happens on the branch that you are on
+// git pull
+
+//* Get updates from a branch to a Branch
+//! Happens on the branch that you are on
+// git pull origin BranchNameTopullFrom
+// git push
