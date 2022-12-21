@@ -236,7 +236,7 @@ export default function App() {
                 <Sidenav
                   color={sidenavColor}
                   brand={(transparentSidenav && !darkMode) || whiteSidenav ? brandDark : brandWhite}
-                  brandName='הוצל"א'
+                  brandName="NGmed"
                   routes={user.user.admin !== "0" ? AdminRoutes : routes}
                   onMouseEnter={handleOnMouseEnter}
                   onMouseLeave={handleOnMouseLeave}
@@ -263,7 +263,7 @@ export default function App() {
                   <Route path="/Error404" element={<Error404 />} />
                   {/* <Route path="/adminForm" element={<HozlaAdminPrintInfoForm />} /> */}
                   {/* <Route path="/adminFieldReuestFormDB" element={<AdminFieldReuestFormDB />} /> */}
-                  <Route path="/RequestForm">
+                  {/* <Route path="/RequestForm">
                     <Route path=":formID" element={<FieldReuestFormDB />} />
                   </Route>
                   <Route path="/adminForm">
@@ -271,7 +271,7 @@ export default function App() {
                   </Route>
                   <Route path="/adminFeild">
                     <Route path=":formID" element={<AdminFeildPrintInfoFormDB />} />
-                  </Route>
+                  </Route> */}
                   <Route path="*" element={<Error404 />} />
                 </Routes>
               ) : (
@@ -280,12 +280,12 @@ export default function App() {
                   <Route path="/authentication/sign-in">
                     <Route path=":idUR" render={() => getRoutes(routes)} element={<SignInURL />} />
                   </Route>
-                  <Route path="/" element={<Navigate to="/userRequestsTable" />} />
+                  <Route path="/" element={<Navigate to="/FileUpload" />} />
                   {/* <Route path="/" element={<Navigate to="/authentication/sign-in" />} /> */}
                   <Route path="/Error404" element={<Error404 />} />
-                  <Route path="/RequestForm">
+                  {/* <Route path="/RequestForm">
                     <Route path=":formID" element={<FieldReuestFormDB />} />
-                  </Route>
+                  </Route> */}
                   <Route path="*" element={<Error404 />} />
                 </Routes>
               )

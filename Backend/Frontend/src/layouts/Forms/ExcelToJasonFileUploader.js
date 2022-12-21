@@ -91,13 +91,139 @@ const { user } = isAuthenticated();
 // console.log(user);
 
 export default function ExcelToJasonFileUploader() {
-  const [navigateUser, setNavigateUser] = useState(false);
+  const [dataDB, setDataDB] = useState({
+    fileName: "",
+    fileJason: {},
 
+    personalnumber: user.personalnumber,
+
+    error: false,
+    successmsg: false,
+    loading: false,
+    NavigateToReferrer: false,
+  });
+
+  const handleCloseSuccsecModal = () => {
+    setDataDB({
+      ...dataDB,
+      loading: false,
+      error: false,
+      successmsg: false,
+      NavigateToReferrer: true,
+    });
+  };
+  const handleCloseLoadingModal = () => {
+    setDataDB({ ...dataDB, loading: false });
+  };
+  const handleCloseErrorModal = () => {
+    setDataDB({
+      ...dataDB,
+      loading: false,
+      error: false,
+      successmsg: false,
+      NavigateToReferrer: false,
+    });
+  };
   const NavigateUser = () => {
-    if (navigateUser) {
-      return <Navigate to="/GraphicSoldierDatas" />;
+    if (dataDB.NavigateToReferrer) {
+      return <Navigate to="/Heart" />;
     }
   };
+  const showSuccess = () => (
+    <Dialog
+      open={dataDB.successmsg}
+      onClose={handleCloseSuccsecModal}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <MDBox
+        variant="gradient"
+        bgColor="mekatnar"
+        coloredShadow="mekatnar"
+        borderRadius="l"
+        // mx={2}
+        // mt={2}
+        p={3}
+        // mb={2}
+        textAlign="center"
+      >
+        <MDTypography variant="h1" fontWeight="medium" color="white" mt={1}>
+          הבקשה נשלחה להוצל"א
+        </MDTypography>
+
+        <DialogContent>
+          <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
+            שם הקובץ שהועלה: {dataDB.fileName}
+          </MDTypography>
+        </DialogContent>
+      </MDBox>
+    </Dialog>
+  );
+  const showError = () => (
+    <Dialog
+      open={dataDB.error}
+      onClose={handleCloseErrorModal}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <MDBox
+        variant="gradient"
+        bgColor="error"
+        coloredShadow="error"
+        borderRadius="l"
+        // mx={2}
+        // mt={2}
+        p={3}
+        // mb={2}
+        textAlign="center"
+      >
+        <MDTypography variant="h1" fontWeight="medium" color="white" mt={1}>
+          שגיאה בהעלאת הקובץ
+        </MDTypography>
+
+        <DialogContent>
+          <MDTypography variant="h6" fontWeight="medium" color="white" mt={1}>
+            אנא נסה שנית מאוחר יותר
+          </MDTypography>
+        </DialogContent>
+      </MDBox>
+    </Dialog>
+  );
+  const showLoading = () => (
+    <Dialog
+      open={dataDB.loading}
+      onClose={handleCloseLoadingModal}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <MDBox
+        variant="gradient"
+        bgColor="mekatnar"
+        coloredShadow="mekatnar"
+        borderRadius="l"
+        // mx={2}
+        // mt={2}
+        p={3}
+        px={5}
+        // mb={2}
+        textAlign="center"
+      >
+        <MDTypography variant="h1" fontWeight="medium" color="white" mt={1}>
+          בטעינה
+        </MDTypography>
+
+        <DialogContent>
+          <MDTypography variant="h5" fontWeight="medium" color="white" mt={1}>
+            שליחת הקובץ תיקח מספר רגעים...
+          </MDTypography>
+        </DialogContent>
+      </MDBox>
+    </Dialog>
+  );
+  function handleChange(evt) {
+    const { value } = evt.target;
+    setDataDB({ ...dataDB, [evt.target.name]: value });
+  }
 
   const readUploadFile = (e) => {
     e.preventDefault();
@@ -114,15 +240,56 @@ export default function ExcelToJasonFileUploader() {
           dateNF: "dd-mm-yyyy",
         });
         console.log(json);
+        setDataDB({ ...dataDB, fileJason: json });
       };
       reader.readAsArrayBuffer(e.target.files[0]);
-        setNavigateUser(true);
     }
   };
 
+  const onSubmit = (event) => {
+    event.preventDefault();
+
+    setDataDB({
+      ...dataDB,
+      loading: true,
+      successmsg: false,
+      error: false,
+      NavigateToReferrer: false,
+    });
+
+    const requestData = {
+      fileName: dataDB.fileName,
+      fileJason: dataDB.fileJason,
+
+      personalnumber: dataDB.personalnumber,
+    };
+    console.log(requestData);
+    axios
+      .post(`http://localhost:5000/ExcelData/add`, requestData)
+      .then((response) => {
+        setDataDB({
+          ...dataDB,
+          loading: false,
+          error: false,
+          successmsg: true,
+          NavigateToReferrer: false,
+        });
+        console.log(response.data);
+      })
+      .catch((error) => {
+        // console.log(error);
+        setDataDB({
+          ...dataDB,
+          errortype: error.response,
+          loading: false,
+          error: true,
+          NavigateToReferrer: false,
+        });
+      });
+  };
   const excelToJasonFileUploader = () => (
     <Container className="" dir="rtl">
-      <Row className="justify-content-center" >
+      <Row className="justify-content-center">
         <Col lg="6" md="8">
           <Card className="shadow border-0">
             <CardBody className="px-lg-8 py-lg-10">
@@ -137,14 +304,27 @@ export default function ExcelToJasonFileUploader() {
                 mb={4}
                 textAlign="center"
               >
-                <MDTypography variant="h4" fontWeight="large" color="white" mt={1} >
+                <MDTypography variant="h4" fontWeight="large" color="white" mt={1}>
                   העלאת קובץ מידע רפואי
                 </MDTypography>
               </MDBox>
-              <Form style={{ textAlign: "center" }} role="form">
+              <Form style={{ textAlign: "right" }} role="form" onSubmit={onSubmit}>
+                <FormGroup row>
+                  <FormGroup>
+                    <Label for="fileName">שם הקובץ</Label>
+                    <Input
+                      required
+                      name="fileName"
+                      type="text"
+                      value={dataDB.fileName}
+                      onChange={handleChange}
+                    />
+                  </FormGroup>
+                </FormGroup>
                 <FormGroup row>
                   <FormGroup>
                     <Input
+                      required
                       type="file"
                       name="upload"
                       id="upload"
@@ -154,7 +334,23 @@ export default function ExcelToJasonFileUploader() {
                     />
                   </FormGroup>
 
-                  <FormText color="muted">* ניתן לעלות רק קבצי אקסל</FormText>
+                  <FormText style={{ textAlign: "center" }} color="muted">
+                    * ניתן לעלות רק קבצי אקסל
+                  </FormText>
+                </FormGroup>
+
+                <FormGroup style={{ textAlign: "center" }}>
+                  <MDButton
+                    color="mekatnar"
+                    size="large"
+                    // onClick={clickSubmit}
+                    className="btn-new-blue"
+                    type="submit"
+                    style={{ width: 150 }}
+                  >
+                    שלח בקשה
+                    <Icon fontSize="small">upload</Icon>&nbsp;
+                  </MDButton>
                 </FormGroup>
               </Form>
             </CardBody>
@@ -181,6 +377,9 @@ export default function ExcelToJasonFileUploader() {
           pauseOnHover
           theme="colored"
         />
+        {showError()}
+        {showSuccess()}
+        {showLoading()}
         {NavigateUser()}
 
         {excelToJasonFileUploader()}
