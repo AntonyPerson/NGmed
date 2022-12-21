@@ -37,13 +37,13 @@ function GraphicHeart() {
     <DashboardLayout>
       <DashboardNavbar />
       <MDBox py={3}>
-        <MDBox mt={4.5}>
+        <MDBox mt={4.5} ml={35}>
           <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
+            <Grid item xs={12} md={6} lg={8}>
+              <MDBox mb={12}>
                 <ReportsBarChart
                   color="mekatnar"
-                  title="website views"
+                  title="קצב לב חציוני במאמץ"
                   description="Last Campaign Performance"
                   date="campaign sent 2 days ago"
                   chart={reportsBarChartData}
