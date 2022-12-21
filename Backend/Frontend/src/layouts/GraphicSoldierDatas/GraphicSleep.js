@@ -16,6 +16,7 @@ Coded by www.creative-tim.com
 
 // @mui material components
 import Grid from "@mui/material/Grid";
+import Icon from "@mui/material/Icon";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -46,11 +47,11 @@ function GraphicSleep() {
       <MDBox py={3}>
         <MDBox mt={4.5}>
           <Grid container spacing={3}>
-            <Grid item xs={12} md={6} lg={4}>
-              <MDBox mb={3}>
+            <Grid item xs={12} md={6} lg={8}>
+              <MDBox mb={3} ml={40}>
                 <MixedChart
-                  icon={{ color: "info", component: "leaderboard" }}
-                  title="Mixed Chart"
+                  icon={{ color: "mekatnar", component: "hotel" }}
+                  title="שעות שינה"
                   description="Analytics Insights"
                   chart={{
                     labels: ["Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"],
@@ -72,11 +73,11 @@ function GraphicSleep() {
                 />
               </MDBox>
             </Grid>
-            <Grid item xs={12} md={6} lg={4}>
+            <Grid item xs={12} md={6} lg={6}>
               <MDBox mb={3}>
                 <ReportsLineChart
-                  color="success"
-                  title="daily sales"
+                  color="dark"
+                  title="שעות שינה עמוקה"
                   description={
                     <>
                       (<strong>+15%</strong>) increase in today sales.
@@ -87,11 +88,11 @@ function GraphicSleep() {
                 />
               </MDBox>
             </Grid>
-            <Grid item xs={12} md={6} lg={4}>
+            <Grid item xs={12} md={6} lg={6}>
               <MDBox mb={3}>
                 <ReportsLineChart
                   color="dark"
-                  title="completed tasks"
+                  title="שעות שינה REM"
                   description="Last Campaign Performance"
                   date="just updated"
                   chart={tasks}
@@ -107,3 +108,27 @@ function GraphicSleep() {
 }
 
 export default GraphicSleep;
+
+// ? How to use Git
+//* git checkout BranchName - command to switch to a differnt branch
+
+//* git checkout -b BranchName - command to create and switch to a differnt branch
+
+//* git pull origin BranchName - Get a remote Branch for the first time
+
+//* git push -u origin BranchName - Push a Branch for the first time for it to be romote(In Github)
+
+//* To save your Job in Github - push
+//! Happens on the branch that you are on
+// git add .
+// git commit -m "Title/description"
+// git push
+
+//* Get updates from Github - pull
+//! Happens on the branch that you are on
+// git pull
+
+//* Get updates from a branch to a Branch
+//! Happens on the branch that you are on
+// git pull origin BranchNameTopullFrom
+// git push
