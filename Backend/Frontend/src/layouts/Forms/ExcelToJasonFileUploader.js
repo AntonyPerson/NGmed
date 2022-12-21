@@ -148,7 +148,7 @@ export default function ExcelToJasonFileUploader() {
         textAlign="center"
       >
         <MDTypography variant="h1" fontWeight="medium" color="white" mt={1}>
-          הבקשה נשלחה להוצל"א
+          הבקשה נשלחה למערכת
         </MDTypography>
 
         <DialogContent>

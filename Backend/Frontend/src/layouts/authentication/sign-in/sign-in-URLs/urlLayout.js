@@ -123,11 +123,11 @@ function signInURL(props) {
       // console.log(user);
       if (params.idUR === "69173dcb3ee95de869edfq10") {
         //regular user
-        return <Navigate to="/userRequestsTable" />;
+        return <Navigate to="/" />;
       }
       if (params.idUR === "6368f702a925c8f735fa6a59" || params.idUR === "17351e923ex28e869e06c83") {
         //mangment
-        return <Navigate to="/AdminHome" />;
+        return <Navigate to="/" />;
       }
     }
   };
@@ -323,8 +323,8 @@ function signInURL(props) {
         personalnumber_demo = "7654321";
         setSignUpData({
           ...signUpData,
-          firstName: "רותם",
-          lastLame: "ורולקר",
+          firstName: "אנטוני",
+          lastLame: "פרסון",
           personalnumber: personalnumber_demo,
           admin: admin_value,
           unit: "מקטנאר",
