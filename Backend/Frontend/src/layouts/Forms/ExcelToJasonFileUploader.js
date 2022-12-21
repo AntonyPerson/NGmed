@@ -122,8 +122,8 @@ export default function ExcelToJasonFileUploader() {
 
   const excelToJasonFileUploader = () => (
     <Container className="" dir="rtl">
-      <Row className="justify-content-center">
-        <Col lg="6" md="7">
+      <Row className="justify-content-center" >
+        <Col lg="6" md="8">
           <Card className="shadow border-0">
             <CardBody className="px-lg-8 py-lg-10">
               <MDBox
@@ -131,17 +131,17 @@ export default function ExcelToJasonFileUploader() {
                 bgColor="mekatnar"
                 borderRadius="lg"
                 coloredShadow="mekatnar"
-                mx={2}
+                mx={7}
                 mt={-3}
                 p={3}
-                mb={1}
+                mb={4}
                 textAlign="center"
               >
-                <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
+                <MDTypography variant="h4" fontWeight="large" color="white" mt={1} >
                   העלאת קובץ מידע רפואי
                 </MDTypography>
               </MDBox>
-              <Form style={{ textAlign: "right" }} role="form">
+              <Form style={{ textAlign: "center" }} role="form">
                 <FormGroup row>
                   <FormGroup>
                     <Input
@@ -154,7 +154,7 @@ export default function ExcelToJasonFileUploader() {
                     />
                   </FormGroup>
 
-                  <FormText color="muted">ניתן להעלאות רק קבצי אקסל</FormText>
+                  <FormText color="muted">* ניתן לעלות רק קבצי אקסל</FormText>
                 </FormGroup>
               </Form>
             </CardBody>
