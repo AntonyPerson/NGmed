@@ -49,13 +49,13 @@ mongoose
 // const fileuploaderRoutes = require("./routes/fileuploader100/fileuploader");
 // app.use('/api',fileuploaderRoutes)
 
-//Hozla Requests routes for Client
-const hozlaRequestsRouter = require("./routes/hozlaRequests");
-app.use("/hozlaRequests", hozlaRequestsRouter);
+//Excel Data routes for Client
+const excelDataRouter = require("./routes/ExcelData");
+app.use("/ExcelData", excelDataRouter);
 
 // Hozla Requests routes for admin
-const hozlaAdminRequestsRouter = require("./routes/hozlaAdminRequests");
-app.use("/hozlaAdminRequests", hozlaAdminRequestsRouter);
+// const hozlaAdminRequestsRouter = require("./routes/hozlaAdminRequests");
+// app.use("/hozlaAdminRequests", hozlaAdminRequestsRouter);
 
 // //user routes
 // const authRoutes = require("./routes/authentication/auth");
@@ -64,12 +64,12 @@ app.use("/hozlaAdminRequests", hozlaAdminRequestsRouter);
 // app.use("/api", userRoutes);
 
 // upload files
-const fileuploaderRoutes = require("./routes/fileuploader/fileuploader");
-app.use("/api", fileuploaderRoutes);
+// const fileuploaderRoutes = require("./routes/fileuploader/fileuploader");
+// app.use("/api", fileuploaderRoutes);
 
 // Annual Info Admin
-const AnnualInfoAdmin = require("./routes/AnnualInfoAdmin");
-app.use("/AnnualInfoAdmin", AnnualInfoAdmin);
+// const AnnualInfoAdmin = require("./routes/AnnualInfoAdmin");
+// app.use("/AnnualInfoAdmin", AnnualInfoAdmin);
 
 if (process.env.NODE_ENV === "production") {
   //set static folder
