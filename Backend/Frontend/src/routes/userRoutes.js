@@ -64,14 +64,6 @@ import GraphicDistance from "layouts/GraphicSoldierDatas/GraphicDistance";
 const routes = [
   {
     type: "collapse",
-    name: "העלת קובץ",
-    key: "FileUpload",
-    icon: <Icon fontSize="small">description</Icon>,
-    route: "/FileUpload",
-    component: <ExcelToJasonFileUploader />,
-  },
-  {
-    type: "collapse",
     name: "קצב לב",
     key: "Heart",
     icon: <Icon fontSize="small">monitor_heart</Icon>,
@@ -93,6 +85,14 @@ const routes = [
     icon: <Icon fontSize="small">map</Icon>,
     route: "/Distance",
     component: <GraphicDistance />,
+  },
+  {
+    type: "collapse",
+    name: "העלת קובץ",
+    key: "FileUpload",
+    icon: <Icon fontSize="small">description</Icon>,
+    route: "/FileUpload",
+    component: <ExcelToJasonFileUploader />,
   },
   {
     type: "collapse",
