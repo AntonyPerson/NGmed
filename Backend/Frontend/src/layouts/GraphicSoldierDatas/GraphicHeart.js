@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable react/function-component-definition */
 /* eslint-disable import/no-unresolved */
@@ -23,6 +25,7 @@ import Icon from "@mui/material/Icon";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
+import MDButton from "components/MDButton";
 
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -140,7 +143,13 @@ function GraphicHeart() {
                 style={{ maxWidth: 450 }}
               >
                 <FormGroup row>
-                  <MDTypography variant="h4" fontWeight="medium" color="white" mb={2}>
+                  <MDTypography
+                    variant="h4"
+                    fontWeight="medium"
+                    color="white"
+                    textAlign="center"
+                    mb={2}
+                  >
                     בחר קובץ להצגת נתונים
                   </MDTypography>
                   <Input
@@ -178,13 +187,13 @@ function GraphicHeart() {
                 <MDTypography variant="h4" fontWeight="medium" color="white" mb={2}>
                   בחר טווח תאריכים
                 </MDTypography>
-
                 <FormGroup row>
                   <FormGroup col xs={2} md={2} lg={2}>
                     <Input
                       // placeholder={textPlaceHolderInputs[5]}
                       name="startDate"
                       type="date"
+                      placeholder="dd-mm-yyyy"
                       value={dateRange.startDate}
                       // onChange={handleChange}
                     />
@@ -199,6 +208,19 @@ function GraphicHeart() {
                       // onChange={handleChange}
                     />
                   </FormGroup>
+                </FormGroup>
+                <FormGroup row>
+                  <MDButton
+                    color="mekatnar"
+                    size="large"
+                    // onClick={clickSubmit}
+                    className="btn-new-blue"
+                    type="submit"
+                    style={{ width: 150 }}
+                  >
+                    הצג גרף
+                    <Icon fontSize="small">upload</Icon>&nbsp;
+                  </MDButton>
                 </FormGroup>
               </MDBox>
             </Grid>
