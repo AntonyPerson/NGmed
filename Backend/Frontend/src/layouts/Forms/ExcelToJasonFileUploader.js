@@ -148,7 +148,7 @@ export default function ExcelToJasonFileUploader() {
         textAlign="center"
       >
         <MDTypography variant="h1" fontWeight="medium" color="white" mt={1}>
-          הבקשה נשלחה להוצל"א
+          הבקשה נשלחה למערכת
         </MDTypography>
 
         <DialogContent>
@@ -237,7 +237,7 @@ export default function ExcelToJasonFileUploader() {
         const json = xlsx.utils.sheet_to_json(worksheet, {
           header: 0,
           raw: false,
-          dateNF: "dd-mm-yyyy",
+          dateNF: "yyyy-mm-dd",
         });
         console.log(json);
         setDataDB({ ...dataDB, fileJason: json });

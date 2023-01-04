@@ -192,8 +192,9 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
         component="img"
         src={golanyLogo}
         alt="mekatnarLogo"
-        width="6rem"
+        width="4.5rem"
         alignSelf="center"
+        lg={{ width: "6rem" }}
         sx={{
           marginTop: "auto",
         }}
@@ -202,8 +203,9 @@ function Sidenav({ color, brand, brandName, routes, ...rest }) {
         component="img"
         src={pikudtzafonLogo}
         alt="NGTeamLogo"
-        width="6rem"
+        width="4.5rem"
         alignSelf="center"
+        md={{ width: "6rem" }}
         sx={{
           marginTop: "2rem",
           marginBottom: "2rem",

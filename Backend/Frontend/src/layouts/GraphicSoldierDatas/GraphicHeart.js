@@ -1,3 +1,5 @@
+/* eslint-disable no-undef */
+/* eslint-disable react/no-unescaped-entities */
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable react/function-component-definition */
 /* eslint-disable import/no-unresolved */
@@ -23,6 +25,7 @@ import Icon from "@mui/material/Icon";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
+import MDButton from "components/MDButton";
 
 // Material Dashboard 2 React example components
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
@@ -43,6 +46,7 @@ import { signin, authenticate, isAuthenticated } from "auth/index";
 import axios from "axios";
 import MDTypography from "components/MDTypography";
 import DefaultLineChart from "examples/Charts/LineCharts/DefaultLineChart";
+import MDPagination from "components/MDPagination";
 
 const { user } = isAuthenticated();
 // // Dashboard components
@@ -57,6 +61,7 @@ function GraphicHeart() {
   const [isError, setIsError] = useState(false);
   const [fileIndex, setFileIndex] = useState(-1);
   const [heartData, setHeartData] = useState({});
+  const [dateRange, setDataRange] = useState({ startDate: "", endDate: "" });
 
   useEffect(() => {
     console.log(user.personalnumber);
@@ -74,6 +79,12 @@ function GraphicHeart() {
 
   useMemo(() => {
     if (fileIndex !== -1) {
+      setDataRange({
+        startDate: excelData[fileIndex].fileJason[1].calendarDate,
+        endDate:
+          excelData[fileIndex].fileJason[excelData[fileIndex].fileJason.length - 2].calendarDate,
+      });
+      console.log(dateRange);
       const heartRateDates = excelData[fileIndex].fileJason.map(
         (excelRow, index) => index > 0 && excelRow.calendarDate
       );
@@ -117,42 +128,117 @@ function GraphicHeart() {
       <DashboardNavbar />
       <MDBox py={3}>
         <MDBox mt={4.5}>
-          <MDBox
-            variant="gradient"
-            bgColor="mekatnar"
-            borderRadius="lg"
-            coloredShadow="mekatnar"
-            mx={2}
-            mt={-3}
-            p={3}
-            mb={3}
-            textAlign="center"
-            style={{ maxWidth: 450 }}
-          >
-            <FormGroup row>
-              <MDTypography variant="h4" fontWeight="medium" color="white" mb={2}>
-                בחר קובץ להצגת נתונים
-              </MDTypography>
-              <Input
-                // placeholder={textPlaceHolderInputs[5]}
-                name="ExcelFileSelctor"
-                type="select"
-                onChange={handleChange}
+          <Grid container mt={5} className="justify-content-center" spacing={3}>
+            <Grid item xs={3} md={3} lg={3}>
+              <MDBox
+                variant="gradient"
+                bgColor="mekatnar"
+                borderRadius="lg"
+                coloredShadow="mekatnar"
+                mx={2}
+                mt={-3}
+                p={3}
+                mb={3}
+                textAlign="center"
+                style={{ maxWidth: 450 }}
               >
-                <option disabled selected="selected" value={-1}>
-                  בחר קובץ
-                </option>
-                {excelData.map((excelFile, index) => (
-                  <option key={excelFile.id} value={index}>
-                    {excelFile.fileName}
-                  </option>
-                ))}
-              </Input>
-            </FormGroup>
-          </MDBox>
+                <FormGroup row>
+                  <MDTypography
+                    variant="h4"
+                    fontWeight="medium"
+                    color="white"
+                    textAlign="center"
+                    mb={2}
+                  >
+                    בחר קובץ להצגת נתונים
+                  </MDTypography>
+                  <Input
+                    // placeholder={textPlaceHolderInputs[5]}
+                    name="ExcelFileSelctor"
+                    type="select"
+                    onChange={handleChange}
+                  >
+                    <option disabled selected="selected" value={-1}>
+                      בחר קובץ
+                    </option>
+                    {excelData.map((excelFile, index) => (
+                      <option key={excelFile.id} value={index}>
+                        {excelFile.fileName}
+                      </option>
+                    ))}
+                  </Input>
+                </FormGroup>
+              </MDBox>
+            </Grid>
+            <Grid item xs={5} md={5} lg={5}>
+              <MDBox
+                variant="gradient"
+                bgColor="mekatnar"
+                borderRadius="lg"
+                coloredShadow="mekatnar"
+                mx={2}
+                mt={-3}
+                p={3}
+                px={7}
+                mb={3}
+                textAlign="center"
+                style={{ maxWidth: 450 }}
+              >
+                <MDTypography variant="h4" fontWeight="medium" color="white" mb={2}>
+                  בחר טווח תאריכים
+                </MDTypography>
+                <FormGroup row>
+                  <FormGroup col xs={2} md={2} lg={2}>
+                    <Input
+                      // placeholder={textPlaceHolderInputs[5]}
+                      name="startDate"
+                      type="date"
+                      placeholder="dd-mm-yyyy"
+                      value={dateRange.startDate}
+                      // onChange={handleChange}
+                    />
+                  </FormGroup>
+
+                  <FormGroup col xs={2} md={2} lg={2}>
+                    <Input
+                      // placeholder={textPlaceHolderInputs[5]}
+                      name="endDate"
+                      type="date"
+                      value={dateRange.endDate}
+                      // onChange={handleChange}
+                    />
+                  </FormGroup>
+                </FormGroup>
+                <FormGroup row>
+                  <MDButton
+                    color="mekatnar"
+                    size="large"
+                    // onClick={clickSubmit}
+                    className="btn-new-blue"
+                    type="submit"
+                    style={{ width: 150 }}
+                  >
+                    הצג גרף
+                    <Icon fontSize="small">upload</Icon>&nbsp;
+                  </MDButton>
+                </FormGroup>
+              </MDBox>
+            </Grid>
+          </Grid>
           <Grid container mt={5} className="justify-content-center" spacing={3}>
             <Grid item xs={12} md={9} lg={9}>
               <MDBox mb={3}>
+                <MDBox mb={3} className="justify-content-center">
+                  <MDTypography
+                    variant="h3"
+                    textAlign="center"
+                    fontWeight="medium"
+                    color="mekatnar"
+                    mb={2}
+                  >
+                    {`${dateRange.startDate} ==> ${dateRange.endDate}`}
+                  </MDTypography>
+                </MDBox>
                 <MixedChart
                   icon={{ color: "mekatnar", component: "monitor_heart" }}
                   title="דופק לב בדקה"

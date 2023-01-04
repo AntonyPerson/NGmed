@@ -152,7 +152,7 @@ function GraphicDistance() {
                     datasets: [
                       {
                         chartType: "bar",
-                        label: "שעות שינה",
+                        label: "מרחק בקילומטרים",
                         color: "mekatnar",
                         data: walkData.walkDistanceInDate,
                       },
