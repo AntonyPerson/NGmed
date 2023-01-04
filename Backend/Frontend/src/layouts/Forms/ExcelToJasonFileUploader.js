@@ -82,6 +82,7 @@ import {
 } from "@mui/material";
 import { DropzoneArea } from "react-mui-dropzone";
 import { DropzoneAreaBase } from "material-ui-dropzone";
+import userFielsTable from "layouts/tables/userFielsTable";
 
 // user and auth import
 import { signin, authenticate, isAuthenticated } from "auth/index";
@@ -383,6 +384,7 @@ export default function ExcelToJasonFileUploader() {
         {NavigateUser()}
 
         {excelToJasonFileUploader()}
+        <userFielsTable />
       </MDBox>
       <Footer />
     </DashboardLayout>

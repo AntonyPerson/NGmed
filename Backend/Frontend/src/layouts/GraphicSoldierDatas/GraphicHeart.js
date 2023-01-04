@@ -1,3 +1,4 @@
+/* eslint-disable no-lone-blocks */
 /* eslint-disable no-undef */
 /* eslint-disable react/no-unescaped-entities */
 /* eslint-disable react/jsx-no-bind */
@@ -63,6 +64,23 @@ function GraphicHeart() {
   const [heartData, setHeartData] = useState({});
   const [dateRange, setDataRange] = useState({ startDate: "", endDate: "" });
 
+  const dataCompare = (date1String, date2String) => {
+    const date1 = new Date(date1String);
+    const date2 = new Date(date2String);
+
+    // (YYYY-MM-DD)
+    if (date1.getTime() < date2.getTime()) {
+      // date1 is lesser than date2
+      return 1;
+    }
+    if (date1.getTime() > date2.getTime()) {
+      // date1 is greater than date2
+      return 2;
+    }
+    return 0;
+    // both are equal
+  };
+
   useEffect(() => {
     console.log(user.personalnumber);
     axios
@@ -79,33 +97,45 @@ function GraphicHeart() {
 
   useMemo(() => {
     if (fileIndex !== -1) {
-      setDataRange({
-        startDate: excelData[fileIndex].fileJason[1].calendarDate,
-        endDate:
-          excelData[fileIndex].fileJason[excelData[fileIndex].fileJason.length - 2].calendarDate,
-      });
-      console.log(dateRange);
-      const heartRateDates = excelData[fileIndex].fileJason.map(
-        (excelRow, index) => index > 0 && excelRow.calendarDate
+      // setDataRange({
+      //   startDate: excelData[fileIndex].fileJason[1].calendarDate,
+      //   endDate:
+      //     excelData[fileIndex].fileJason[excelData[fileIndex].fileJason.length - 2].calendarDate,
+      // });
+      // console.log(dateRange);
+
+      const dateRangeExcelData = excelData[fileIndex].fileJason.filter(
+        (excelRow, index) =>
+          (dataCompare(excelRow.calendarDate, dateRange.endDate) === 1 ||
+            dataCompare(excelRow.calendarDate, dateRange.endDate) === 0) &&
+          (dataCompare(excelRow.calendarDate, dateRange.startDate) === 2 ||
+            dataCompare(excelRow.calendarDate, dateRange.startDate) === 0)
       );
-      heartRateDates.shift();
+      const heartRateDates = dateRangeExcelData.map((excelRow, index) => excelRow.calendarDate);
+
+      // heartRateDates.shift();
+      // console.log("========================================");
+      // console.log(dateRange);
+      // console.log(dateRangeExcelData);
+      // console.log(heartRateDates);
+      // console.log("========================================");
       //* Avg heart rate data
-      const avgHeartRates = excelData[fileIndex].fileJason.map(
-        (excelRow, index) => index > 0 && parseFloat(excelRow.averageHeartRateInBeatsPerMinute)
+      const avgHeartRates = dateRangeExcelData.map((excelRow, index) =>
+        parseFloat(excelRow.averageHeartRateInBeatsPerMinute)
       );
-      avgHeartRates.shift();
+      // avgHeartRates.shift();
 
       //* Min heart rate data
-      const minHeartRates = excelData[fileIndex].fileJason.map(
-        (excelRow, index) => index > 0 && parseFloat(excelRow.minHeartRateInBeatsPerMinute)
+      const minHeartRates = dateRangeExcelData.map((excelRow, index) =>
+        parseFloat(excelRow.minHeartRateInBeatsPerMinute)
       );
-      minHeartRates.shift();
+      // minHeartRates.shift();
 
       //* Max heart rate data
-      const maxHeartRates = excelData[fileIndex].fileJason.map(
-        (excelRow, index) => index > 0 && parseFloat(excelRow.maxHeartRateInBeatsPerMinute)
+      const maxHeartRates = dateRangeExcelData.map((excelRow, index) =>
+        parseFloat(excelRow.maxHeartRateInBeatsPerMinute)
       );
-      maxHeartRates.shift();
+      // maxHeartRates.shift();
 
       setHeartData({
         heartRateDates,
@@ -113,15 +143,18 @@ function GraphicHeart() {
         minHeartRates,
         maxHeartRates,
       });
-    } else {
-      setHeartData({});
     }
-  }, [fileIndex]);
+  }, [fileIndex, dateRange]);
 
   async function handleChange(evt) {
     const { value } = evt.target;
     await setFileIndex(parseInt(value, 10));
     console.log(fileIndex);
+  }
+  async function handleChangeDate(evt) {
+    const { value } = evt.target;
+    await setDataRange({ ...dateRange, [evt.target.name]: value });
+    console.log(dateRange);
   }
   return (
     <DashboardLayout>
@@ -195,7 +228,7 @@ function GraphicHeart() {
                       type="date"
                       placeholder="dd-mm-yyyy"
                       value={dateRange.startDate}
-                      // onChange={handleChange}
+                      onChange={handleChangeDate}
                     />
                   </FormGroup>
 
@@ -205,7 +238,7 @@ function GraphicHeart() {
                       name="endDate"
                       type="date"
                       value={dateRange.endDate}
-                      // onChange={handleChange}
+                      onChange={handleChangeDate}
                     />
                   </FormGroup>
                 </FormGroup>

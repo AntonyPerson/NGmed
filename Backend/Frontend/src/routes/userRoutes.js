@@ -42,7 +42,7 @@ Coded by www.creative-tim.com
 // Material Dashboard 2 React layouts
 import Dashboard from "layouts/dashboard";
 import Tables from "layouts/tables";
-import RegulsrUserRequestsTable from "layouts/tables/regulsrUserRequestsTable";
+// import RegulsrUserRequestsTable from "layouts/tables/regulsrUserRequestsTable";
 import Billing from "layouts/billing";
 import RTL from "layouts/rtl";
 import Notifications from "layouts/notifications";
@@ -59,6 +59,7 @@ import ExcelToJasonFileUploader from "layouts/Forms/ExcelToJasonFileUploader";
 import GraphicSleep from "layouts/GraphicSoldierDatas/GraphicSleep";
 import GraphicHeart from "layouts/GraphicSoldierDatas/GraphicHeart";
 import GraphicDistance from "layouts/GraphicSoldierDatas/GraphicDistance";
+import UserFielsTable from "layouts/tables/userFielsTable";
 // eslint-disable-next-line import/no-absolute-path
 
 const routes = [
@@ -93,6 +94,14 @@ const routes = [
     icon: <Icon fontSize="small">description</Icon>,
     route: "/FileUpload",
     component: <ExcelToJasonFileUploader />,
+  },
+  {
+    type: "collapse",
+    name: "TableFileUpload",
+    key: "TableFileUpload",
+    icon: <Icon fontSize="small">table</Icon>,
+    route: "/TableFileUpload",
+    component: <UserFielsTable />,
   },
   {
     type: "collapse",

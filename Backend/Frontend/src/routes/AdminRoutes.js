@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable spaced-comment */
 /* eslint-disable no-unused-vars */
 /**
@@ -40,7 +41,7 @@ Coded by www.creative-tim.com
 // Material Dashboard 2 React layouts
 import Dashboard from "layouts/dashboard";
 import Tables from "layouts/tables";
-import RegulsrUserRequestsTable from "layouts/tables/regulsrUserRequestsTable";
+// import RegulsrUserRequestsTable from "layouts/tables/regulsrUserRequestsTable";
 import Billing from "layouts/billing";
 import RTL from "layouts/rtl";
 import Notifications from "layouts/notifications";
@@ -126,14 +127,14 @@ const AdminRoutes = [
     route: "/requestForm",
     component: <HozlaPrintRequestForm />,
   },
-  {
-    type: "collapse",
-    name: "הבקשות שלי",
-    key: "userRequestsTable",
-    icon: <Icon fontSize="small">table_view</Icon>,
-    route: "/userRequestsTable",
-    component: <RegulsrUserRequestsTable />,
-  },
+  // {
+  //   type: "collapse",
+  //   name: "הבקשות שלי",
+  //   key: "userRequestsTable",
+  //   icon: <Icon fontSize="small">table_view</Icon>,
+  //   route: "/userRequestsTable",
+  //   component: <RegulsrUserRequestsTable />,
+  // },
   {
     type: "divider",
   },

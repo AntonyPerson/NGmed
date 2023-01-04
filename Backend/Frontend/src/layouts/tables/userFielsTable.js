@@ -1,3 +1,4 @@
+/* eslint-disable react/function-component-definition */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-return-assign */
 /* eslint-disable prefer-const */
@@ -34,9 +35,7 @@ import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
 
 // Data
-import authorsTableData from "layouts/tables/data/authorsTableData";
-import projectsTableData from "layouts/tables/data/projectsTableData";
-import regulsrUserRequestsTableData from "layouts/tables/data/regulsrUserRequestsTableData";
+import userFielsTableData from "layouts/tables/data/userFielsTableData";
 import { Dialog, DialogContent } from "@mui/material";
 import { useState } from "react";
 
@@ -44,17 +43,12 @@ import { CardBody, Col, Container, Form, FormGroup, FormText, Input, Label, Row 
 import axios from "axios";
 import { Outlet } from "react-router-dom";
 
-const regulsrUserRequestsTable = () => {
-  const tableTittle = 'בקשות ההוצל"א שלי';
+const UserFielsTable = () => {
+  const tableTittle = "הקבצים שלי";
 
   const [dbError, setDbError] = useState(false);
   //   const { columns, rows } = authorsTableData();
-  const {
-    columns: pColumns,
-    rows: pRows,
-    dbError: dbe,
-    setDBerror: setDbe,
-  } = regulsrUserRequestsTableData();
+  const { columns: pColumns, rows: pRows, dbError: dbe, setDBerror: setDbe } = userFielsTableData();
   const handleErrorClose = () => {
     setDbError(true);
     setDbe(false);
@@ -78,7 +72,7 @@ const regulsrUserRequestsTable = () => {
         textAlign="center"
       >
         <MDTypography variant="h1" fontWeight="medium" color="white" mt={1}>
-          שגיאה בקבלת הבקשות
+          שגיאה בקבלת הקבצים
         </MDTypography>
 
         <DialogContent>
@@ -125,7 +119,7 @@ const regulsrUserRequestsTable = () => {
                 </MDTypography>
               ) : (
                 <MDTypography mx={30} variant="h3" color="mekatnar" textGradient={true}>
-                  לא קיימות בקשות הוצלא בחשבונך
+                  לא קיימים קבצים בחשבונך
                 </MDTypography>
               )}
             </MDBox>
@@ -145,4 +139,4 @@ const regulsrUserRequestsTable = () => {
   );
 };
 
-export default regulsrUserRequestsTable;
+export default UserFielsTable;
