@@ -13,11 +13,13 @@ router.route("/").get((req, res) => {
 
 router.route("/add").post((req, res) => {
   const fileName = req.body.fileName;
+  const watchCount = req.body.watchCount;
   const fileJason = req.body.fileJason;
   const personalnumber = req.body.personalnumber;
 
   const newExcelData = new ExcelData({
     fileName,
+    watchCount,
     fileJason,
     personalnumber,
   });

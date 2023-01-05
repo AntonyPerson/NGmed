@@ -1,3 +1,4 @@
+/* eslint-disable react/function-component-definition */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-return-assign */
 /* eslint-disable prefer-const */
@@ -34,27 +35,23 @@ import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
 
 // Data
-import authorsTableData from "layouts/tables/data/authorsTableData";
-import projectsTableData from "layouts/tables/data/projectsTableData";
-import regulsrUserRequestsTableData from "layouts/tables/data/regulsrUserRequestsTableData";
-import { Dialog, DialogContent } from "@mui/material";
+import userFielsTableData from "layouts/tables/data/userFielsTableData";
+import { Dialog, DialogContent, Icon } from "@mui/material";
 import { useState } from "react";
 
 import { CardBody, Col, Container, Form, FormGroup, FormText, Input, Label, Row } from "reactstrap";
 import axios from "axios";
 import { Outlet } from "react-router-dom";
+import MDButton from "components/MDButton";
+import ExcelToJasonFileUploader from "layouts/Forms/ExcelToJasonFileUploader";
 
-const regulsrUserRequestsTable = () => {
-  const tableTittle = 'בקשות ההוצל"א שלי';
+const UserFielsTable = () => {
+  const tableTittle = "הקבצים שלי";
 
   const [dbError, setDbError] = useState(false);
+  const [toAddFile, setToAddFile] = useState(false);
   //   const { columns, rows } = authorsTableData();
-  const {
-    columns: pColumns,
-    rows: pRows,
-    dbError: dbe,
-    setDBerror: setDbe,
-  } = regulsrUserRequestsTableData();
+  const { columns: pColumns, rows: pRows, dbError: dbe, setDBerror: setDbe } = userFielsTableData();
   const handleErrorClose = () => {
     setDbError(true);
     setDbe(false);
@@ -78,7 +75,7 @@ const regulsrUserRequestsTable = () => {
         textAlign="center"
       >
         <MDTypography variant="h1" fontWeight="medium" color="white" mt={1}>
-          שגיאה בקבלת הבקשות
+          שגיאה בקבלת הקבצים
         </MDTypography>
 
         <DialogContent>
@@ -86,6 +83,45 @@ const regulsrUserRequestsTable = () => {
             אנא נסה שנית מאוחר יותר
           </MDTypography>
         </DialogContent>
+      </MDBox>
+    </Dialog>
+  );
+  const addFile = () => (
+    <Dialog
+      px={5}
+      open={toAddFile}
+      onClose={() => setToAddFile(false)}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+    <MDBox
+        variant="gradient"
+        bgColor="mekatnar"
+        coloredShadow="mekatnar"
+        borderRadius="l"
+      >
+      <DialogContent>
+      <ExcelToJasonFileUploader />
+      {/* <MDBox
+        variant="gradient"
+        bgColor="error"
+        coloredShadow="error"
+        borderRadius="l"
+        // mx={2}
+        // mt={2}
+        p={3}
+        // mb={2}
+        textAlign="center"
+      >
+        <MDTypography variant="h1" fontWeight="medium" color="white" mt={1}>
+          שגיאה בקבלת הקבצים
+        </MDTypography>
+
+          <MDTypography variant="h6" fontWeight="medium" color="white" mt={1}>
+            אנא נסה שנית מאוחר יותר
+          </MDTypography>
+      </MDBox> */}
+      </DialogContent>
       </MDBox>
     </Dialog>
   );
@@ -108,6 +144,18 @@ const regulsrUserRequestsTable = () => {
               <MDTypography variant="h3" color="white">
                 {tableTittle}
               </MDTypography>
+              <MDTypography variant="h6" color="white" textAlign="right">
+                <MDButton
+                  variant="contained"
+                  color="white"
+                  onClick={() => setToAddFile(true)}
+                  circular="true"
+                  iconOnly="true"
+                  size="medium"
+                >
+                  <Icon>add</Icon>
+                </MDButton>
+              </MDTypography>
             </MDBox>
             <MDBox pt={3}>
               {pRows.length !== 0 ? (
@@ -125,7 +173,7 @@ const regulsrUserRequestsTable = () => {
                 </MDTypography>
               ) : (
                 <MDTypography mx={30} variant="h3" color="mekatnar" textGradient={true}>
-                  לא קיימות בקשות הוצלא בחשבונך
+                  לא קיימים קבצים בחשבונך
                 </MDTypography>
               )}
             </MDBox>
@@ -138,6 +186,7 @@ const regulsrUserRequestsTable = () => {
     <DashboardLayout>
       <DashboardNavbar />
       {showError()}
+      {addFile()}
       {table()}
       <Outlet />
       <Footer />
@@ -145,4 +194,4 @@ const regulsrUserRequestsTable = () => {
   );
 };
 
-export default regulsrUserRequestsTable;
+export default UserFielsTable;
