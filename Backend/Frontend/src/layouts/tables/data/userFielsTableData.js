@@ -59,13 +59,14 @@ export default function data() {
     // project: <Project image={LogoAsana} name="Asana" />,
     // fileID: excelFile._id,
     fileName: excelFile.fileName,
+    watchCount: excelFile.watchCount,
     // fileDateRange: `${excelFile.fileJason[1].calendarDate} ==> ${
     //   excelFile.fileJason[excelFile.fileJason.length - 1].calendarDate
     // }`,
     fileDateRange: (
       <>
         <MDBadge
-          badgeContent={`${excelFile.fileJason[1].calendarDate} ==> ${
+          badgeContent={`${excelFile.fileJason[0].calendarDate} ==> ${
             excelFile.fileJason[excelFile.fileJason.length - 1].calendarDate
           }`}
           variant="contained"
@@ -109,6 +110,7 @@ export default function data() {
     columns: [
       // { Header: "אסמכתא", accessor: "fileID", align: "center" },
       { Header: "שם הקובץ", accessor: "fileName", align: "left" },
+      { Header: "מספר שעונים שנפרקו", accessor: "watchCount", align: "center" },
       { Header: "טווח תאריכים", accessor: "fileDateRange", align: "center" },
       { Header: "נתוני הקובץ", accessor: "graphs", align: "center" },
       { Header: "", accessor: "deleteFile", align: "center" },

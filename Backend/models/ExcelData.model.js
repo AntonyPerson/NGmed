@@ -6,6 +6,7 @@ const ExcelDataSchema = new mongoose.Schema(
   {
     // user_card_number: String,
     fileName: { type: String, required: true },
+    watchCount: { type: Number, required: true },
     fileJason: { type: Array, required: true },
 
     personalnumber: { type: String, required: true },

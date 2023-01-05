@@ -95,6 +95,7 @@ export default function ExcelToJasonFileUploader() {
   const [dataDB, setDataDB] = useState({
     fileName: "",
     fileJason: {},
+    watchCount: 1,
 
     personalnumber: user.personalnumber,
 
@@ -102,6 +103,7 @@ export default function ExcelToJasonFileUploader() {
     successmsg: false,
     loading: false,
     NavigateToReferrer: false,
+    requestID: "",
   });
 
   const handleCloseSuccsecModal = () => {
@@ -127,7 +129,7 @@ export default function ExcelToJasonFileUploader() {
   };
   const NavigateUser = () => {
     if (dataDB.NavigateToReferrer) {
-      return <Navigate to="/Heart" />;
+      return <Navigate to={`/Graphs/${dataDB.requestID}`} />;
     }
   };
   const showSuccess = () => (
@@ -260,16 +262,19 @@ export default function ExcelToJasonFileUploader() {
 
     const requestData = {
       fileName: dataDB.fileName,
+      watchCount: dataDB.watchCount,
       fileJason: dataDB.fileJason,
 
       personalnumber: dataDB.personalnumber,
     };
-    console.log(requestData);
+    // console.log(requestData);
     axios
       .post(`http://localhost:5000/ExcelData/add`, requestData)
       .then((response) => {
+        console.log(response);
         setDataDB({
           ...dataDB,
+          requestID: response.data,
           loading: false,
           error: false,
           successmsg: true,
@@ -339,7 +344,19 @@ export default function ExcelToJasonFileUploader() {
                     * ניתן לעלות רק קבצי אקסל
                   </FormText>
                 </FormGroup>
-
+                <FormGroup row>
+                  <FormGroup>
+                    <Label for="watchCount">מספר שעונים שנפרקו</Label>
+                    <Input
+                      required
+                      name="watchCount"
+                      type="number"
+                      min="1"
+                      value={dataDB.watchCount}
+                      onChange={handleChange}
+                    />
+                  </FormGroup>
+                </FormGroup>
                 <FormGroup style={{ textAlign: "center" }}>
                   <MDButton
                     color="mekatnar"

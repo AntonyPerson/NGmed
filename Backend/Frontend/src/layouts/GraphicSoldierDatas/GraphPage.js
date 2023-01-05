@@ -36,7 +36,13 @@ import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
 import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
 import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
 import MixedChart from "examples/Charts/MixedChart";
-import { Accordion, AccordionDetails, AccordionSummary, FormGroup } from "@mui/material";
+import {
+  Accordion,
+  AccordionDetails,
+  AccordionSummary,
+  FormControl,
+  FormGroup,
+} from "@mui/material";
 import { Input, Label } from "reactstrap";
 import { useState, useMemo, useEffect } from "react";
 import { signin, authenticate, isAuthenticated } from "auth/index";
@@ -67,6 +73,25 @@ function GraphPage() {
   });
   const [heartData, setHeartData] = useState({});
 
+  const [dateRange, setDataRange] = useState({ startDate: "", endDate: "" });
+
+  const dataCompare = (date1String, date2String) => {
+    const date1 = new Date(date1String);
+    const date2 = new Date(date2String);
+
+    // (YYYY-MM-DD)
+    if (date1.getTime() < date2.getTime()) {
+      // date1 is lesser than date2
+      return 1;
+    }
+    if (date1.getTime() > date2.getTime()) {
+      // date1 is greater than date2
+      return 2;
+    }
+    return 0;
+    // both are equal
+  };
+
   //   const createDataForCharts = async () => {
   //     if (excelData.length !== 0) {
   //       //* walk distance data in km
@@ -95,6 +120,10 @@ function GraphPage() {
       .then(async (response) => {
         console.log(response.data);
         await setExcelData(response.data);
+        await setDataRange({
+          startDate: response.data.fileJason[0].calendarDate,
+          endDate: response.data.fileJason[response.data.fileJason.length - 1].calendarDate,
+        });
       })
       .catch((error) => {
         console.log(error);
@@ -104,25 +133,34 @@ function GraphPage() {
   useMemo(() => {
     if (excelData.length !== 0) {
       console.log(excelData);
+      const dateRangeExcelData = excelData.fileJason.filter(
+        (excelRow) =>
+          (dataCompare(excelRow.calendarDate, dateRange.endDate) === 1 ||
+            dataCompare(excelRow.calendarDate, dateRange.endDate) === 0) &&
+          (dataCompare(excelRow.calendarDate, dateRange.startDate) === 2 ||
+            dataCompare(excelRow.calendarDate, dateRange.startDate) === 0)
+      );
+      console.log("dateRangeExcelData");
+      console.log(dateRangeExcelData);
 
       // ? dates of events in the charts
-      const chartDates = excelData.fileJason.map((excelRow) => excelRow.calendarDate);
+      const chartDates = dateRangeExcelData.map((excelRow) => excelRow.calendarDate);
 
       //! Heart Data
       //* Avg heart rate data
-      const avgHeartRates = excelData.fileJason.map((excelRow, index) =>
+      const avgHeartRates = dateRangeExcelData.map((excelRow, index) =>
         parseFloat(excelRow.averageHeartRateInBeatsPerMinute)
       );
       // avgHeartRates.shift();
 
       //* Min heart rate data
-      const minHeartRates = excelData.fileJason.map((excelRow, index) =>
+      const minHeartRates = dateRangeExcelData.map((excelRow, index) =>
         parseFloat(excelRow.minHeartRateInBeatsPerMinute)
       );
       // minHeartRates.shift();
 
       //* Max heart rate data
-      const maxHeartRates = excelData.fileJason.map((excelRow, index) =>
+      const maxHeartRates = dateRangeExcelData.map((excelRow, index) =>
         parseFloat(excelRow.maxHeartRateInBeatsPerMinute)
       );
       // maxHeartRates.shift();
@@ -135,19 +173,19 @@ function GraphPage() {
       });
 
       //! sleep data
-      const sevenHourSleep = excelData.fileJason.map((excelRow, index) => 7);
+      const sevenHourSleep = dateRangeExcelData.map((excelRow, index) => 7);
 
-      const soldierSleepHour = excelData.fileJason.map((excelRow) =>
+      const soldierSleepHour = dateRangeExcelData.map((excelRow) =>
         parseFloat(excelRow.sleepDurationInHours)
       );
 
       //* Deep sleep data
-      const deepSleepHour = excelData.fileJason.map((excelRow) =>
+      const deepSleepHour = dateRangeExcelData.map((excelRow) =>
         parseFloat(excelRow.deepSleepDurationInHours)
       );
 
       //* REM sleep data
-      const remSleepHour = excelData.fileJason.map((excelRow) =>
+      const remSleepHour = dateRangeExcelData.map((excelRow) =>
         parseFloat(excelRow.remSleepInHours)
       );
 
@@ -159,7 +197,7 @@ function GraphPage() {
       });
 
       //! walk distance data in km
-      const walkDistanceInDate = excelData.fileJason.map((excelRow) =>
+      const walkDistanceInDate = dateRangeExcelData.map((excelRow) =>
         parseFloat(excelRow.distanceInKM)
       );
       setWalkData({
@@ -167,7 +205,13 @@ function GraphPage() {
         walkDistanceInDate,
       });
     }
-  }, [excelData]);
+  }, [excelData, dateRange]);
+
+  async function handleChangeDate(evt) {
+    const { value } = evt.target;
+    await setDataRange({ ...dateRange, [evt.target.name]: value });
+    console.log(dateRange);
+  }
 
   return (
     <DashboardLayout>
@@ -191,29 +235,31 @@ function GraphPage() {
               <MDTypography variant="h4" fontWeight="medium" color="white" mb={2}>
                 בחר טווח תאריכים
               </MDTypography>
-              <FormGroup row>
-                <FormGroup col xs={2} md={2} lg={2}>
-                  <Input
-                    // placeholder={textPlaceHolderInputs[5]}
-                    name="startDate"
-                    type="date"
-                    placeholder="dd-mm-yyyy"
-                    // value={dateRange.startDate}
-                    // onChange={handleChangeDate}
-                  />
-                </FormGroup>
+              <FormControl sx={{ m: 0.5 }} variant="standard">
+                <FormGroup row>
+                  <FormGroup col sx={{ mx: 0.5 }} xs={0.5} md={0.5} lg={0.5}>
+                    <Input
+                      // placeholder={textPlaceHolderInputs[5]}
+                      name="endDate"
+                      type="date"
+                      value={dateRange.endDate}
+                      onChange={handleChangeDate}
+                    />
+                  </FormGroup>
 
-                <FormGroup col xs={2} md={2} lg={2}>
-                  <Input
-                    // placeholder={textPlaceHolderInputs[5]}
-                    name="endDate"
-                    type="date"
-                    // value={dateRange.endDate}
-                    // onChange={handleChangeDate}
-                  />
+                  <FormGroup col xs={2} md={2} lg={2}>
+                    <Input
+                      // placeholder={textPlaceHolderInputs[5]}
+                      name="startDate"
+                      type="date"
+                      placeholder="dd-mm-yyyy"
+                      value={dateRange.startDate}
+                      onChange={handleChangeDate}
+                    />
+                  </FormGroup>
                 </FormGroup>
-              </FormGroup>
-              <FormGroup row>
+              </FormControl>
+              {/* <FormGroup row>
                 <MDButton
                   color="mekatnar"
                   size="large"
@@ -225,7 +271,7 @@ function GraphPage() {
                   הצג גרף
                   <Icon fontSize="small">upload</Icon>&nbsp;
                 </MDButton>
-              </FormGroup>
+              </FormGroup> */}
             </MDBox>
           </Grid>
         </Grid>
