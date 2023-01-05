@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-return-assign */
 /* eslint-disable prefer-const */
@@ -40,7 +41,7 @@ import DataTable from "examples/Tables/DataTable";
 // Data
 import authorsTableData from "layouts/tables/data/authorsTableData";
 import projectsTableData from "layouts/tables/data/projectsTableData";
-import regulsrUserRequestsTableData from "layouts/tables/data/regulsrUserRequestsTableData";
+// import regulsrUserRequestsTableData from "layouts/tables/data/regulsrUserRequestsTableData";
 import AdminArchiveTableData from "layouts/tables/data/adminArchiveTableData";
 import { Dialog, DialogContent } from "@mui/material";
 import { useState } from "react";

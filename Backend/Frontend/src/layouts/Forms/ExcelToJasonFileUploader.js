@@ -82,6 +82,7 @@ import {
 } from "@mui/material";
 import { DropzoneArea } from "react-mui-dropzone";
 import { DropzoneAreaBase } from "material-ui-dropzone";
+import userFielsTable from "layouts/tables/userFielsTable";
 
 // user and auth import
 import { signin, authenticate, isAuthenticated } from "auth/index";
@@ -94,6 +95,7 @@ export default function ExcelToJasonFileUploader() {
   const [dataDB, setDataDB] = useState({
     fileName: "",
     fileJason: {},
+    watchCount: 1,
 
     personalnumber: user.personalnumber,
 
@@ -101,6 +103,7 @@ export default function ExcelToJasonFileUploader() {
     successmsg: false,
     loading: false,
     NavigateToReferrer: false,
+    requestID: "",
   });
 
   const handleCloseSuccsecModal = () => {
@@ -126,7 +129,7 @@ export default function ExcelToJasonFileUploader() {
   };
   const NavigateUser = () => {
     if (dataDB.NavigateToReferrer) {
-      return <Navigate to="/Heart" />;
+      return <Navigate to={`/Graphs/${dataDB.requestID}`} />;
     }
   };
   const showSuccess = () => (
@@ -259,16 +262,19 @@ export default function ExcelToJasonFileUploader() {
 
     const requestData = {
       fileName: dataDB.fileName,
+      watchCount: dataDB.watchCount,
       fileJason: dataDB.fileJason,
 
       personalnumber: dataDB.personalnumber,
     };
-    console.log(requestData);
+    // console.log(requestData);
     axios
       .post(`http://localhost:5000/ExcelData/add`, requestData)
       .then((response) => {
+        console.log(response);
         setDataDB({
           ...dataDB,
+          requestID: response.data,
           loading: false,
           error: false,
           successmsg: true,
@@ -290,7 +296,7 @@ export default function ExcelToJasonFileUploader() {
   const excelToJasonFileUploader = () => (
     <Container className="" dir="rtl">
       <Row className="justify-content-center">
-        <Col lg="6" md="8">
+        <Col lg="12" md="12">
           <Card className="shadow border-0">
             <CardBody className="px-lg-8 py-lg-10">
               <MDBox
@@ -338,7 +344,19 @@ export default function ExcelToJasonFileUploader() {
                     * ניתן לעלות רק קבצי אקסל
                   </FormText>
                 </FormGroup>
-
+                <FormGroup row>
+                  <FormGroup>
+                    <Label for="watchCount">מספר שעונים שנפרקו</Label>
+                    <Input
+                      required
+                      name="watchCount"
+                      type="number"
+                      min="1"
+                      value={dataDB.watchCount}
+                      onChange={handleChange}
+                    />
+                  </FormGroup>
+                </FormGroup>
                 <FormGroup style={{ textAlign: "center" }}>
                   <MDButton
                     color="mekatnar"
@@ -361,30 +379,13 @@ export default function ExcelToJasonFileUploader() {
   );
 
   return (
-    <DashboardLayout>
-      <DashboardNavbar />
-      <MDBox pt={6} pb={3}>
-        {/* //! fot the pop up warning windoes */}
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="colored"
-        />
-        {showError()}
-        {showSuccess()}
-        {showLoading()}
-        {NavigateUser()}
+    <>
+      {showError()}
+      {showSuccess()}
+      {showLoading()}
+      {NavigateUser()}
 
-        {excelToJasonFileUploader()}
-      </MDBox>
-      <Footer />
-    </DashboardLayout>
+      {excelToJasonFileUploader()}
+    </>
   );
 }
