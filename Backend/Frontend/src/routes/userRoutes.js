@@ -60,47 +60,56 @@ import GraphicSleep from "layouts/GraphicSoldierDatas/GraphicSleep";
 import GraphicHeart from "layouts/GraphicSoldierDatas/GraphicHeart";
 import GraphicDistance from "layouts/GraphicSoldierDatas/GraphicDistance";
 import UserFielsTable from "layouts/tables/userFielsTable";
+import GraphPage from "layouts/GraphicSoldierDatas/GraphPage";
 // eslint-disable-next-line import/no-absolute-path
 
 const routes = [
+  // {
+  //   type: "collapse",
+  //   name: "Graphs",
+  //   key: "Graphs",
+  //   icon: <Icon fontSize="small">equalizer</Icon>,
+  //   route: "/Graphs",
+  //   component: <GraphPage />,
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "קצב לב",
+  //   key: "Heart",
+  //   icon: <Icon fontSize="small">monitor_heart</Icon>,
+  //   route: "/Heart",
+  //   component: <GraphicHeart />,
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "שעות שינה",
+  //   key: "Sleep",
+  //   icon: <Icon fontSize="small">hotel</Icon>,
+  //   route: "/Sleep",
+  //   component: <GraphicSleep />,
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "מרחק יומי",
+  //   key: "Distance",
+  //   icon: <Icon fontSize="small">map</Icon>,
+  //   route: "/Distance",
+  //   component: <GraphicDistance />,
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "העלת קובץ",
+  //   key: "FileUpload",
+  //   icon: <Icon fontSize="small">description</Icon>,
+  //   route: "/FileUpload",
+  //   component: <ExcelToJasonFileUploader />,
+  // },
   {
     type: "collapse",
-    name: "קצב לב",
-    key: "Heart",
-    icon: <Icon fontSize="small">monitor_heart</Icon>,
-    route: "/Heart",
-    component: <GraphicHeart />,
-  },
-  {
-    type: "collapse",
-    name: "שעות שינה",
-    key: "Sleep",
-    icon: <Icon fontSize="small">hotel</Icon>,
-    route: "/Sleep",
-    component: <GraphicSleep />,
-  },
-  {
-    type: "collapse",
-    name: "מרחק יומי",
-    key: "Distance",
-    icon: <Icon fontSize="small">map</Icon>,
-    route: "/Distance",
-    component: <GraphicDistance />,
-  },
-  {
-    type: "collapse",
-    name: "העלת קובץ",
-    key: "FileUpload",
-    icon: <Icon fontSize="small">description</Icon>,
-    route: "/FileUpload",
-    component: <ExcelToJasonFileUploader />,
-  },
-  {
-    type: "collapse",
-    name: "TableFileUpload",
-    key: "TableFileUpload",
-    icon: <Icon fontSize="small">table</Icon>,
-    route: "/TableFileUpload",
+    name: "ניהול קבצים",
+    key: "FileTable",
+    icon: <Icon fontSize="small">content_paste_search</Icon>,
+    route: "/FileTable",
     component: <UserFielsTable />,
   },
   {

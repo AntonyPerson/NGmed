@@ -36,17 +36,20 @@ import DataTable from "examples/Tables/DataTable";
 
 // Data
 import userFielsTableData from "layouts/tables/data/userFielsTableData";
-import { Dialog, DialogContent } from "@mui/material";
+import { Dialog, DialogContent, Icon } from "@mui/material";
 import { useState } from "react";
 
 import { CardBody, Col, Container, Form, FormGroup, FormText, Input, Label, Row } from "reactstrap";
 import axios from "axios";
 import { Outlet } from "react-router-dom";
+import MDButton from "components/MDButton";
+import ExcelToJasonFileUploader from "layouts/Forms/ExcelToJasonFileUploader";
 
 const UserFielsTable = () => {
   const tableTittle = "הקבצים שלי";
 
   const [dbError, setDbError] = useState(false);
+  const [toAddFile, setToAddFile] = useState(false);
   //   const { columns, rows } = authorsTableData();
   const { columns: pColumns, rows: pRows, dbError: dbe, setDBerror: setDbe } = userFielsTableData();
   const handleErrorClose = () => {
@@ -83,6 +86,45 @@ const UserFielsTable = () => {
       </MDBox>
     </Dialog>
   );
+  const addFile = () => (
+    <Dialog
+      px={5}
+      open={toAddFile}
+      onClose={() => setToAddFile(false)}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+    <MDBox
+        variant="gradient"
+        bgColor="mekatnar"
+        coloredShadow="mekatnar"
+        borderRadius="l"
+      >
+      <DialogContent>
+      <ExcelToJasonFileUploader />
+      {/* <MDBox
+        variant="gradient"
+        bgColor="error"
+        coloredShadow="error"
+        borderRadius="l"
+        // mx={2}
+        // mt={2}
+        p={3}
+        // mb={2}
+        textAlign="center"
+      >
+        <MDTypography variant="h1" fontWeight="medium" color="white" mt={1}>
+          שגיאה בקבלת הקבצים
+        </MDTypography>
+
+          <MDTypography variant="h6" fontWeight="medium" color="white" mt={1}>
+            אנא נסה שנית מאוחר יותר
+          </MDTypography>
+      </MDBox> */}
+      </DialogContent>
+      </MDBox>
+    </Dialog>
+  );
 
   const table = () => (
     <MDBox pt={6} pb={3}>
@@ -101,6 +143,18 @@ const UserFielsTable = () => {
             >
               <MDTypography variant="h3" color="white">
                 {tableTittle}
+              </MDTypography>
+              <MDTypography variant="h6" color="white" textAlign="right">
+                <MDButton
+                  variant="contained"
+                  color="white"
+                  onClick={() => setToAddFile(true)}
+                  circular="true"
+                  iconOnly="true"
+                  size="medium"
+                >
+                  <Icon>add</Icon>
+                </MDButton>
               </MDTypography>
             </MDBox>
             <MDBox pt={3}>
@@ -132,6 +186,7 @@ const UserFielsTable = () => {
     <DashboardLayout>
       <DashboardNavbar />
       {showError()}
+      {addFile()}
       {table()}
       <Outlet />
       <Footer />

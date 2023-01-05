@@ -77,6 +77,7 @@ import AdminFeildPrintInfoFormDB from "layouts/Forms/AdminFeildPrintInfoFormDB";
 import { signin, authenticate, isAuthenticated, updateRefreshCount } from "auth/index";
 import sidenav from "assets/theme/components/sidenav";
 import AboutPage from "views/aboutpage/AboutPage";
+import GraphPage from "layouts/GraphicSoldierDatas/GraphPage";
 
 export default function App() {
   const params = useParams();
@@ -277,10 +278,13 @@ export default function App() {
               ) : (
                 <Routes>
                   {getRoutes(routes)}
+                  <Route path="/Graphs">
+                    <Route path=":idFile" element={<GraphPage />} />
+                  </Route>
                   <Route path="/authentication/sign-in">
                     <Route path=":idUR" render={() => getRoutes(routes)} element={<SignInURL />} />
                   </Route>
-                  <Route path="/" element={<Navigate to="/FileUpload" />} />
+                  <Route path="/" element={<Navigate to="/FileTable" />} />
                   {/* <Route path="/" element={<Navigate to="/authentication/sign-in" />} /> */}
                   <Route path="/Error404" element={<Error404 />} />
                   {/* <Route path="/RequestForm">

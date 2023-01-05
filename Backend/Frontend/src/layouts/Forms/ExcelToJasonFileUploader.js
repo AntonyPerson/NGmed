@@ -291,7 +291,7 @@ export default function ExcelToJasonFileUploader() {
   const excelToJasonFileUploader = () => (
     <Container className="" dir="rtl">
       <Row className="justify-content-center">
-        <Col lg="6" md="8">
+        <Col lg="12" md="12">
           <Card className="shadow border-0">
             <CardBody className="px-lg-8 py-lg-10">
               <MDBox
@@ -362,31 +362,13 @@ export default function ExcelToJasonFileUploader() {
   );
 
   return (
-    <DashboardLayout>
-      <DashboardNavbar />
-      <MDBox pt={6} pb={3}>
-        {/* //! fot the pop up warning windoes */}
-        <ToastContainer
-          position="top-right"
-          autoClose={5000}
-          hideProgressBar={false}
-          newestOnTop={false}
-          closeOnClick
-          rtl={false}
-          pauseOnFocusLoss
-          draggable
-          pauseOnHover
-          theme="colored"
-        />
-        {showError()}
-        {showSuccess()}
-        {showLoading()}
-        {NavigateUser()}
+    <>
+      {showError()}
+      {showSuccess()}
+      {showLoading()}
+      {NavigateUser()}
 
-        {excelToJasonFileUploader()}
-        <userFielsTable />
-      </MDBox>
-      <Footer />
-    </DashboardLayout>
+      {excelToJasonFileUploader()}
+    </>
   );
 }

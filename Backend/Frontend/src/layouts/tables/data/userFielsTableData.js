@@ -73,6 +73,13 @@ export default function data() {
         />
       </>
     ),
+    graphs: (
+      <Link to={`/Graphs/${excelFile._id}`} key={excelFile._id}>
+        <MDButton variant="gradient" color="mekatnar" circular="true" iconOnly="true" size="medium">
+          <Icon>equalizer</Icon>
+        </MDButton>
+      </Link>
+    ),
     deleteFile: (
       <MDButton
         variant="gradient"
@@ -103,6 +110,7 @@ export default function data() {
       // { Header: "אסמכתא", accessor: "fileID", align: "center" },
       { Header: "שם הקובץ", accessor: "fileName", align: "left" },
       { Header: "טווח תאריכים", accessor: "fileDateRange", align: "center" },
+      { Header: "נתוני הקובץ", accessor: "graphs", align: "center" },
       { Header: "", accessor: "deleteFile", align: "center" },
     ],
 
