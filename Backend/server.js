@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser());
 // !
-app.use("/uploads", express.static("uploads")); // to acsses the uploades folder in the server
+app.use("/NGmedDB/uploads", express.static("uploads")); // to acsses the uploades folder in the server
 // Configure Mongo
 // const dbUrl = "mongodb://localhost/HozlaDB";
 const dbUrl = process.env.DB_URL;
@@ -39,11 +39,11 @@ mongoose
     console.log("MongoDB database connection established successfully")
   )
   .catch((err) => console.log(err));
-  //user routes
-  const authRoutes = require("./routes/authentication/auth");
-  const userRoutes = require("./routes/authentication/users");
-  app.use("/api", authRoutes);
-  app.use("/api", userRoutes);
+//user routes
+const authRoutes = require("./routes/authentication/auth");
+const userRoutes = require("./routes/authentication/users");
+app.use("/NGmedDB/api", authRoutes);
+app.use("/NGmedDB/api", userRoutes);
 
 //* file uploader Routes
 // const fileuploaderRoutes = require("./routes/fileuploader100/fileuploader");
@@ -51,7 +51,7 @@ mongoose
 
 //Excel Data routes for Client
 const excelDataRouter = require("./routes/ExcelData");
-app.use("/ExcelData", excelDataRouter);
+app.use("/NGmedDB/ExcelData", excelDataRouter);
 
 // Hozla Requests routes for admin
 // const hozlaAdminRequestsRouter = require("./routes/hozlaAdminRequests");

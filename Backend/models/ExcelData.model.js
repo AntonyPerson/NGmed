@@ -9,6 +9,11 @@ const ExcelDataSchema = new mongoose.Schema(
     watchCount: { type: Number, required: true },
     fileJason: { type: Array, required: true },
 
+    startDate: { type: String, required: true },
+    endDate: { type: String, required: true },
+
+    publicFile: { type: Boolean, required: true, default: true },
+
     personalnumber: { type: String, required: true },
   },
   { timestamps: true }

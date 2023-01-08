@@ -220,7 +220,7 @@ function signInURL(props) {
   const signInAxios = async (personalnumber) => {
     let r_massage = "_";
     await axios
-      .post(`http://localhost:5000/api/signin`, { personalnumber })
+      .post(`http://localhost:5000/NGmedDB/api/signin`, { personalnumber })
       .then((res) => {
         // console.log(res.data.user);
         if (res.data.user === "DoNotExist" || res.data.user === undefined) {
@@ -255,7 +255,7 @@ function signInURL(props) {
       holzlaRequest: signUpData.holzlaRequest,
     };
     await axios
-      .post(`http://localhost:5000/api/signup`, newUser)
+      .post(`http://localhost:5000/NGmedDB/api/signup`, newUser)
       .then(
         (res) =>
           // console.log(`gotten new user from sign up`);
@@ -272,13 +272,14 @@ function signInURL(props) {
     // window.location.reload();
   };
 
-  // hoger - need server code to make it work or fix bugs
+  // !hoger - need server code to make it work or fix bugs
   const passport = async (event) => {
     // console.log(response.data);
     console.log(params.idUR);
     let admin_value = "0";
     // let personalnumber_demo = "1234567";
     let personalnumber_demo = "7654321";
+    // let personalnumber_demo = "3072002";
     const signInAxiosResult = await signInAxios(personalnumber_demo);
     console.log(signInAxiosResult);
     if (signInAxiosResult === "DoNotExist") {
@@ -321,17 +322,21 @@ function signInURL(props) {
         // http://localhost:3000/authentication/sign-in/69173dcb3ee95de869edfq10
         admin_value = "0";
         personalnumber_demo = "7654321";
+        // personalnumber_demo = "3072002";
         setSignUpData({
           ...signUpData,
           firstName: "אנטוני",
+          // firstName: "רותם",
           lastLame: "פרסון",
+          // lastLame: "ורולקר",
           personalnumber: personalnumber_demo,
           admin: admin_value,
           unit: "מקטנאר",
           anaf: "תון",
           mador: "NG",
           phoneNumber: "987654321",
-          email: "qQ@gmail.com",
+          // email: "aP@gmail.com",
+          email: "rV@gmail.com",
         });
       }
     } else if (signInAxiosResult === "sucsses") {

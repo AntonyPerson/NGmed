@@ -284,7 +284,7 @@ export default function App() {
                   <Route path="/authentication/sign-in">
                     <Route path=":idUR" render={() => getRoutes(routes)} element={<SignInURL />} />
                   </Route>
-                  <Route path="/" element={<Navigate to="/FileTable" />} />
+                  <Route path="/" element={<Navigate to="/UserFilesTable" />} />
                   {/* <Route path="/" element={<Navigate to="/authentication/sign-in" />} /> */}
                   <Route path="/Error404" element={<Error404 />} />
                   {/* <Route path="/RequestForm">

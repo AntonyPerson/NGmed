@@ -116,7 +116,7 @@ function GraphPage() {
   useEffect(() => {
     console.log(params.idFile);
     axios
-      .get(`http://localhost:5000/ExcelData/${params.idFile}`)
+      .get(`http://localhost:5000/NGmedDB/ExcelData/${params.idFile}`)
       .then(async (response) => {
         console.log(response.data);
         await setExcelData(response.data);
@@ -218,6 +218,31 @@ function GraphPage() {
       <DashboardNavbar />
       <MDBox py={3}>
         <Grid container mt={5} className="justify-content-center" spacing={3}>
+          <Grid item xs={4} md={4} lg={4}>
+            <MDBox
+              variant="gradient"
+              bgColor="mekatnar"
+              borderRadius="lg"
+              coloredShadow="mekatnar"
+              mx={2}
+              mt={-3}
+              p={3}
+              px={7}
+              mb={3}
+              textAlign="left"
+              style={{ maxWidth: 600 }}
+            >
+              <MDTypography variant="h5" fontWeight="medium" color="white" mb={0.5}>
+                {`שם הקובץ: ${excelData.fileName}`}
+              </MDTypography>
+              <MDTypography variant="h5" fontWeight="medium" color="white" mb={0.5}>
+                {`הקובץ הועלה על ידי - מספר אישי: ${excelData.personalnumber}`}
+              </MDTypography>
+              <MDTypography variant="h5" fontWeight="medium" color="white" mb={0.5}>
+                {`מספר השעונים שנפרקו: ${excelData.watchCount}`}
+              </MDTypography>
+            </MDBox>
+          </Grid>
           <Grid item xs={4} md={4} lg={4}>
             <MDBox
               variant="gradient"

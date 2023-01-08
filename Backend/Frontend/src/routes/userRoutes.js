@@ -61,6 +61,7 @@ import GraphicHeart from "layouts/GraphicSoldierDatas/GraphicHeart";
 import GraphicDistance from "layouts/GraphicSoldierDatas/GraphicDistance";
 import UserFielsTable from "layouts/tables/userFielsTable";
 import GraphPage from "layouts/GraphicSoldierDatas/GraphPage";
+import AllFielsTable from "layouts/tables/allFielsTable";
 // eslint-disable-next-line import/no-absolute-path
 
 const routes = [
@@ -106,11 +107,27 @@ const routes = [
   // },
   {
     type: "collapse",
-    name: "ניהול קבצים",
-    key: "FileTable",
-    icon: <Icon fontSize="small">content_paste_search</Icon>,
-    route: "/FileTable",
+    name: "Dashboard",
+    key: "dashboard",
+    icon: <Icon fontSize="small">dashboard</Icon>,
+    route: "/dashboard",
+    component: <Dashboard />,
+  },
+  {
+    type: "collapse",
+    name: "הקבצים שלי",
+    key: "UserFilesTable",
+    icon: <Icon fontSize="small">contact_page</Icon>,
+    route: "/UserFilesTable",
     component: <UserFielsTable />,
+  },
+  {
+    type: "collapse",
+    name: "קבצי המערכת",
+    key: "FilesTable",
+    icon: <Icon fontSize="small">content_paste_search</Icon>,
+    route: "/FilesTable",
+    component: <AllFielsTable />,
   },
   {
     type: "collapse",

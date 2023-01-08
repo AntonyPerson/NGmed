@@ -11,16 +11,33 @@ router.route("/").get((req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
+// Get info without the fileJason - only there info for all the files
+router.route("/getExcelsInfo").get((req, res) => {
+  ExcelData.find()
+    .select("fileName watchCount startDate endDate personalnumber")
+    // .sort({ createdAt: -1 })
+    .where("publicFile")
+    .equals("true")
+    .then((request) => res.json(request))
+    .catch((err) => res.status(400).json("Error: " + err));
+});
+
 router.route("/add").post((req, res) => {
   const fileName = req.body.fileName;
   const watchCount = req.body.watchCount;
   const fileJason = req.body.fileJason;
+  const startDate = req.body.startDate;
+  const endDate = req.body.endDate;
+  const publicFile = req.body.publicFile;
   const personalnumber = req.body.personalnumber;
 
   const newExcelData = new ExcelData({
     fileName,
     watchCount,
     fileJason,
+    startDate,
+    endDate,
+    publicFile,
     personalnumber,
   });
 
@@ -43,8 +60,27 @@ router
       .catch((err) => res.status(400).json("Error: " + err));
   });
 
+router
+  .route("/getExcelsInfoByPersonalnumber/:personalnumber")
+  .get((req, res) => {
+    const personalnumber = req.params.personalnumber;
+    ExcelData.find({ personalnumber: personalnumber })
+      .select("fileName watchCount startDate endDate publicFile personalnumber")
+      // .sort({ createdAt: -1 })
+      .then((request) => res.json(request))
+      .catch((err) => res.status(400).json("Error: " + err));
+  });
+
 router.route("/:id").get((req, res) => {
   ExcelData.findById(req.params.id)
+    .then((request) => res.json(request))
+    .catch((err) => res.status(400).json("Error: " + err));
+});
+
+router.route("/ExcelInfo/:id").get((req, res) => {
+  ExcelData.findById(req.params.id)
+    .select("fileName watchCount publicFile")
+    // .sort({ createdAt: -1 })
     .then((request) => res.json(request))
     .catch((err) => res.status(400).json("Error: " + err));
 });
@@ -55,10 +91,27 @@ router.route("/:id").delete((req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
+router.route("/updateInfo/:id").post((req, res) => {
+  ExcelData.findById(req.params.id)
+    .then((request) => {
+      request.fileName = req.body.fileName;
+      request.watchCount = req.body.watchCount;
+      request.publicFile = req.body.publicFile;
+
+      request
+        .save()
+        .then(() => res.json("ExcelData updated!"))
+        .catch((err) => res.status(400).json("Error: " + err));
+    })
+    .catch((err) => res.status(400).json("Error: " + err));
+});
+
 router.route("/update/:id").post((req, res) => {
   ExcelData.findById(req.params.id)
     .then((request) => {
       request.fileName = req.body.fileName;
+      request.watchCount = req.body.watchCount;
+      request.publicFile = req.body.publicFile;
       request.fileJason = req.body.fileJason;
       request.personalnumber = req.body.personalnumber;
 

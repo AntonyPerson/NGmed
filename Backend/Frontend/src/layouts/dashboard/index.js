@@ -1,3 +1,5 @@
+/* eslint-disable no-unused-vars */
+/* eslint-disable import/no-unresolved */
 /**
 =========================================================
 * Material Dashboard 2 React - v2.1.0
@@ -27,6 +29,7 @@ import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
 import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
 import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
 
+import PieChart from "examples/Charts/PieChart";
 // Data
 import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
 import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
@@ -47,13 +50,11 @@ function Dashboard() {
             <MDBox mb={1.5}>
               <ComplexStatisticsCard
                 color="dark"
-                icon="weekend"
-                title="Bookings"
+                icon="group"
+                title="מספר החיילים שלי"
                 count={281}
                 percentage={{
-                  color: "success",
-                  amount: "+55%",
-                  label: "than lask week",
+                  label: "עודכן כעת",
                 }}
               />
             </MDBox>
@@ -118,16 +119,18 @@ function Dashboard() {
             </Grid>
             <Grid item xs={12} md={6} lg={4}>
               <MDBox mb={3}>
-                <ReportsLineChart
-                  color="success"
-                  title="daily sales"
-                  description={
-                    <>
-                      (<strong>+15%</strong>) increase in today sales.
-                    </>
-                  }
-                  date="updated 4 min ago"
-                  chart={sales}
+                <PieChart
+                  icon={{ color: "mekatnar", component: "watch" }}
+                  title="מונה שעוני פריקה"
+                  description="עוקב אחרי מספר השעונים שמחכים לפריקה ו/או ניפרקו"
+                  chart={{
+                    labels: ["מספר השעונים שנפרקו", "מספר השעונים שמחכים לפריקה"],
+                    datasets: {
+                      label: "מונה שעונים",
+                      backgroundColors: ["mekatnar", "dark"],
+                      data: [20, 60],
+                    },
+                  }}
                 />
               </MDBox>
             </Grid>
@@ -144,7 +147,7 @@ function Dashboard() {
             </Grid>
           </Grid>
         </MDBox>
-        <MDBox>
+        {/* <MDBox>
           <Grid container spacing={3}>
             <Grid item xs={12} md={6} lg={8}>
               <Projects />
@@ -153,7 +156,7 @@ function Dashboard() {
               <OrdersOverview />
             </Grid>
           </Grid>
-        </MDBox>
+        </MDBox> */}
       </MDBox>
       <Footer />
     </DashboardLayout>
