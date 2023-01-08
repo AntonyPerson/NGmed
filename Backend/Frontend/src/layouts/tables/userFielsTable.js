@@ -1,4 +1,4 @@
-/* eslint-disable import/no-unresolved */
+/* eslint-disable react/function-component-definition */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-return-assign */
 /* eslint-disable prefer-const */
@@ -21,12 +21,8 @@ Coded by www.creative-tim.com
 */
 
 // @mui material components
-import Icon from "@mui/material/Icon";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
-
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -39,35 +35,36 @@ import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
 
 // Data
-import authorsTableData from "layouts/tables/data/authorsTableData";
-import projectsTableData from "layouts/tables/data/projectsTableData";
-// import regulsrUserRequestsTableData from "layouts/tables/data/regulsrUserRequestsTableData";
-import AdminArchiveTableData from "layouts/tables/data/adminArchiveTableData";
-import { Dialog, DialogContent } from "@mui/material";
+import userFielsTableData from "layouts/tables/data/userFielsTableData";
+import { Dialog, DialogContent, Icon } from "@mui/material";
 import { useState } from "react";
-import MDButton from "components/MDButton";
 
 import { CardBody, Col, Container, Form, FormGroup, FormText, Input, Label, Row } from "reactstrap";
 import axios from "axios";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import MDButton from "components/MDButton";
+import ExcelToJasonFileUploader from "layouts/Forms/ExcelToJasonFileUploader";
 
-const adminArchiveTable = () => {
-  const tableTittle = 'ארכיון';
+const UserFielsTable = () => {
+  const tableTittle = "הקבצים שלי";
 
   const [dbError, setDbError] = useState(false);
+  const [toAddFile, setToAddFile] = useState(false);
   //   const { columns, rows } = authorsTableData();
-
   const {
     columns: pColumns,
     rows: pRows,
     dbError: dbe,
     setDBerror: setDbe,
-  } = AdminArchiveTableData();
+    fileUpdate: toUpdateFile,
+    setFileUpdate: setToUpdateFile,
+    fileId: toUpdateFileID,
+  } = userFielsTableData();
+
   const handleErrorClose = () => {
     setDbError(true);
     setDbe(false);
   };
-
   const showError = () => (
     <Dialog
       open={dbe}
@@ -87,7 +84,7 @@ const adminArchiveTable = () => {
         textAlign="center"
       >
         <MDTypography variant="h1" fontWeight="medium" color="white" mt={1}>
-          שגיאה בקבלת הבקשות
+          שגיאה בקבלת הקבצים
         </MDTypography>
 
         <DialogContent>
@@ -98,7 +95,77 @@ const adminArchiveTable = () => {
       </MDBox>
     </Dialog>
   );
+  const addFile = () => (
+    <Dialog
+      px={5}
+      open={toAddFile}
+      onClose={() => setToAddFile(false)}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <MDBox variant="gradient" bgColor="mekatnar" coloredShadow="mekatnar" borderRadius="l">
+        <DialogContent>
+          <ExcelToJasonFileUploader task="create" />
+          {/* <MDBox
+        variant="gradient"
+        bgColor="error"
+        coloredShadow="error"
+        borderRadius="l"
+        // mx={2}
+        // mt={2}
+        p={3}
+        // mb={2}
+        textAlign="center"
+      >
+        <MDTypography variant="h1" fontWeight="medium" color="white" mt={1}>
+          שגיאה בקבלת הקבצים
+        </MDTypography>
 
+          <MDTypography variant="h6" fontWeight="medium" color="white" mt={1}>
+            אנא נסה שנית מאוחר יותר
+          </MDTypography>
+      </MDBox> */}
+        </DialogContent>
+      </MDBox>
+    </Dialog>
+  );
+  const updateFile = () => (
+    <Dialog
+      px={5}
+      open={toUpdateFile}
+      onClose={() => {
+        setToUpdateFile(false);
+      }}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <MDBox variant="gradient" bgColor="mekatnar" coloredShadow="mekatnar" borderRadius="l">
+        <DialogContent>
+        {console.log(toUpdateFileID)}
+          <ExcelToJasonFileUploader task="update" fileID={toUpdateFileID} />
+          {/* <MDBox
+        variant="gradient"
+        bgColor="error"
+        coloredShadow="error"
+        borderRadius="l"
+        // mx={2}
+        // mt={2}
+        p={3}
+        // mb={2}
+        textAlign="center"
+      >
+        <MDTypography variant="h1" fontWeight="medium" color="white" mt={1}>
+          שגיאה בקבלת הקבצים
+        </MDTypography>
+
+          <MDTypography variant="h6" fontWeight="medium" color="white" mt={1}>
+            אנא נסה שנית מאוחר יותר
+          </MDTypography>
+      </MDBox> */}
+        </DialogContent>
+      </MDBox>
+    </Dialog>
+  );
 
   const table = () => (
     <MDBox pt={6} pb={3}>
@@ -118,6 +185,18 @@ const adminArchiveTable = () => {
               <MDTypography variant="h3" color="white">
                 {tableTittle}
               </MDTypography>
+              <MDTypography variant="h6" color="white" textAlign="right">
+                <MDButton
+                  variant="contained"
+                  color="white"
+                  onClick={() => setToAddFile(true)}
+                  circular="true"
+                  iconOnly="true"
+                  size="medium"
+                >
+                  <Icon>add</Icon>
+                </MDButton>
+              </MDTypography>
             </MDBox>
             <MDBox pt={3}>
               {pRows.length !== 0 ? (
@@ -135,7 +214,7 @@ const adminArchiveTable = () => {
                 </MDTypography>
               ) : (
                 <MDTypography mx={30} variant="h3" color="mekatnar" textGradient={true}>
-                  לא קיימות בקשות הוצלא בחשבונך
+                  לא קיימים קבצים בחשבונך
                 </MDTypography>
               )}
             </MDBox>
@@ -148,6 +227,8 @@ const adminArchiveTable = () => {
     <DashboardLayout>
       <DashboardNavbar />
       {showError()}
+      {addFile()}
+      {updateFile()}
       {table()}
       <Outlet />
       <Footer />
@@ -155,4 +236,4 @@ const adminArchiveTable = () => {
   );
 };
 
-export default adminArchiveTable;
+export default UserFielsTable;

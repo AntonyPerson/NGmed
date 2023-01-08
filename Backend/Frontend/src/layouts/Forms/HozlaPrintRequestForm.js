@@ -409,7 +409,7 @@ export default function HozlaPrintRequestForm() {
     // for (const key of Object.keys(files)) {
     //   formFilesData.append("files", files[key]);
     // }
-    axios.post("http://localhost:5000/api/multipleFiles", formFilesData, {}).then((res) => {
+    axios.post("http://localhost:5000/NGmedDB/api/multipleFiles", formFilesData, {}).then((res) => {
       console.log("from the file axios");
       console.log(res.data);
       const requestData = {
@@ -443,7 +443,7 @@ export default function HozlaPrintRequestForm() {
       };
       console.log(requestData);
       axios
-        .post(`http://localhost:5000/hozlaRequests/add`, requestData)
+        .post(`http://localhost:5000/NGmedDB/hozlaRequests/add`, requestData)
         .then((response) => {
           setData({
             ...data,

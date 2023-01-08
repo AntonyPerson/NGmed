@@ -42,7 +42,7 @@ Coded by www.creative-tim.com
 // Material Dashboard 2 React layouts
 import Dashboard from "layouts/dashboard";
 import Tables from "layouts/tables";
-import RegulsrUserRequestsTable from "layouts/tables/regulsrUserRequestsTable";
+// import RegulsrUserRequestsTable from "layouts/tables/regulsrUserRequestsTable";
 import Billing from "layouts/billing";
 import RTL from "layouts/rtl";
 import Notifications from "layouts/notifications";
@@ -59,40 +59,75 @@ import ExcelToJasonFileUploader from "layouts/Forms/ExcelToJasonFileUploader";
 import GraphicSleep from "layouts/GraphicSoldierDatas/GraphicSleep";
 import GraphicHeart from "layouts/GraphicSoldierDatas/GraphicHeart";
 import GraphicDistance from "layouts/GraphicSoldierDatas/GraphicDistance";
+import UserFielsTable from "layouts/tables/userFielsTable";
+import GraphPage from "layouts/GraphicSoldierDatas/GraphPage";
+import AllFielsTable from "layouts/tables/allFielsTable";
 // eslint-disable-next-line import/no-absolute-path
 
 const routes = [
+  // {
+  //   type: "collapse",
+  //   name: "Graphs",
+  //   key: "Graphs",
+  //   icon: <Icon fontSize="small">equalizer</Icon>,
+  //   route: "/Graphs",
+  //   component: <GraphPage />,
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "קצב לב",
+  //   key: "Heart",
+  //   icon: <Icon fontSize="small">monitor_heart</Icon>,
+  //   route: "/Heart",
+  //   component: <GraphicHeart />,
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "שעות שינה",
+  //   key: "Sleep",
+  //   icon: <Icon fontSize="small">hotel</Icon>,
+  //   route: "/Sleep",
+  //   component: <GraphicSleep />,
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "מרחק יומי",
+  //   key: "Distance",
+  //   icon: <Icon fontSize="small">map</Icon>,
+  //   route: "/Distance",
+  //   component: <GraphicDistance />,
+  // },
+  // {
+  //   type: "collapse",
+  //   name: "העלת קובץ",
+  //   key: "FileUpload",
+  //   icon: <Icon fontSize="small">description</Icon>,
+  //   route: "/FileUpload",
+  //   component: <ExcelToJasonFileUploader />,
+  // },
   {
     type: "collapse",
-    name: "העלת קובץ",
-    key: "FileUpload",
-    icon: <Icon fontSize="small">description</Icon>,
-    route: "/FileUpload",
-    component: <ExcelToJasonFileUploader />,
+    name: "Dashboard",
+    key: "dashboard",
+    icon: <Icon fontSize="small">dashboard</Icon>,
+    route: "/dashboard",
+    component: <Dashboard />,
   },
   {
     type: "collapse",
-    name: "קצב לב",
-    key: "Heart",
-    icon: <Icon fontSize="small">monitor_heart</Icon>,
-    route: "/Heart",
-    component: <GraphicHeart />,
+    name: "הקבצים שלי",
+    key: "UserFilesTable",
+    icon: <Icon fontSize="small">contact_page</Icon>,
+    route: "/UserFilesTable",
+    component: <UserFielsTable />,
   },
   {
     type: "collapse",
-    name: "שעות שינה",
-    key: "Sleep",
-    icon: <Icon fontSize="small">hotel</Icon>,
-    route: "/Sleep",
-    component: <GraphicSleep />,
-  },
-  {
-    type: "collapse",
-    name: "מרחק יומי",
-    key: "Distance",
-    icon: <Icon fontSize="small">map</Icon>,
-    route: "/Distance",
-    component: <GraphicDistance />,
+    name: "קבצי המערכת",
+    key: "FilesTable",
+    icon: <Icon fontSize="small">content_paste_search</Icon>,
+    route: "/FilesTable",
+    component: <AllFielsTable />,
   },
   {
     type: "collapse",

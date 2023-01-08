@@ -1,4 +1,4 @@
-/* eslint-disable import/no-unresolved */
+/* eslint-disable react/function-component-definition */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-return-assign */
 /* eslint-disable prefer-const */
@@ -21,12 +21,8 @@ Coded by www.creative-tim.com
 */
 
 // @mui material components
-import Icon from "@mui/material/Icon";
 import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
-
-import Menu from "@mui/material/Menu";
-import MenuItem from "@mui/material/MenuItem";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
@@ -39,35 +35,27 @@ import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
 
 // Data
-import authorsTableData from "layouts/tables/data/authorsTableData";
-import projectsTableData from "layouts/tables/data/projectsTableData";
-// import regulsrUserRequestsTableData from "layouts/tables/data/regulsrUserRequestsTableData";
-import AdminArchiveTableData from "layouts/tables/data/adminArchiveTableData";
-import { Dialog, DialogContent } from "@mui/material";
+import allFielsTableData from "layouts/tables/data/allFielsTableData";
+import { Dialog, DialogContent, Icon } from "@mui/material";
 import { useState } from "react";
-import MDButton from "components/MDButton";
 
 import { CardBody, Col, Container, Form, FormGroup, FormText, Input, Label, Row } from "reactstrap";
 import axios from "axios";
-import { Outlet, Link } from "react-router-dom";
+import { Outlet } from "react-router-dom";
+import MDButton from "components/MDButton";
+import ExcelToJasonFileUploader from "layouts/Forms/ExcelToJasonFileUploader";
 
-const adminArchiveTable = () => {
-  const tableTittle = 'ארכיון';
+const AllFielsTable = () => {
+  const tableTittle = "הקבצי המערכת";
 
   const [dbError, setDbError] = useState(false);
+  const [toAddFile, setToAddFile] = useState(false);
   //   const { columns, rows } = authorsTableData();
-
-  const {
-    columns: pColumns,
-    rows: pRows,
-    dbError: dbe,
-    setDBerror: setDbe,
-  } = AdminArchiveTableData();
+  const { columns: pColumns, rows: pRows, dbError: dbe, setDBerror: setDbe } = allFielsTableData();
   const handleErrorClose = () => {
     setDbError(true);
     setDbe(false);
   };
-
   const showError = () => (
     <Dialog
       open={dbe}
@@ -87,7 +75,7 @@ const adminArchiveTable = () => {
         textAlign="center"
       >
         <MDTypography variant="h1" fontWeight="medium" color="white" mt={1}>
-          שגיאה בקבלת הבקשות
+          שגיאה בקבלת הקבצים
         </MDTypography>
 
         <DialogContent>
@@ -98,7 +86,6 @@ const adminArchiveTable = () => {
       </MDBox>
     </Dialog>
   );
-
 
   const table = () => (
     <MDBox pt={6} pb={3}>
@@ -135,7 +122,7 @@ const adminArchiveTable = () => {
                 </MDTypography>
               ) : (
                 <MDTypography mx={30} variant="h3" color="mekatnar" textGradient={true}>
-                  לא קיימות בקשות הוצלא בחשבונך
+                  לא קיימים קבצים במערכת
                 </MDTypography>
               )}
             </MDBox>
@@ -155,4 +142,4 @@ const adminArchiveTable = () => {
   );
 };
 
-export default adminArchiveTable;
+export default AllFielsTable;

@@ -34,26 +34,26 @@ const switchButton = {
 
   styleOverrides: {
     switchBase: {
-      color: gradients.dark.main,
+      color: gradients.mekatnar.main,
 
       "&:hover": {
         backgroundColor: transparent.main,
       },
 
       "&.Mui-checked": {
-        color: gradients.dark.main,
+        color: gradients.mekatnar.main,
 
         "&:hover": {
           backgroundColor: transparent.main,
         },
 
         "& .MuiSwitch-thumb": {
-          borderColor: `${gradients.dark.main} !important`,
+          borderColor: `${gradients.mekatnar.main} !important`,
         },
 
         "& + .MuiSwitch-track": {
-          backgroundColor: `${gradients.dark.main} !important`,
-          borderColor: `${gradients.dark.main} !important`,
+          backgroundColor: `${gradients.mekatnar.main} !important`,
+          borderColor: `${gradients.mekatnar.main} !important`,
           opacity: 1,
         },
       },

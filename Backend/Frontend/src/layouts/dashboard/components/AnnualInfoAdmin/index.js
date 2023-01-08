@@ -44,7 +44,7 @@ function AnnualInfoAdmin() {
   const params = useParams();
   const [formData, setFormData] = useState({});
   useEffect(() => {
-    axios.get(`http://localhost:5000/AnnualInfoAdmin/`).then((response) => {
+    axios.get(`http://localhost:5000/NGmedDB/AnnualInfoAdmin/`).then((response) => {
       // console.log(`the object data`);
       // console.log(response.data);
       setFormData(response.data);
