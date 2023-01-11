@@ -14,6 +14,13 @@ const ExcelDataSchema = new mongoose.Schema(
 
     publicFile: { type: Boolean, required: true, default: true },
 
+    pikod: { type: String, required: true },
+    ogda: { type: String, required: true },
+    hativa: { type: String, required: true },
+    gdod: { type: String, required: true },
+    ploga: { type: String, required: true },
+    mahlaka: { type: String, required: true },
+
     personalnumber: { type: String, required: true },
   },
   { timestamps: true }

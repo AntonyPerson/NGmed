@@ -24,12 +24,24 @@ router.route("/getExcelsInfo").get((req, res) => {
 
 router.route("/add").post((req, res) => {
   const fileName = req.body.fileName;
+
   const watchCount = req.body.watchCount;
+
   const fileJason = req.body.fileJason;
+
   const startDate = req.body.startDate;
   const endDate = req.body.endDate;
+
   const publicFile = req.body.publicFile;
+
   const personalnumber = req.body.personalnumber;
+
+  const pikod = req.body.personalnumber;
+  const ogda = req.body.personalnumber;
+  const hativa = req.body.personalnumber;
+  const gdod = req.body.personalnumber;
+  const ploga = req.body.personalnumber;
+  const mahlaka = req.body.personalnumber;
 
   const newExcelData = new ExcelData({
     fileName,
@@ -39,6 +51,12 @@ router.route("/add").post((req, res) => {
     endDate,
     publicFile,
     personalnumber,
+    pikod,
+    ogda,
+    hativa,
+    gdod,
+    ploga,
+    mahlaka,
   });
 
   const fileId = newExcelData.save((err, form) => {
@@ -65,7 +83,9 @@ router
   .get((req, res) => {
     const personalnumber = req.params.personalnumber;
     ExcelData.find({ personalnumber: personalnumber })
-      .select("fileName watchCount startDate endDate publicFile personalnumber")
+      .select(
+        "fileName watchCount startDate endDate publicFile personalnumber pikod ogda hativa gdod ploga mahlaka"
+      )
       // .sort({ createdAt: -1 })
       .then((request) => res.json(request))
       .catch((err) => res.status(400).json("Error: " + err));
@@ -79,7 +99,9 @@ router.route("/:id").get((req, res) => {
 
 router.route("/ExcelInfo/:id").get((req, res) => {
   ExcelData.findById(req.params.id)
-    .select("fileName watchCount publicFile")
+    .select(
+      "fileName watchCount publicFile pikod ogda hativa gdod ploga mahlaka"
+    )
     // .sort({ createdAt: -1 })
     .then((request) => res.json(request))
     .catch((err) => res.status(400).json("Error: " + err));
@@ -98,6 +120,13 @@ router.route("/updateInfo/:id").post((req, res) => {
       request.watchCount = req.body.watchCount;
       request.publicFile = req.body.publicFile;
 
+      request.pikod = req.body.pikod;
+      request.ogda = req.body.ogda;
+      request.hativa = req.body.hativa;
+      request.gdod = req.body.gdod;
+      request.ploga = req.body.ploga;
+      request.mahlaka = req.body.mahlaka;
+
       request
         .save()
         .then(() => res.json("ExcelData updated!"))
@@ -114,7 +143,12 @@ router.route("/update/:id").post((req, res) => {
       request.publicFile = req.body.publicFile;
       request.fileJason = req.body.fileJason;
       request.personalnumber = req.body.personalnumber;
-
+      request.pikod = req.body.pikod;
+      request.ogda = req.body.ogda;
+      request.hativa = req.body.hativa;
+      request.gdod = req.body.gdod;
+      request.ploga = req.body.ploga;
+      request.mahlaka = req.body.mahlaka;
       request
         .save()
         .then(() => res.json("ExcelData updated!"))
