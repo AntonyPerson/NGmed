@@ -100,12 +100,24 @@ const { user } = isAuthenticated();
 export default function ExcelToJasonFileUploader(props) {
   const [dataDB, setDataDB] = useState({
     fileName: "",
+
     fileJason: {},
+
     watchCount: 1,
+
     startDate: "",
     endDate: "",
+
     personalnumber: user.personalnumber,
+
     publicFile: true,
+
+    pikod: "צפון",
+    ogda: "אוגדה1",
+    hativa: "",
+    gdod: "",
+    ploga: "",
+    mahlaka: "",
 
     error: false,
     successmsg: false,
@@ -113,6 +125,10 @@ export default function ExcelToJasonFileUploader(props) {
     NavigateToReferrer: false,
     requestID: "",
   });
+
+  const [gdods, setGdods] = useState([]);
+  const [plogot, setPlogot] = useState([]);
+  const [mahlakot, setMahlakot] = useState([]);
 
   useEffect(() => {
     if (props.task === "update") {
@@ -126,6 +142,12 @@ export default function ExcelToJasonFileUploader(props) {
             fileName: response.data.fileName,
             watchCount: response.data.watchCount,
             publicFile: response.data.publicFile,
+            pikod: response.data.pikod,
+            ogda: response.data.ogda,
+            hativa: response.data.hativa,
+            gdod: response.data.gdod,
+            ploga: response.data.ploga,
+            mahlaka: response.data.mahlaka,
           });
         })
         .catch((error) => {
@@ -333,11 +355,23 @@ export default function ExcelToJasonFileUploader(props) {
       endDate: dataDB.endDate,
       publicFile: dataDB.publicFile,
       personalnumber: dataDB.personalnumber,
+      pikod: dataDB.pikod,
+      ogda: dataDB.ogda,
+      hativa: dataDB.hativa,
+      gdod: dataDB.gdod,
+      ploga: dataDB.ploga,
+      mahlaka: dataDB.mahlaka,
     };
     const requestDataToUpdate = {
       fileName: dataDB.fileName,
       watchCount: dataDB.watchCount,
       publicFile: dataDB.publicFile,
+      pikod: dataDB.pikod,
+      ogda: dataDB.ogda,
+      hativa: dataDB.hativa,
+      gdod: dataDB.gdod,
+      ploga: dataDB.ploga,
+      mahlaka: dataDB.mahlaka,
     };
     // console.log(requestData);
     if (props.task === "create") {
@@ -367,7 +401,10 @@ export default function ExcelToJasonFileUploader(props) {
         });
     } else {
       axios
-        .post(`http://localhost:5000/NGmedDB/ExcelData/updateInfo/${props.fileID}`, requestDataToUpdate)
+        .post(
+          `http://localhost:5000/NGmedDB/ExcelData/updateInfo/${props.fileID}`,
+          requestDataToUpdate
+        )
         .then((response) => {
           console.log(response);
           setDataDB({
@@ -452,6 +489,133 @@ export default function ExcelToJasonFileUploader(props) {
                   </FormGroup>
                 )}
 
+                <Row>
+                  <Col>
+                    <FormGroup>
+                      <Label for="pikod">פיקוד</Label>
+                      <Input
+                        // placeholder={textPlaceHolderInputs[5]}
+                        name="pikod"
+                        type="select"
+                        value={dataDB.pikod}
+                        onChange={handleChange}
+                        required
+                      >
+                        <option defult value="1">
+                          שמור
+                        </option>
+                        <option value="0">בלמ"ס</option>
+                        <option value="2">סודי</option>
+                        {/* <option value="3">סודי ביותר</option> */}
+                      </Input>
+                    </FormGroup>
+                  </Col>
+                  <Col>
+                    <FormGroup>
+                      <Label for="ogda">אוגדה</Label>
+                      <Input
+                        // placeholder={textPlaceHolderInputs[5]}
+                        name="ogda"
+                        type="select"
+                        value={dataDB.ogda}
+                        onChange={handleChange}
+                        required
+                      >
+                        <option defult value="1">
+                          שמור
+                        </option>
+                        <option value="0">בלמ"ס</option>
+                        <option value="2">סודי</option>
+                        {/* <option value="3">סודי ביותר</option> */}
+                      </Input>
+                    </FormGroup>
+                  </Col>
+                  <Col>
+                    <FormGroup>
+                      <Label for="hativa">חטיבה</Label>
+                      <Input
+                        // placeholder={textPlaceHolderInputs[5]}
+                        name="hativa"
+                        type="select"
+                        value={dataDB.hativa}
+                        onChange={handleChange}
+                        required
+                      >
+                        <option defult value="">
+                          בחר
+                        </option>
+                        <option value="0">בלמ"ס</option>
+                        <option value="2">סודי</option>
+                        {/* <option value="3">סודי ביותר</option> */}
+                      </Input>
+                    </FormGroup>
+                  </Col>
+                </Row>
+                <Row>
+                  <Col>
+                    <FormGroup>
+                      <Label for="gdod">גדוד</Label>
+                      <Input
+                        // placeholder={textPlaceHolderInputs[5]}
+                        name="gdod"
+                        type="select"
+                        value={dataDB.gdod}
+                        onChange={handleChange}
+                        required
+                        disabled={dataDB.hativa === ""}
+                      >
+                        <option defult value="" disabled>
+                          בחר
+                        </option>
+                        <option value="0">בלמ"ס</option>
+                        <option value="2">סודי</option>
+                        {/* <option value="3">סודי ביותר</option> */}
+                      </Input>
+                    </FormGroup>
+                  </Col>
+                  <Col>
+                    <FormGroup>
+                      <Label for="ploga">פלוגה</Label>
+                      <Input
+                        // placeholder={textPlaceHolderInputs[5]}
+                        name="ploga"
+                        type="select"
+                        value={dataDB.ploga}
+                        onChange={handleChange}
+                        required
+                        disabled={dataDB.gdod === ""}
+                      >
+                        <option defult value="" disabled>
+                          בחר
+                        </option>
+                        <option value="0">בלמ"ס</option>
+                        <option value="2">סודי</option>
+                        {/* <option value="3">סודי ביותר</option> */}
+                      </Input>
+                    </FormGroup>
+                  </Col>
+                  <Col>
+                    <FormGroup>
+                      <Label for="mahlaka">מחלקה</Label>
+                      <Input
+                        // placeholder={textPlaceHolderInputs[5]}
+                        name="mahlaka"
+                        type="select"
+                        value={dataDB.mahlaka}
+                        onChange={handleChange}
+                        required
+                        disabled={dataDB.ploga === ""}
+                      >
+                        <option defult value="" disabled>
+                          בחר
+                        </option>
+                        <option value="0">בלמ"ס</option>
+                        <option value="2">סודי</option>
+                        {/* <option value="3">סודי ביותר</option> */}
+                      </Input>
+                    </FormGroup>
+                  </Col>
+                </Row>
                 <FormGroup row>
                   <FormGroup>
                     <Label for="watchCount">מספר שעונים שנפרקו</Label>

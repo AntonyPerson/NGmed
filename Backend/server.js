@@ -49,9 +49,23 @@ app.use("/NGmedDB/api", userRoutes);
 // const fileuploaderRoutes = require("./routes/fileuploader100/fileuploader");
 // app.use('/api',fileuploaderRoutes)
 
-//Excel Data routes for Client
+//?Excel Data routes for Client
 const excelDataRouter = require("./routes/ExcelData");
 app.use("/NGmedDB/ExcelData", excelDataRouter);
+
+//? Manegment tree routes
+const mahlakaRoutes = require("./routes/units/mahlaka");
+const plogaRoutes = require("./routes/units/ploga");
+const gdodRoutes = require("./routes/units/gdod");
+const hativaRoutes = require("./routes/units/hativa");
+const ogdaRoutes = require("./routes/units/ogda");
+const pikodRoutes = require("./routes/units/pikod");
+app.use("/NGmedDB/treeMangment", mahlakaRoutes);
+app.use("/NGmedDB/treeMangment", plogaRoutes);
+app.use("/NGmedDB/treeMangment", gdodRoutes);
+app.use("/NGmedDB/treeMangment", hativaRoutes);
+app.use("/NGmedDB/treeMangment", ogdaRoutes);
+app.use("/NGmedDB/treeMangment", pikodRoutes);
 
 // Hozla Requests routes for admin
 // const hozlaAdminRequestsRouter = require("./routes/hozlaAdminRequests");

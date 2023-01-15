@@ -138,14 +138,14 @@ const AdminRoutes = [
   {
     type: "divider",
   },
-  {
-    type: "collapse",
-    name: "אודות",
-    key: "about-us",
-    icon: <Icon fontSize="small">info</Icon>,
-    route: "/about-us",
-    component: <AboutPage />,
-  },
+  // {
+  //   type: "collapse",
+  //   name: "אודות",
+  //   key: "about-us",
+  //   icon: <Icon fontSize="small">info</Icon>,
+  //   route: "/about-us",
+  //   component: <AboutPage />,
+  // },
   // {
   //   type: "collapse",
   //   name: "RequestForm",

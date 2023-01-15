@@ -302,7 +302,7 @@ export default function App() {
                 <Route path="/about-us" element={<AboutPage />} />
                 {/* <Route path="/" element={<Navigate to="/authentication/sign-in" />} />
                 <Route path="*" element={<Navigate to="/authentication/sign-in" />} /> */}
-                <Route path="/" element={<Navigate to="/about-us" />} />
+                {/* <Route path="/" element={<Navigate to="/about-us" />} /> */}
                 {/* <Route path="*" element={<Navigate to="/Error404" />} /> */}
               </Routes>
             )}
