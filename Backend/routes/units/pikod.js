@@ -1,20 +1,28 @@
-const express = require('express');
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 
-const { create, find, update, remove, findById,findpikodbyid,updateogdas} = require('../../controllers/units/pikod');
+const {
+  findAll,
+  findPikodByIdG,
+  createPikod,
+  updatePikod,
+  removePikod,
+  findPikodByIdP,
+  // updateOgda,
+} = require("../../controllers/units/pikod");
 
 // find spec tipul
-router.get('/pikod/:id', findById);
-router.get('/pikod', find)
+router.get("/pikod", findAll);
+router.get("/pikod/:id", findPikodByIdG);
 //add pikod
-router.post('/pikod',create); /**/ 
+router.post("/pikod/add", createPikod); /**/
 //update pikod
-router.put('/pikod/:pikodId', update)
+router.put("/pikod/update/:id", updatePikod);
 //delete pikod
-router.delete('/pikod/:id', remove )
+router.delete("/pikod/remove/:id", removePikod);
 
-router.post('/pikod/pikodbyid',findpikodbyid);
+router.post("/pikod/PikodById", findPikodByIdP);
 
-router.post('/pikod/updateogdas',updateogdas);
+// router.post("/pikod/updateOgda", updateOgda);
 
 module.exports = router;

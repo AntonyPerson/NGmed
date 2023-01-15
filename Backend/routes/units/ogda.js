@@ -1,24 +1,33 @@
-const express = require('express');
-const router = express.Router()
+const express = require("express");
+const router = express.Router();
 
-const { create, find, update, remove, findById,findogdabyid,updatepikod,updatehativas,ogdasbypikodid} = require('../../controllers/units/ogda');
+const {
+  createOgda,
+  findAll,
+  updateOgda,
+  removeOgda,
+  findOgdaByIdG,
+  updatePikod,
+  //   updatehativas,
+  ogdotByPikodId,
+  findOgdaByIdP,
+} = require("../../controllers/units/ogda");
 
 // find spec tipul
-router.get('/ogda/:id', findById)
-router.get('/ogda', find)
+router.get("/ogda/:id", findOgdaByIdG);
+router.get("/ogda", findAll);
+router.post("/ogda/findOgdaById", findOgdaByIdP);
+router.post("/ogda/ogdotByPikodId", ogdotByPikodId);
+
 //add pikod
-router.post('/ogda',create) 
+router.post("/ogda/add", createOgda);
+
 //update pikod
-router.put('/ogda/:ogdaId', update)
+router.put("/ogda/update/:id", updateOgda);
+router.post("/ogda/update/updatePikod", updatePikod);
+
 //delete pikod
-router.delete('/ogda/:id', remove )
+router.delete("/ogda/remove/:id", removeOgda);
 
-router.post('/ogda/ogdabyid',findogdabyid);
-
-router.post('/ogda/updatepikod',updatepikod);
-
-router.post('/ogda/updatehativas',updatehativas);
-
-router.post('/ogda/ogdasbypikodid',ogdasbypikodid);
-
+// router.post("/ogda/updatehativas", updatehativas);
 module.exports = router;

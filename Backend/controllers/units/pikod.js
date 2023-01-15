@@ -1,22 +1,29 @@
-const Pikod = require("../../models/units/pikod");
+const Pikod = require("../../models/units/pikod.model");
+const router = require("express").Router();
 
-exports.findById = async(req, res) => {
-  const pikod = await Pikod.findOne().where({_id:req.params.id})
-  if(!pikod){
-      res.status(500).json({success: false})
-  }
-  res.send(pikod)
-  
- }
+exports.findPikodByIdG = (req, res) => {
+  console.log(req.params.id);
+  Pikod.findById(req.params.id)
+    .then((request) => {
+      console.log(request);
+      res.json(request);
+    })
+    .catch((err) => res.status(400).json("Error: " + err));
+};
 
-exports.find = (req, res) => {
-  Pikod.find().sort({index: 1})
+exports.findAll = (req, res) => {
+  Pikod.find()
+    .sort({ index: 1 })
     .then((pikods) => res.json(pikods))
     .catch((err) => res.status(400).json("Error: " + err));
 };
 
-exports.create = (req, res) => {
-  const pikod = new Pikod(req.body);
+exports.createPikod = (req, res) => {
+  // console.log(req.body);
+  const name = req.body.name;
+  // const index = req.body.index;
+
+  const pikod = new Pikod({ name });
   pikod.save((err, data) => {
     if (err) {
       return res.status(400).json({
@@ -26,30 +33,39 @@ exports.create = (req, res) => {
     res.json(data);
   });
 };
-exports.update = (req, res) => {
-  const pikod = new Pikod(req.body);
-  Pikod.updateOne(pikod)
+exports.updatePikod = (req, res) => {
+  // const index = req.body.index;
+  // console.log(req.body);
+  Pikod.findById(req.params.id)
+    .then((request) => {
+      request.name = req.body.name;
+      // request.index = req.body.index;
+      request
+        .save()
+        .then(() => res.json(`Ploga updated!`))
+        .catch((err) => res.status(400).json("Error: " + err));
+    })
+    .catch((err) => res.status(400).json("Error: " + err));
+};
+
+exports.removePikod = (req, res) => {
+  Pikod.findByIdAndDelete(req.params.id)
     .then((pikods) => res.json(pikods))
     .catch((err) => res.status(400).json("Error: " + err));
 };
 
-exports.remove = (req, res) => {
-  Pikod.deleteOne({ _id: req.params.id })
-    .then((pikods) => res.json(pikods))
+exports.findPikodByIdP = (req, res) => {
+  Pikod.findById(req.body.id)
+    .then((request) => {
+      console.log(request);
+      res.json(request);
+    })
     .catch((err) => res.status(400).json("Error: " + err));
 };
 
-
-exports.findpikodbyid = (req, res) => {
-  Pikod.find({_id: req.body})
-  .then(job => res.json(job))
-  .catch(err => res.status(400).json('Error: ' + err));
-}
-
-
-exports.updateogdas = (req, res) => {
-  Pikod.updateOne({_id: req.body[0]},{ogda:req.body[1]})
-  .then(orders => res.json(orders))
-  .catch(err => res.status(400).json('Error: ' + err));;
- // console.log(req.body);
-}
+// exports.updateOgda = (req, res) => {
+//   Pikod.updateOne({ _id: req.body[0] }, { ogda: req.body[1] })
+//     .then((orders) => res.json(orders))
+//     .catch((err) => res.status(400).json("Error: " + err));
+//   // console.log(req.body);
+// };

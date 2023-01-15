@@ -126,6 +126,10 @@ export default function ExcelToJasonFileUploader(props) {
     requestID: "",
   });
 
+  const [gdods, setGdods] = useState([]);
+  const [plogot, setPlogot] = useState([]);
+  const [mahlakot, setMahlakot] = useState([]);
+
   useEffect(() => {
     if (props.task === "update") {
       axios
@@ -537,8 +541,8 @@ export default function ExcelToJasonFileUploader(props) {
                         onChange={handleChange}
                         required
                       >
-                        <option defult value="1">
-                          שמור
+                        <option defult value="">
+                          בחר
                         </option>
                         <option value="0">בלמ"ס</option>
                         <option value="2">סודי</option>
@@ -558,9 +562,10 @@ export default function ExcelToJasonFileUploader(props) {
                         value={dataDB.gdod}
                         onChange={handleChange}
                         required
+                        disabled={dataDB.hativa === ""}
                       >
-                        <option defult value="1">
-                          שמור
+                        <option defult value="" disabled>
+                          בחר
                         </option>
                         <option value="0">בלמ"ס</option>
                         <option value="2">סודי</option>
@@ -578,9 +583,10 @@ export default function ExcelToJasonFileUploader(props) {
                         value={dataDB.ploga}
                         onChange={handleChange}
                         required
+                        disabled={dataDB.gdod === ""}
                       >
-                        <option defult value="1">
-                          שמור
+                        <option defult value="" disabled>
+                          בחר
                         </option>
                         <option value="0">בלמ"ס</option>
                         <option value="2">סודי</option>
@@ -598,9 +604,10 @@ export default function ExcelToJasonFileUploader(props) {
                         value={dataDB.mahlaka}
                         onChange={handleChange}
                         required
+                        disabled={dataDB.ploga === ""}
                       >
-                        <option defult value="1">
-                          שמור
+                        <option defult value="" disabled>
+                          בחר
                         </option>
                         <option value="0">בלמ"ס</option>
                         <option value="2">סודי</option>

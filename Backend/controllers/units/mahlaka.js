@@ -1,18 +1,17 @@
-const Mahlaka = require("../../models/units/mahlaka");
+const Mahlaka = require("../../models/units/mahlaka.model");
 
-exports.findById = async(req, res) => {
-  const mahlaka = await Mahlaka.findOne().where({_id:req.params.id})
-  
-  if(!mahlaka){
-      res.status(500).json({success: false})
+exports.findById = async (req, res) => {
+  const mahlaka = await Mahlaka.findOne().where({ _id: req.params.id });
+
+  if (!mahlaka) {
+    res.status(500).json({ success: false });
   }
-  res.send(mahlaka)
-  
- }
-
+  res.send(mahlaka);
+};
 
 exports.find = (req, res) => {
-    Mahlaka.find().sort({index: 1})
+  Mahlaka.find()
+    .sort({ index: 1 })
     .then((mahlaka) => res.json(mahlaka))
     .catch((err) => res.status(400).json("Error: " + err));
 };
@@ -36,69 +35,69 @@ exports.update = (req, res) => {
 };
 
 exports.remove = (req, res) => {
-    Mahlaka.deleteOne({ _id: req.params.id })
+  Mahlaka.deleteOne({ _id: req.params.id })
     .then((mahlaka) => res.json(mahlaka))
     .catch((err) => res.status(400).json("Error: " + err));
 };
 
 exports.findmahlakabyid = (req, res) => {
-  Mahlaka.find({_id: req.body})
-  .then(job => res.json(job))
-  .catch(err => res.status(400).json('Error: ' + err));
-}
+  Mahlaka.find({ _id: req.body })
+    .then((job) => res.json(job))
+    .catch((err) => res.status(400).json("Error: " + err));
+};
 
 exports.updateploga = (req, res) => {
-  Mahlaka.updateOne({_id: req.body[0]},{ploga:req.body[1]})
-  .then(orders => res.json(orders))
-  .catch(err => res.status(400).json('Error: ' + err));;
- // console.log(req.body);
-}
-
+  Mahlaka.updateOne({ _id: req.body[0] }, { ploga: req.body[1] })
+    .then((orders) => res.json(orders))
+    .catch((err) => res.status(400).json("Error: " + err));
+  // console.log(req.body);
+};
 
 exports.mahlakabyplogaid = (req, res) => {
-  Mahlaka.find({ploga: req.body.ploga}).sort({index: 1})
-  .then(orders => res.json(orders))
-    .catch(err => res.status(400).json('Error: ' + err));;
-    // console.log(req.body);
-  }
-  // exports.updatekshirot = (req, res) => {
-  //   Gdod.updateOne({_id: req.body[0]},{kshirot:req.body[1]})
-  //   .then(orders => res.json(orders))
-  //   .catch(err => res.status(400).json('Error: ' + err));;
-  //  // console.log(req.body);
-  // }
-  
-  // exports.updatehistory = (req, res) => {
-  //   Gdod.updateOne({_id: req.body[0]}, { $push: { history: req.body[1] } })
-  //   .then(orders => res.json(orders))
-  //   .catch(err => res.status(400).json('Error: ' + err));;
-  //  // console.log(req.body);
-  // }
-  
-  // exports.updatetraining = (req, res) => {
-  //   Gdod.updateOne({_id: req.body[0]},{training:req.body[1]})
-  //   .then(orders => res.json(orders))
-  //   .catch(err => res.status(400).json('Error: ' + err));;
-  //  // console.log(req.body);
-  // }
-  
-  // exports.updatetraininghistory = (req, res) => {
-  //   Gdod.updateOne({_id: req.body[0]}, { $push: { traininghistory: req.body[1] } })
-  //   .then(orders => res.json(orders))
-  //   .catch(err => res.status(400).json('Error: ' + err));;
-  //  // console.log(req.body);
-  // }
-  
-  // exports.updateallhistoryarray = (req, res) => {
-  //   Gdod.updateOne({ _id: req.body[0] }, { history: req.body[1] })
-  //     .then(orders => res.json(orders))
-  //     .catch(err => res.status(400).json('Error: ' + err));;
-  //   // console.log(req.body);
-  // }
-  
-  // exports.updatealltraininghistoryarray = (req, res) => {
-  //   Gdod.updateOne({ _id: req.body[0] }, { traininghistory: req.body[1] })
-  //     .then(orders => res.json(orders))
-  //     .catch(err => res.status(400).json('Error: ' + err));;
-  //   // console.log(req.body);
-  // }
+  Mahlaka.find({ ploga: req.body.ploga })
+    .sort({ index: 1 })
+    .then((orders) => res.json(orders))
+    .catch((err) => res.status(400).json("Error: " + err));
+  // console.log(req.body);
+};
+// exports.updatekshirot = (req, res) => {
+//   Gdod.updateOne({_id: req.body[0]},{kshirot:req.body[1]})
+//   .then(orders => res.json(orders))
+//   .catch(err => res.status(400).json('Error: ' + err));;
+//  // console.log(req.body);
+// }
+
+// exports.updatehistory = (req, res) => {
+//   Gdod.updateOne({_id: req.body[0]}, { $push: { history: req.body[1] } })
+//   .then(orders => res.json(orders))
+//   .catch(err => res.status(400).json('Error: ' + err));;
+//  // console.log(req.body);
+// }
+
+// exports.updatetraining = (req, res) => {
+//   Gdod.updateOne({_id: req.body[0]},{training:req.body[1]})
+//   .then(orders => res.json(orders))
+//   .catch(err => res.status(400).json('Error: ' + err));;
+//  // console.log(req.body);
+// }
+
+// exports.updatetraininghistory = (req, res) => {
+//   Gdod.updateOne({_id: req.body[0]}, { $push: { traininghistory: req.body[1] } })
+//   .then(orders => res.json(orders))
+//   .catch(err => res.status(400).json('Error: ' + err));;
+//  // console.log(req.body);
+// }
+
+// exports.updateallhistoryarray = (req, res) => {
+//   Gdod.updateOne({ _id: req.body[0] }, { history: req.body[1] })
+//     .then(orders => res.json(orders))
+//     .catch(err => res.status(400).json('Error: ' + err));;
+//   // console.log(req.body);
+// }
+
+// exports.updatealltraininghistoryarray = (req, res) => {
+//   Gdod.updateOne({ _id: req.body[0] }, { traininghistory: req.body[1] })
+//     .then(orders => res.json(orders))
+//     .catch(err => res.status(400).json('Error: ' + err));;
+//   // console.log(req.body);
+// }
