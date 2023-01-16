@@ -2,33 +2,34 @@ const express = require("express");
 const router = express.Router();
 
 const {
-  create,
-  find,
-  update,
-  remove,
-  findById,
-  findhativabyid,
+  findHativaByIdG,
+  findAll,
+  findHativaByIdP,
+  hativasByOgdaId,
+  createHativa,
+  updateHativa,
+  removeHativa,
   updateogda,
-  updategdods,
-  hativasbyogdaid,
+
 } = require("../../controllers/units/hativa");
 
 // find spec tipul
-router.get("/hativa/:id", findById);
-router.get("/hativa", find);
-//add pikod
-router.post("/hativa", create);
-//update pikod
-router.put("/hativa/:hativaId", update);
-//delete pikod
-router.delete("/hativa/:id", remove);
+router.get("/hativa/:id", findHativaByIdG);
+router.get("/hativa", findAll);
+router.post("/hativa/hativaById", findHativaByIdP);
+router.post("/hativa/hativasbyogdaid", hativasByOgdaId);
 
-// router.post("/hativa/hativabyid", findhativabyid);
+//add hativa
+router.post("/hativa/add", createHativa);
 
+//updates 
+router.put("/hativa/update/:id", updateHativa);
 router.post("/hativa/updateogda", updateogda);
 
-// router.post("/hativa/updategdods", updategdods);
+//delete hativa
+router.delete("/hativa/remove/:id", removeHativa);
 
-router.post("/hativa/hativasbyogdaid", hativasbyogdaid);
+
+// router.post("/hativa/updategdods", updategdods);
 
 module.exports = router;

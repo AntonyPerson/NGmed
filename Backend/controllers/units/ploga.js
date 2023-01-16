@@ -1,24 +1,44 @@
 const Ploga = require("../../models/units/ploga.model");
 
-exports.findById = async (req, res) => {
-  const ploga = await Ploga.findOne().where({ _id: req.params.id });
-
-  if (!ploga) {
-    res.status(500).json({ success: false });
-  }
-  res.send(ploga);
+exports.findPlogaByIdG = (req, res) => {
+  console.log(req.params.id);
+  Ploga.findById(req.params.id)
+    .then((request) => {
+      console.log(request);
+      res.json(request);
+    })
+    .catch((err) => res.status(400).json("Error: " + err));
 };
 
-exports.find = (req, res) => {
+exports.findAll = (req, res) => {
   Ploga.find()
     .sort({ index: 1 })
     .then((ploga) => res.json(ploga))
     .catch((err) => res.status(400).json("Error: " + err));
 };
 
-exports.create = (req, res) => {
-  const ploga = new Ploga(req.body);
-  ploga.save((err, data) => {
+exports.findPlogaByIdP = (req, res) => {
+  Ploga.find(req.body.id)
+    .then((job) => res.json(job))
+    .catch((err) => res.status(400).json("Error: " + err));
+};
+
+exports.plogaByGdodId = (req, res) => {
+  Ploga.find({ gdod: req.body.gdod })
+    .sort({ index: 1 })
+    .then((orders) => res.json(orders))
+    .catch((err) => res.status(400).json("Error: " + err));
+  // console.log(req.body);
+};
+
+exports.createPloga = (req, res) => {
+  // console.log(req.body);
+  const name = req.body.name;
+  const gdod = req.body.gdod;
+  // const index = req.body.index;
+
+  const ploga = new Ploga({ name, gdod });
+  ogda.save((err, data) => {
     if (err) {
       return res.status(400).json({
         error: err,
@@ -27,22 +47,20 @@ exports.create = (req, res) => {
     res.json(data);
   });
 };
-exports.update = (req, res) => {
-  const ploga = new Ploga(req.body);
-  Ploga.updateOne(ploga)
-    .then((ploga) => res.json(ploga))
-    .catch((err) => res.status(400).json("Error: " + err));
-};
 
-exports.remove = (req, res) => {
-  Ploga.deleteOne({ _id: req.params.id })
-    .then((ploga) => res.json(ploga))
-    .catch((err) => res.status(400).json("Error: " + err));
-};
-
-exports.findplogabyid = (req, res) => {
-  Ploga.find({ _id: req.body })
-    .then((job) => res.json(job))
+exports.updatePloga = (req, res) => {
+  // const index = req.body.index;
+  // console.log(req.body);
+  Ploga.findById(req.params.id)
+    .then((request) => {
+      request.name = req.body.name;
+      request.gdod = req.body.gdod;
+      // request.index = req.body.index;
+      request
+        .save()
+        .then(() => res.json(`Ploga updated!`))
+        .catch((err) => res.status(400).json("Error: " + err));
+    })
     .catch((err) => res.status(400).json("Error: " + err));
 };
 
@@ -53,13 +71,14 @@ exports.updategdod = (req, res) => {
   // console.log(req.body);
 };
 
-exports.plogabygdodid = (req, res) => {
-  Ploga.find({ gdod: req.body.gdod })
-    .sort({ index: 1 })
-    .then((orders) => res.json(orders))
+exports.removeGdod = (req, res) => {
+  Gdod.findByIdAndDelete(req.params.id)
+    .then((ogdot) => res.json(ogdot))
     .catch((err) => res.status(400).json("Error: " + err));
-  // console.log(req.body);
+    
 };
+
+
 // exports.updatekshirot = (req, res) => {
 //   Gdod.updateOne({_id: req.body[0]},{kshirot:req.body[1]})
 //   .then(orders => res.json(orders))

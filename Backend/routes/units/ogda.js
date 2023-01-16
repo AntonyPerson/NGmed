@@ -2,15 +2,15 @@ const express = require("express");
 const router = express.Router();
 
 const {
-  createOgda,
-  findAll,
-  updateOgda,
-  removeOgda,
   findOgdaByIdG,
-  updatePikod,
-  //   updatehativas,
-  ogdotByPikodId,
+  findAll,
   findOgdaByIdP,
+  ogdotByPikodId,
+  createOgda,
+  updateOgda,
+  updatePikod,
+  removeOgda, 
+
 } = require("../../controllers/units/ogda");
 
 // find spec tipul

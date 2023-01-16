@@ -1,24 +1,44 @@
 const Mahlaka = require("../../models/units/mahlaka.model");
 
-exports.findById = async (req, res) => {
-  const mahlaka = await Mahlaka.findOne().where({ _id: req.params.id });
-
-  if (!mahlaka) {
-    res.status(500).json({ success: false });
-  }
-  res.send(mahlaka);
+exports.findMahlakaByIdG = (req, res) => {
+  console.log(req.params.id);
+  Mahlaka.findById(req.params.id)
+    .then((request) => {
+      console.log(request);
+      res.json(request);
+    })
+    .catch((err) => res.status(400).json("Error: " + err));
 };
 
-exports.find = (req, res) => {
+exports.findAll = (req, res) => {
   Mahlaka.find()
     .sort({ index: 1 })
     .then((mahlaka) => res.json(mahlaka))
     .catch((err) => res.status(400).json("Error: " + err));
 };
 
-exports.create = (req, res) => {
-  const mahlaka = new Mahlaka(req.body);
-  mahlaka.save((err, data) => {
+exports.findMahlakaById = (req, res) => {
+  Mahlaka.find(req.body.id)
+    .then((job) => res.json(job))
+    .catch((err) => res.status(400).json("Error: " + err));
+};
+
+exports.mahlakaByPlogaId = (req, res) => {
+  Mahlaka.find({ ploga: req.body.ploga })
+    .sort({ index: 1 })
+    .then((orders) => res.json(orders))
+    .catch((err) => res.status(400).json("Error: " + err));
+  // console.log(req.body);
+};
+
+exports.createMahlaka = (req, res) => {
+  // console.log(req.body);
+  const name = req.body.name;
+  const ploga = req.body.ploga;
+  // const index = req.body.index;
+
+  const mahlaka = new Mahlaka({ name, ploga });
+  ogda.save((err, data) => {
     if (err) {
       return res.status(400).json({
         error: err,
@@ -27,38 +47,41 @@ exports.create = (req, res) => {
     res.json(data);
   });
 };
-exports.update = (req, res) => {
-  const mahlaka = new Mahlaka(req.body);
-  Mahlaka.updateOne(mahlaka)
-    .then((mahlaka) => res.json(mahlaka))
-    .catch((err) => res.status(400).json("Error: " + err));
-};
-
-exports.remove = (req, res) => {
-  Mahlaka.deleteOne({ _id: req.params.id })
-    .then((mahlaka) => res.json(mahlaka))
-    .catch((err) => res.status(400).json("Error: " + err));
-};
-
-exports.findmahlakabyid = (req, res) => {
-  Mahlaka.find({ _id: req.body })
-    .then((job) => res.json(job))
+exports.updateMahlaka = (req, res) => {
+  // const index = req.body.index;
+  // console.log(req.body);
+  Mahlaka.findById(req.params.id)
+    .then((request) => {
+      request.name = req.body.name;
+      request.ploga = req.body.ploga;
+      // request.index = req.body.index;
+      request
+        .save()
+        .then(() => res.json(`Mahlaka updated!`))
+        .catch((err) => res.status(400).json("Error: " + err));
+    })
     .catch((err) => res.status(400).json("Error: " + err));
 };
 
 exports.updateploga = (req, res) => {
-  Mahlaka.updateOne({ _id: req.body[0] }, { ploga: req.body[1] })
-    .then((orders) => res.json(orders))
-    .catch((err) => res.status(400).json("Error: " + err));
+   // const index = req.body.index;
   // console.log(req.body);
+  Mahlaka.findById(req.params.id)
+    .then((request) => {
+      request.ploga = req.body.ploga;
+      // request.index = req.body.index;
+      request
+        .save()
+        .then(() => res.json(`Mahlaka ploga was updated!`))
+        .catch((err) => res.status(400).json("Error: " + err));
+    })
+    .catch((err) => res.status(400).json("Error: " + err));
 };
 
-exports.mahlakabyplogaid = (req, res) => {
-  Mahlaka.find({ ploga: req.body.ploga })
-    .sort({ index: 1 })
-    .then((orders) => res.json(orders))
+exports.removeMahlaka = (req, res) => {
+  Mahlaka.findByIdAndDelete(req.params.id)
+    .then((ogdot) => res.json(ogdot))
     .catch((err) => res.status(400).json("Error: " + err));
-  // console.log(req.body);
 };
 // exports.updatekshirot = (req, res) => {
 //   Gdod.updateOne({_id: req.body[0]},{kshirot:req.body[1]})

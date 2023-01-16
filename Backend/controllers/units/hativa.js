@@ -1,21 +1,41 @@
 const Hativa = require("../../models/units/hativa.model");
 
-exports.findById = async (req, res) => {
-  const hativa = await Hativa.findOne().where({ _id: req.params.id });
-  if (!hativa) {
-    res.status(500).json({ success: false });
-  }
-  res.send(hativa);
+exports.findHativaByIdG = async (req, res) => {
+  console.log(req.params.id);
+  Hativa.findById(req.params.id)
+    .then((request) => {
+      console.log(request);
+      res.json(request);
+    })
+    .catch((err) => res.status(400).json("Error: " + err));
 };
-exports.find = (req, res) => {
+exports.findAll = (req, res) => {
   Hativa.find()
     .sort({ index: 1 })
     .then((hativa) => res.json(hativa))
     .catch((err) => res.status(400).json("Error: " + err));
 };
 
-exports.create = (req, res) => {
-  const hativa = new Hativa(req.body);
+exports.findHativaByIdP = (req, res) => {
+  Hativa.Hativa.findById(req.body.id)
+    .then((job) => res.json(job))
+    .catch((err) => res.status(400).json("Error: " + err));
+};
+
+exports.hativasByOgdaId = (req, res) => {
+  Hativa.find({ ogda: req.body.ogda })
+    .sort({ index: 1 })
+    .then((orders) => res.json(orders))
+    .catch((err) => res.status(400).json("Error: " + err));
+  // console.log(req.body);
+};
+
+exports.createHativa = (req, res) => {
+  const name = req.body.name;
+  const ogda = req.body.ogda;
+  // const index = req.body.index
+
+  const hativa = new Hativa({ name, ogda });
   hativa.save((err, data) => {
     if (err) {
       return res.status(400).json({
@@ -25,33 +45,44 @@ exports.create = (req, res) => {
     res.json(data);
   });
 };
-exports.update = (req, res) => {
-  const hativa = new Hativa(req.body);
-  Pikod.updateOne(hativa)
-    .then((hativa) => res.json(hativa))
-    .catch((err) => res.status(400).json("Error: " + err));
-};
-
-exports.remove = (req, res) => {
-  Hativa.deleteOne({ _id: req.params.id })
-    .then((hativa) => res.json(hativa))
+exports.updateHativa = (req, res) => {
+   // const index = req.body.index;
+  // console.log(req.body);
+  Hativa.findById(req.params.id)
+    .then((request) => {
+      request.name = req.body.name;
+      request.ogda = req.body.ogda;
+      // request.index = req.body.index;
+      request
+        .save()
+        .then(() => res.json(`Hativa updated!`))
+        .catch((err) => res.status(400).json("Error: " + err));
+    })
     .catch((err) => res.status(400).json("Error: " + err));
 };
 
 exports.updateogda = (req, res) => {
-  Hativa.updateOne({ _id: req.body[0] }, { ogda: req.body[1] })
-    .then((orders) => res.json(orders))
-    .catch((err) => res.status(400).json("Error: " + err));
+  // const index = req.body.index;
   // console.log(req.body);
+  Hativa.findById(req.params.id)
+    .then((request) => {
+      request.ogda = req.body.ogda;
+      // request.index = req.body.index;
+      request
+        .save()
+        .then(() => res.json(`Hativa ogda was updated!`))
+        .catch((err) => res.status(400).json("Error: " + err));
+    })
+    .catch((err) => res.status(400).json("Error: " + err));
 };
 
-exports.hativasbyogdaid = (req, res) => {
-  Hativa.find({ ogda: req.body.ogda })
-    .sort({ index: 1 })
-    .then((orders) => res.json(orders))
-    .catch((err) => res.status(400).json("Error: " + err));
-  // console.log(req.body);
+exports.removeHativa = (req, res) => {
+  Hativa.deleteOne(req.params.id)
+    .then((hativa) => res.json(hativa))
+    .catch((err) => res.status(400).json("Error: " + err))
+    
 };
+
 
 // exports.updategdods = (req, res) => {
 //   Hativa.updateOne({ _id: req.body[0] }, { gdod: req.body[1] })

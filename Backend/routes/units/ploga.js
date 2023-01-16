@@ -2,30 +2,30 @@ const express = require("express");
 const router = express.Router();
 
 const {
-  create,
-  find,
-  update,
-  remove,
-  findById,
-  findplogabyid,
+  findPlogaByIdG,
+  findAll,
+  findPlogaByIdP,
+  plogaByGdodId,
+  createPloga,
+  updatePloga,
   updategdod,
-  plogabygdodid,
+  removeGdod,
 } = require("../../controllers/units/ploga");
 
 // find spec
-router.get("/ploga/:id", findById);
-router.get("/ploga", find);
+router.get("/ploga/:id", findPlogaByIdG);
+router.get("/ploga", findAll);
+router.post("/ploga/PlogaByIdP", findPlogaByIdP);
+router.post("/ploga/plogaByGdodId", plogaByGdodId);
+
 //add
-router.post("/ploga", create); /**/
+router.post("/ploga/add", createPloga); /**/
+
 //update
-router.put("/ploga/:gdodId", update);
+router.put("/ploga/update/:id", updatePloga);
+router.post("/ploga/update/updatGdod", updategdod);
+
 //delete
-router.delete("/ploga/:id", remove);
-
-router.post("/ploga/plogabyid", findplogabyid);
-
-router.post("/ploga/updategdod", updategdod);
-
-router.post("/ploga/plogabygdodid", plogabygdodid);
+router.delete("/ploga/remove/:id", removeGdod);
 
 module.exports = router;

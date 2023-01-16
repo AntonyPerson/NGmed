@@ -2,30 +2,29 @@ const express = require("express");
 const router = express.Router();
 
 const {
-  create,
-  find,
-  update,
-  remove,
-  findById,
-  findmahlakabyid,
+  findMahlakaByIdG,
+  findAll,
+  findMahlakaById,
+  mahlakaByPlogaId,
+  createMahlaka,
+  updateMahlaka,
   updateploga,
-  mahlakabyplogaid,
+  removeMahlaka,
 } = require("../../controllers/units/mahlaka");
 
 // find spec
-router.get("/mahlaka/:id", findById);
-router.get("/mahlaka", find);
+router.get("/mahlaka/:id", findMahlakaByIdG);
+router.get("/mahlaka", findAll);
+router.post("/mahlaka/findMahlakaById", findMahlakaById);
+router.post("/mahlaka/mahlakaByPlogaId", mahlakaByPlogaId);
+
 //add
-router.post("/mahlaka", create); /**/
+router.post("/mahlaka", createMahlaka); /**/
+
 //update
-router.put("/mahlaka/:mahlakaId", update);
-//delete
-router.delete("/mahlaka/:id", remove);
-
-router.post("/mahlaka/mahlakabyid", findmahlakabyid);
-
+router.put("/mahlaka/:mahlakaId", updateMahlaka);
 router.post("/mahlaka/updateploga", updateploga);
 
-router.post("/mahlaka/mahlakabyplogaid", mahlakabyplogaid);
-
+//delete
+router.delete("/mahlaka/:id", removeMahlaka);
 module.exports = router;
