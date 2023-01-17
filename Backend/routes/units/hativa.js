@@ -9,8 +9,7 @@ const {
   createHativa,
   updateHativa,
   removeHativa,
-  updateogda,
-
+  updateOgda,
 } = require("../../controllers/units/hativa");
 
 // find spec tipul
@@ -22,13 +21,12 @@ router.post("/hativa/hativasbyogdaid", hativasByOgdaId);
 //add hativa
 router.post("/hativa/add", createHativa);
 
-//updates 
+//updates
 router.put("/hativa/update/:id", updateHativa);
-router.post("/hativa/updateogda", updateogda);
+router.post("/hativa/updateogda", updateOgda);
 
 //delete hativa
 router.delete("/hativa/remove/:id", removeHativa);
-
 
 // router.post("/hativa/updategdods", updategdods);
 

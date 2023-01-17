@@ -1,3 +1,4 @@
+/* eslint-disable no-underscore-dangle */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/jsx-props-no-spreading */
@@ -19,61 +20,59 @@
 /* eslint-disable no-unused-vars */
 // TODO check mult-files
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
-import MDInput from "components/MDInput";
-import MDButton from "components/MDButton";
-import Icon from "@mui/material/Icon";
-import Popup from "reactjs-popup";
-import Dropzone from "react-dropzone-uploader";
-import NativeSelect from "@mui/material/NativeSelect";
 import Box from "@mui/material/Box";
 import Button from "@mui/material/Button";
+import Icon from "@mui/material/Icon";
+import NativeSelect from "@mui/material/NativeSelect";
+import MDBox from "components/MDBox";
+import MDButton from "components/MDButton";
+import MDInput from "components/MDInput";
+import MDTypography from "components/MDTypography";
+import Dropzone from "react-dropzone-uploader";
+import Popup from "reactjs-popup";
 // import Dialog from "@mui/material/Dialog";
 import DialogActions from "@mui/material/DialogActions";
 // import DialogContent from "@mui/material/DialogContent";
 // import DialogTitle from "@mui/material/DialogTitle";
-import InputLabel from "@mui/material/InputLabel";
-import OutlinedInput from "@mui/material/OutlinedInput";
-import MenuItem from "@mui/material/MenuItem";
 import FormControl from "@mui/material/FormControl";
+import InputLabel from "@mui/material/InputLabel";
+import MenuItem from "@mui/material/MenuItem";
+import OutlinedInput from "@mui/material/OutlinedInput";
 
 // Material Dashboard 2 React example components
+import Footer from "examples/Footer";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import Footer from "examples/Footer";
 
-import React, { useState, useEffect } from "react";
-import { Link, Navigate } from "react-router-dom";
-import axios from "axios";
-import { DragDropContext, Droppable, Draggable } from "react-beautiful-dnd";
 import { Upload } from "antd-upload";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { DragDropContext, Draggable, Droppable } from "react-beautiful-dnd";
+import { Link, Navigate } from "react-router-dom";
 // import { multipleFilesUpload } from "../../data/api";
 
-import {
-  // Button,
-  Card,
-  CardHeader,
-  Container,
-  CardBody,
-  FormGroup,
-  Form,
-  FormText,
-  InputGroupAddon,
-  Input,
-  InputGroupText,
-  InputGroup,
-  Row,
-  Col,
-  Label,
-} from "reactstrap";
 import TextareaAutosize from "@mui/base/TextareaAutosize";
-import { ToastContainer, toast, Icons } from "react-toastify";
 import { useDropzone } from "react-dropzone";
+import { Icons, toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
+import {
+  Card,
+  CardBody,
+  CardHeader,
+  Col,
+  Container,
+  Form,
+  FormGroup,
+  FormText,
+  Input,
+  InputGroup,
+  InputGroupAddon,
+  InputGroupText,
+  Label,
+  Row,
+} from "reactstrap";
 
 // Material Dashboard 2 React Components
-import MDAlert from "components/MDAlert";
 import {
   Dialog,
   DialogContent,
@@ -83,12 +82,13 @@ import {
   Select,
   Switch,
 } from "@mui/material";
-import { DropzoneArea } from "react-mui-dropzone";
-import { DropzoneAreaBase } from "material-ui-dropzone";
+import MDAlert from "components/MDAlert";
 import userFielsTable from "layouts/tables/userFielsTable";
+import { DropzoneAreaBase } from "material-ui-dropzone";
+import { DropzoneArea } from "react-mui-dropzone";
 
 // user and auth import
-import { signin, authenticate, isAuthenticated } from "auth/index";
+import { authenticate, isAuthenticated, signin } from "auth/index";
 import * as xlsx from "xlsx/xlsx.mjs";
 const { user } = isAuthenticated();
 // console.log("Hozla Print Request Form");
@@ -112,12 +112,19 @@ export default function ExcelToJasonFileUploader(props) {
 
     publicFile: true,
 
-    pikod: "צפון",
-    ogda: "אוגדה1",
+    pikod: "",
+    ogda: "",
     hativa: "",
     gdod: "",
     ploga: "",
     mahlaka: "",
+
+    pikodName: "",
+    ogdaName: "",
+    hativaName: "",
+    gdodName: "",
+    plogaName: "",
+    mahlakaName: "",
 
     error: false,
     successmsg: false,
@@ -130,13 +137,71 @@ export default function ExcelToJasonFileUploader(props) {
   const [plogot, setPlogot] = useState([]);
   const [mahlakot, setMahlakot] = useState([]);
 
+  // ? Get all Gdods of the same Hativa
+  useEffect(() => {
+    if (dataDB.hativa !== "") {
+      axios
+        .post(`http://localhost:5000/NGmedDB/treeMangment/gdod/gdodsByHativaId`, {
+          hativa: dataDB.hativa,
+        })
+        .then((response) => {
+          console.log(response.data);
+          if (response.data.length !== 0 || response.data.length !== undefined) {
+            setGdods(response.data);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [dataDB.hativa]);
+
+  // ? Get all Plogot of the same Gdod
+  useEffect(() => {
+    if (dataDB.gdod !== "") {
+      axios
+        .post(`http://localhost:5000/NGmedDB/treeMangment/ploga/plogaByGdodId`, {
+          gdod: dataDB.gdod,
+        })
+        .then((response) => {
+          console.log(response.data);
+          if (response.data.length !== 0 || response.data.length !== undefined) {
+            setPlogot(response.data);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [dataDB.gdod]);
+
+  // ? Get all Mahlakot of the same Ploga
+  useEffect(() => {
+    if (dataDB.ploga !== "") {
+      axios
+        .post(`http://localhost:5000/NGmedDB/treeMangment/mahlaka/mahlakaByPlogaId`, {
+          ploga: dataDB.ploga,
+        })
+        .then((response) => {
+          console.log(response.data);
+          if (response.data.length !== 0 || response.data.length !== undefined) {
+            setMahlakot(response.data);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+  }, [dataDB.ploga]);
+
   useEffect(() => {
     if (props.task === "update") {
       axios
         .get(`http://localhost:5000/NGmedDB/ExcelData/ExcelInfo/${props.fileID}`)
         .then((response) => {
           console.log("==================================");
-          console.log();
+          console.log(response.data);
+          console.log("==================================");
           setDataDB({
             ...dataDB,
             fileName: response.data.fileName,
@@ -148,6 +213,12 @@ export default function ExcelToJasonFileUploader(props) {
             gdod: response.data.gdod,
             ploga: response.data.ploga,
             mahlaka: response.data.mahlaka,
+            pikodName: response.data.pikodName,
+            ogdaName: response.data.ogdaName,
+            hativaName: response.data.hativaName,
+            gdodName: response.data.gdodName,
+            plogaName: response.data.plogaName,
+            mahlakaName: response.data.mahlakaName,
           });
         })
         .catch((error) => {
@@ -305,6 +376,46 @@ export default function ExcelToJasonFileUploader(props) {
     const { value } = evt.target;
     setDataDB({ ...dataDB, [evt.target.name]: value });
   }
+
+  function handleChangeMangmentTreeSelect(evt) {
+    const { value, name } = evt.target;
+    const op = document.querySelector(`#${name}`);
+    let id;
+
+    let nameOfTree = "";
+    let valueName = "";
+
+    if (name === "pikod") {
+      nameOfTree = "pikodName";
+      valueName = "צפון";
+    } else if (name === "ogda") {
+      nameOfTree = "ogdaName";
+      valueName = "אוגדה1";
+    } else if (name === "hativa") {
+      nameOfTree = "hativaName";
+      valueName = "גולני";
+    } else if (name === "gdod") {
+      nameOfTree = "gdodName";
+      if (gdods.length !== 0) {
+        id = op.options[op.selectedIndex].id;
+        valueName = gdods[id].name;
+      }
+    } else if (name === "ploga") {
+      nameOfTree = "plogaName";
+      if (plogot.length !== 0) {
+        id = op.options[op.selectedIndex].id;
+        valueName = plogot[id].name;
+      }
+    } else if (name === "mahlaka") {
+      nameOfTree = "mahlakaName";
+      if (mahlakot.length !== 0) {
+        id = op.options[op.selectedIndex].id;
+        valueName = mahlakot[id].name;
+      }
+    }
+    setDataDB({ ...dataDB, [name]: value, [nameOfTree]: valueName });
+  }
+
   function handleChangeSwitch(evt) {
     // const { checked } = evt.target;
     setDataDB({ ...dataDB, [evt.target.name]: evt.target.checked });
@@ -361,6 +472,12 @@ export default function ExcelToJasonFileUploader(props) {
       gdod: dataDB.gdod,
       ploga: dataDB.ploga,
       mahlaka: dataDB.mahlaka,
+      pikodName: dataDB.pikodName,
+      ogdaName: dataDB.ogdaName,
+      hativaName: dataDB.hativaName,
+      gdodName: dataDB.gdodName,
+      plogaName: dataDB.plogaName,
+      mahlakaName: dataDB.mahlakaName,
     };
     const requestDataToUpdate = {
       fileName: dataDB.fileName,
@@ -372,8 +489,13 @@ export default function ExcelToJasonFileUploader(props) {
       gdod: dataDB.gdod,
       ploga: dataDB.ploga,
       mahlaka: dataDB.mahlaka,
+      pikodName: dataDB.pikodName,
+      ogdaName: dataDB.ogdaName,
+      hativaName: dataDB.hativaName,
+      gdodName: dataDB.gdodName,
+      plogaName: dataDB.plogaName,
+      mahlakaName: dataDB.mahlakaName,
     };
-    // console.log(requestData);
     if (props.task === "create") {
       axios
         .post(`http://localhost:5000/NGmedDB/ExcelData/add`, requestData)
@@ -496,17 +618,16 @@ export default function ExcelToJasonFileUploader(props) {
                       <Input
                         // placeholder={textPlaceHolderInputs[5]}
                         name="pikod"
+                        id="pikod"
                         type="select"
                         value={dataDB.pikod}
-                        onChange={handleChange}
+                        onChange={handleChangeMangmentTreeSelect}
                         required
                       >
-                        <option defult value="1">
-                          שמור
+                        <option defult value="" disabled>
+                          בחר
                         </option>
-                        <option value="0">בלמ"ס</option>
-                        <option value="2">סודי</option>
-                        {/* <option value="3">סודי ביותר</option> */}
+                        <option value="63bfd8b0128c3fc55027930c">צפון</option>
                       </Input>
                     </FormGroup>
                   </Col>
@@ -516,17 +637,16 @@ export default function ExcelToJasonFileUploader(props) {
                       <Input
                         // placeholder={textPlaceHolderInputs[5]}
                         name="ogda"
+                        id="ogda"
                         type="select"
                         value={dataDB.ogda}
-                        onChange={handleChange}
+                        onChange={handleChangeMangmentTreeSelect}
                         required
                       >
-                        <option defult value="1">
-                          שמור
+                        <option defult value="" disabled>
+                          בחר
                         </option>
-                        <option value="0">בלמ"ס</option>
-                        <option value="2">סודי</option>
-                        {/* <option value="3">סודי ביותר</option> */}
+                        <option value="63be8b4af3509cdcccdee91b">אוגדה1</option>
                       </Input>
                     </FormGroup>
                   </Col>
@@ -538,15 +658,13 @@ export default function ExcelToJasonFileUploader(props) {
                         name="hativa"
                         type="select"
                         value={dataDB.hativa}
-                        onChange={handleChange}
+                        onChange={handleChangeMangmentTreeSelect}
                         required
                       >
-                        <option defult value="">
+                        <option defult value="" disabled>
                           בחר
                         </option>
-                        <option value="0">בלמ"ס</option>
-                        <option value="2">סודי</option>
-                        {/* <option value="3">סודי ביותר</option> */}
+                        <option value="63be8ba2f3509cdcccdee91f">גולני</option>
                       </Input>
                     </FormGroup>
                   </Col>
@@ -558,18 +676,21 @@ export default function ExcelToJasonFileUploader(props) {
                       <Input
                         // placeholder={textPlaceHolderInputs[5]}
                         name="gdod"
+                        id="gdod"
                         type="select"
                         value={dataDB.gdod}
-                        onChange={handleChange}
+                        onChange={handleChangeMangmentTreeSelect}
                         required
                         disabled={dataDB.hativa === ""}
                       >
                         <option defult value="" disabled>
                           בחר
                         </option>
-                        <option value="0">בלמ"ס</option>
-                        <option value="2">סודי</option>
-                        {/* <option value="3">סודי ביותר</option> */}
+                        {gdods.map((gdod, index) => (
+                          <option id={index} key={index} value={gdod._id}>
+                            {gdod.name}
+                          </option>
+                        ))}
                       </Input>
                     </FormGroup>
                   </Col>
@@ -578,19 +699,22 @@ export default function ExcelToJasonFileUploader(props) {
                       <Label for="ploga">פלוגה</Label>
                       <Input
                         // placeholder={textPlaceHolderInputs[5]}
+                        id="ploga"
                         name="ploga"
                         type="select"
                         value={dataDB.ploga}
-                        onChange={handleChange}
+                        onChange={handleChangeMangmentTreeSelect}
                         required
                         disabled={dataDB.gdod === ""}
                       >
                         <option defult value="" disabled>
                           בחר
                         </option>
-                        <option value="0">בלמ"ס</option>
-                        <option value="2">סודי</option>
-                        {/* <option value="3">סודי ביותר</option> */}
+                        {plogot.map((ploga, index) => (
+                          <option key={index} id={index} value={ploga._id}>
+                            {ploga.name}
+                          </option>
+                        ))}
                       </Input>
                     </FormGroup>
                   </Col>
@@ -599,19 +723,22 @@ export default function ExcelToJasonFileUploader(props) {
                       <Label for="mahlaka">מחלקה</Label>
                       <Input
                         // placeholder={textPlaceHolderInputs[5]}
+                        id="mahlaka"
                         name="mahlaka"
                         type="select"
                         value={dataDB.mahlaka}
-                        onChange={handleChange}
+                        onChange={handleChangeMangmentTreeSelect}
                         required
                         disabled={dataDB.ploga === ""}
                       >
                         <option defult value="" disabled>
                           בחר
                         </option>
-                        <option value="0">בלמ"ס</option>
-                        <option value="2">סודי</option>
-                        {/* <option value="3">סודי ביותר</option> */}
+                        {mahlakot.map((mahlaka, index) => (
+                          <option key={index} id={index} value={mahlaka._id}>
+                            {mahlaka.name}
+                          </option>
+                        ))}
                       </Input>
                     </FormGroup>
                   </Col>

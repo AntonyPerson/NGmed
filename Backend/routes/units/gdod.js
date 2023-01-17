@@ -2,7 +2,7 @@ const express = require("express");
 const router = express.Router();
 
 const {
-  removeGdod,
+  findGdodByIdG,
   findAll,
   findGdodByIdP,
   gdodsByHativaId,
@@ -10,17 +10,16 @@ const {
   updateGdod,
   updatehativa,
   removeGdod,
-
 } = require("../../controllers/units/gdod");
 
 // find spec
-router.get("/gdod/:id", removeGdod);
+router.get("/gdod/:id", findGdodByIdG);
 router.get("/gdod", findAll);
 router.post("/gdod/findGdodById", findGdodByIdP);
-router.post("/gdod/gdodsbyhativaid", gdodsByHativaId);
+router.post("/gdod/gdodsByHativaId", gdodsByHativaId);
 
 //add
-router.post("/gdod/add", createGdod); 
+router.post("/gdod/add", createGdod);
 
 //update
 router.put("/gdod/update/:id", updateGdod);

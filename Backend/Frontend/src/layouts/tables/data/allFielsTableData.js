@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
@@ -26,14 +27,14 @@ import Icon from "@mui/material/Icon";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 // import MDAvatar from "components/MDAvatar";
-import MDProgress from "components/MDProgress";
-import { useEffect, useState } from "react";
 import axios from "axios";
 import MDButton from "components/MDButton";
+import MDProgress from "components/MDProgress";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 // user and auth import
-import { signin, authenticate, isAuthenticated } from "auth/index";
+import { authenticate, isAuthenticated, signin } from "auth/index";
 import MDBadge from "components/MDBadge";
 
 const { user } = isAuthenticated();
@@ -59,6 +60,37 @@ export default function data() {
     // project: <Project image={LogoAsana} name="Asana" />,
     // fileID: excelFile._id,
     fileName: excelFile.fileName,
+    mangmentTree: (
+      <>
+        <MDBadge
+          badgeContent={excelFile.gdodName}
+          // size="sm"
+          variant="contained"
+          container
+          color="success"
+        />
+        <Icon sx={{ pt: 0.7 }} fontSize="medium">
+          keyboard_backspace
+        </Icon>
+        <MDBadge
+          badgeContent={excelFile.plogaName}
+          // size="sm"
+          color="secondary"
+          variant="contained"
+          container
+        />
+        <Icon sx={{ pt: 0.7 }} fontSize="medium">
+          keyboard_backspace
+        </Icon>
+        <MDBadge
+          badgeContent={excelFile.mahlakaName}
+          // size="sm"
+          color="mekatnar"
+          variant="contained"
+          container
+        />
+      </>
+    ),
     authersPersonalnumber: excelFile.personalnumber,
     watchCount: excelFile.watchCount,
     // fileDateRange: `${excelFile.fileJason[1].calendarDate} ==> ${
@@ -90,6 +122,7 @@ export default function data() {
     columns: [
       // { Header: "אסמכתא", accessor: "fileID", align: "center" },
       { Header: "שם הקובץ", accessor: "fileName", align: "left" },
+      { Header: "שייכות", accessor: "mangmentTree", align: "center" },
       { Header: "מספר אישי של מעלה הקובץ", accessor: "authersPersonalnumber", align: "left" },
       { Header: "מספר שעונים שנפרקו", accessor: "watchCount", align: "center" },
       { Header: "טווח תאריכים", accessor: "fileDateRange", align: "center" },

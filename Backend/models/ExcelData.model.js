@@ -21,6 +21,13 @@ const ExcelDataSchema = new mongoose.Schema(
     ploga: { type: String, required: true },
     mahlaka: { type: String, required: true },
 
+    pikodName: { type: String, required: true },
+    ogdaName: { type: String, required: true },
+    hativaName: { type: String, required: true },
+    gdodName: { type: String, required: true },
+    plogaName: { type: String, required: true },
+    mahlakaName: { type: String, required: true },
+
     personalnumber: { type: String, required: true },
   },
   { timestamps: true }

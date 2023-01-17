@@ -46,7 +46,7 @@ exports.createHativa = (req, res) => {
   });
 };
 exports.updateHativa = (req, res) => {
-   // const index = req.body.index;
+  // const index = req.body.index;
   // console.log(req.body);
   Hativa.findById(req.params.id)
     .then((request) => {
@@ -61,7 +61,7 @@ exports.updateHativa = (req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 };
 
-exports.updateogda = (req, res) => {
+exports.updateOgda = (req, res) => {
   // const index = req.body.index;
   // console.log(req.body);
   Hativa.findById(req.params.id)
@@ -77,12 +77,10 @@ exports.updateogda = (req, res) => {
 };
 
 exports.removeHativa = (req, res) => {
-  Hativa.deleteOne(req.params.id)
+  Hativa.findByIdAndRemove(req.params.id)
     .then((hativa) => res.json(hativa))
-    .catch((err) => res.status(400).json("Error: " + err))
-    
+    .catch((err) => res.status(400).json("Error: " + err));
 };
-
 
 // exports.updategdods = (req, res) => {
 //   Hativa.updateOne({ _id: req.body[0] }, { gdod: req.body[1] })

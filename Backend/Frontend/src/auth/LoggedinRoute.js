@@ -1,24 +1,26 @@
-import React from 'react'
-import { Route, Redirect } from 'react-router-dom'
-import {isAuthenticated} from './index';
-
+/* eslint-disable react/prop-types */
 import LoggedinLayout from "layouts/LoggedinLayout";
+import React from "react";
+import { Redirect, Route } from "react-router-dom";
+import { isAuthenticated } from "./index";
 
-const LoggedinRoute = ({ component: Component, ...rest }) => (
+function LoggedinRoute({ component: Component, ...rest }) {
+  return (
     <Route
-        {...rest}
-        render ={ props =>
-            isAuthenticated() && (isAuthenticated().user.validated===true)? (
-                <LoggedinLayout component={Component}/>
-            ) : (
-                <Redirect to = {{
-                    pathname:"/signin",
-                    state: {from: props.location}
-    
-                }}
-                />
-            )
-        }
+      {...rest}
+      render={(props) =>
+        isAuthenticated() && isAuthenticated().user.validated === true ? (
+          <LoggedinLayout component={Component} />
+        ) : (
+          <Redirect
+            to={{
+              pathname: "/signin",
+              state: { from: props.location },
+            }}
+          />
+        )
+      }
     />
-)
+  );
+}
 export default LoggedinRoute;

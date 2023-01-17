@@ -26,16 +26,16 @@ import Icon from "@mui/material/Icon";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 // import MDAvatar from "components/MDAvatar";
-import MDProgress from "components/MDProgress";
-import { useEffect, useState } from "react";
 import axios from "axios";
 import MDButton from "components/MDButton";
+import MDProgress from "components/MDProgress";
+import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 
 // user and auth import
-import { signin, authenticate, isAuthenticated } from "auth/index";
-import MDBadge from "components/MDBadge";
 import { Dialog, DialogContent } from "@mui/material";
+import { authenticate, isAuthenticated, signin } from "auth/index";
+import MDBadge from "components/MDBadge";
 import ExcelToJasonFileUploader from "layouts/Forms/ExcelToJasonFileUploader";
 
 const { user } = isAuthenticated();
@@ -70,6 +70,37 @@ export default function data() {
       <>
         <MDBadge
           badgeContent={excelFile.publicFile ? "ציבורי" : "פרטי"}
+          variant="contained"
+          container
+        />
+      </>
+    ),
+    mangmentTree: (
+      <>
+        <MDBadge
+          badgeContent={excelFile.gdodName}
+          // size="sm"
+          variant="contained"
+          container
+          color="success"
+        />
+        <Icon sx={{ pt: 0.7 }} fontSize="medium">
+          keyboard_backspace
+        </Icon>
+        <MDBadge
+          badgeContent={excelFile.plogaName}
+          // size="sm"
+          color="secondary"
+          variant="contained"
+          container
+        />
+        <Icon sx={{ pt: 0.7 }} fontSize="medium">
+          keyboard_backspace
+        </Icon>
+        <MDBadge
+          badgeContent={excelFile.mahlakaName}
+          // size="sm"
+          color="mekatnar"
           variant="contained"
           container
         />
@@ -143,6 +174,7 @@ export default function data() {
       // { Header: "אסמכתא", accessor: "fileID", align: "center" },
       { Header: "שם הקובץ", accessor: "fileName", align: "left" },
       { Header: "פרטי / ציבורי", accessor: "isPublic", align: "left" },
+      { Header: "שייכות", accessor: "mangmentTree", align: "center" },
       { Header: "מספר שעונים שנפרקו", accessor: "watchCount", align: "center" },
       { Header: "טווח תאריכים", accessor: "fileDateRange", align: "center" },
       { Header: "נתוני הקובץ", accessor: "graphs", align: "center" },

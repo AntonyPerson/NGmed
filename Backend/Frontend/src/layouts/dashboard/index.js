@@ -22,12 +22,12 @@ import Grid from "@mui/material/Grid";
 import MDBox from "components/MDBox";
 
 // Material Dashboard 2 React example components
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import Footer from "examples/Footer";
+import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
 import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
 import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
-import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
+import Footer from "examples/Footer";
+import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 
 import PieChart from "examples/Charts/PieChart";
 // Data
@@ -35,15 +35,33 @@ import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
 import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
 
 // Dashboard components
-import Projects from "layouts/dashboard/components/Projects";
+import { Tab } from "@mui/material";
+import MDTypography from "components/MDTypography";
 import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
+import Projects from "layouts/dashboard/components/Projects";
+import Header from "layouts/profile/components/Header";
+import PlatformSettings from "layouts/profile/components/PlatformSettings";
+import { useEffect, useMemo, useState } from "react";
+import DashboardHeader from "./components/DashboardHeader";
 
 function Dashboard() {
   const { sales, tasks } = reportsLineChartData;
+  const [tabView, setTabView] = useState(JSON.parse(localStorage.getItem("dashboardView")));
+
+  // useMemo(() => {
+  //   if (typeof window !== "undefined") {
+  //     setTabView(JSON.parse(localStorage.getItem("dashboardView")));
+  //     console.log("=====================================");
+  //   }
+  // }, [localStorage.getItem("dashboardView")]);
 
   return (
     <DashboardLayout>
-      <DashboardNavbar />
+      {/* <DashboardNavbar /> */}
+      <DashboardHeader />
+      <MDTypography color="mekatnar" variant="h4" fontWeight="medium">
+        {tabView.tabIndexName}
+      </MDTypography>
       <MDBox py={3}>
         <Grid container spacing={3}>
           <Grid item xs={12} md={6} lg={3}>
