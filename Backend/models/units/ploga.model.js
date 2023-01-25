@@ -4,6 +4,7 @@ const { ObjectId } = mongoose.Schema;
 const plogaSchema = new mongoose.Schema({
   name: { type: String },
   gdod: { type: String },
+  hativa: { type: String },
   index: { type: Number },
   // sadir:{type:String},
 });

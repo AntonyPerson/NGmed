@@ -31,14 +31,23 @@ exports.mahlakaByPlogaId = (req, res) => {
   // console.log(req.body);
 };
 
+exports.mahlakaByHativaId = (req, res) => {
+  Mahlaka.find({ hativa: req.body.hativa })
+    .sort({ index: 1 })
+    .then((orders) => res.json(orders))
+    .catch((err) => res.status(400).json("Error: " + err));
+  // console.log(req.body);
+};
+
 exports.createMahlaka = (req, res) => {
   // console.log(req.body);
   const name = req.body.name;
   const ploga = req.body.ploga;
+  const hativa = req.body.hativa;
   // const index = req.body.index;
 
-  const mahlaka = new Mahlaka({ name, ploga });
-  ogda.save((err, data) => {
+  const mahlaka = new Mahlaka({ name, ploga, hativa });
+  mahlaka.save((err, data) => {
     if (err) {
       return res.status(400).json({
         error: err,
@@ -54,6 +63,7 @@ exports.updateMahlaka = (req, res) => {
     .then((request) => {
       request.name = req.body.name;
       request.ploga = req.body.ploga;
+      request.hativa = req.body.hativa;
       // request.index = req.body.index;
       request
         .save()
@@ -63,8 +73,8 @@ exports.updateMahlaka = (req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 };
 
-exports.updateploga = (req, res) => {
-   // const index = req.body.index;
+exports.updatePloga = (req, res) => {
+  // const index = req.body.index;
   // console.log(req.body);
   Mahlaka.findById(req.params.id)
     .then((request) => {
@@ -73,6 +83,20 @@ exports.updateploga = (req, res) => {
       request
         .save()
         .then(() => res.json(`Mahlaka ploga was updated!`))
+        .catch((err) => res.status(400).json("Error: " + err));
+    })
+    .catch((err) => res.status(400).json("Error: " + err));
+};
+exports.updateHativa = (req, res) => {
+  // const index = req.body.index;
+  // console.log(req.body);
+  Mahlaka.findById(req.params.id)
+    .then((request) => {
+      request.hativa = req.body.hativa;
+      // request.index = req.body.index;
+      request
+        .save()
+        .then(() => res.json(`Mahlaka hativa was updated!`))
         .catch((err) => res.status(400).json("Error: " + err));
     })
     .catch((err) => res.status(400).json("Error: " + err));

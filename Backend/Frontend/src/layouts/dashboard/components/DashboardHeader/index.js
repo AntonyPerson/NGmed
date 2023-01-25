@@ -1,3 +1,6 @@
+/* eslint-disable react/no-unused-prop-types */
+/* eslint-disable react/destructuring-assignment */
+/* eslint-disable react/prop-types */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable no-unused-vars */
 /**
@@ -45,9 +48,9 @@ import { authenticate, isAuthenticated, signout } from "auth/index";
 
 const { user } = isAuthenticated();
 
-function DashboardHeader({ children }) {
+function DashboardHeader(props, { children }) {
   const [tabsOrientation, setTabsOrientation] = useState("horizontal");
-  const [tabValue, setTabValue] = useState(0);
+  const [tabValue, setTabValue] = useState(props.tabViewValue);
 
   const [loggedInUser, setLoggedInUser] = useState("אורח");
   useEffect(() => {
@@ -66,9 +69,9 @@ function DashboardHeader({ children }) {
     } else {
       setLoggedInUser("אורח");
     }
-    if (typeof window !== "undefined") {
-      localStorage.setItem("dashboardView", JSON.stringify({ tabIndexName: "מחלקה", tabIndex: 0 }));
-    }
+    // if (typeof window !== "undefined") {
+    //   localStorage.setItem("dashboardView", JSON.stringify({ tabIndexName: "מחלקה", tabIndex: 0 }));
+    // }
   }, []);
 
   const loggedInUserString = `ברוך הבא ${loggedInUser}`;
@@ -106,9 +109,10 @@ function DashboardHeader({ children }) {
       tabIndexName = "חטיבה";
     }
     setTabValue(tabIndex);
-    if (typeof window !== "undefined") {
-      localStorage.setItem("dashboardView", JSON.stringify({ tabIndexName, tabIndex }));
-    }
+    props.setTabViewValue(tabIndex);
+    // if (typeof window !== "undefined") {
+    //   localStorage.setItem("dashboardView", JSON.stringify({ tabIndexName, tabIndex }));
+    // }
   };
 
   return (

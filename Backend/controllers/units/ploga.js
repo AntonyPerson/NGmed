@@ -31,14 +31,23 @@ exports.plogaByGdodId = (req, res) => {
   // console.log(req.body);
 };
 
+exports.plogaByHativaId = (req, res) => {
+  Ploga.find({ hativa: req.body.hativa })
+    .sort({ index: 1 })
+    .then((orders) => res.json(orders))
+    .catch((err) => res.status(400).json("Error: " + err));
+  // console.log(req.body);
+};
+
 exports.createPloga = (req, res) => {
   // console.log(req.body);
   const name = req.body.name;
   const gdod = req.body.gdod;
+  const hativa = req.body.hativa;
   // const index = req.body.index;
 
-  const ploga = new Ploga({ name, gdod });
-  ogda.save((err, data) => {
+  const ploga = new Ploga({ name, gdod, hativa });
+  ploga.save((err, data) => {
     if (err) {
       return res.status(400).json({
         error: err,
@@ -54,6 +63,7 @@ exports.updatePloga = (req, res) => {
   Ploga.findById(req.params.id)
     .then((request) => {
       request.name = req.body.name;
+      request.hativa = req.body.hativa;
       request.gdod = req.body.gdod;
       // request.index = req.body.index;
       request
@@ -64,7 +74,14 @@ exports.updatePloga = (req, res) => {
     .catch((err) => res.status(400).json("Error: " + err));
 };
 
-exports.updategdod = (req, res) => {
+exports.updateHativa = (req, res) => {
+  Ploga.updateOne({ _id: req.body[0] }, { hativa: req.body[1] })
+    .then((orders) => res.json(orders))
+    .catch((err) => res.status(400).json("Error: " + err));
+  // console.log(req.body);
+};
+
+exports.updateGdod = (req, res) => {
   Ploga.updateOne({ _id: req.body[0] }, { gdod: req.body[1] })
     .then((orders) => res.json(orders))
     .catch((err) => res.status(400).json("Error: " + err));
@@ -75,9 +92,7 @@ exports.removeGdod = (req, res) => {
   Gdod.findByIdAndDelete(req.params.id)
     .then((ogdot) => res.json(ogdot))
     .catch((err) => res.status(400).json("Error: " + err));
-    
 };
-
 
 // exports.updatekshirot = (req, res) => {
 //   Gdod.updateOne({_id: req.body[0]},{kshirot:req.body[1]})

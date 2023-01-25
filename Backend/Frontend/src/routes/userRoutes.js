@@ -43,25 +43,25 @@ Coded by www.creative-tim.com
 import Dashboard from "layouts/dashboard";
 import Tables from "layouts/tables";
 // import RegulsrUserRequestsTable from "layouts/tables/regulsrUserRequestsTable";
-import Billing from "layouts/billing";
-import RTL from "layouts/rtl";
-import Notifications from "layouts/notifications";
-import Profile from "layouts/profile";
 import SignIn from "layouts/authentication/sign-in";
 import SignUp from "layouts/authentication/sign-up";
+import Billing from "layouts/billing";
+import Notifications from "layouts/notifications";
+import Profile from "layouts/profile";
+import RTL from "layouts/rtl";
 
 // @mui icons
 import Icon from "@mui/material/Icon";
 //my components
-import HozlaPrintRequestForm from "layouts/Forms/HozlaPrintRequestForm";
-import AboutPage from "views/aboutpage/AboutPage";
 import ExcelToJasonFileUploader from "layouts/Forms/ExcelToJasonFileUploader";
-import GraphicSleep from "layouts/GraphicSoldierDatas/GraphicSleep";
-import GraphicHeart from "layouts/GraphicSoldierDatas/GraphicHeart";
+import HozlaPrintRequestForm from "layouts/Forms/HozlaPrintRequestForm";
 import GraphicDistance from "layouts/GraphicSoldierDatas/GraphicDistance";
-import UserFielsTable from "layouts/tables/userFielsTable";
+import GraphicHeart from "layouts/GraphicSoldierDatas/GraphicHeart";
+import GraphicSleep from "layouts/GraphicSoldierDatas/GraphicSleep";
 import GraphPage from "layouts/GraphicSoldierDatas/GraphPage";
 import AllFielsTable from "layouts/tables/allFielsTable";
+import UserFielsTable from "layouts/tables/userFielsTable";
+import AboutPage from "views/aboutpage/AboutPage";
 // eslint-disable-next-line import/no-absolute-path
 
 const routes = [

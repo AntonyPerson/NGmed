@@ -106,6 +106,15 @@ router
       .catch((err) => res.status(400).json("Error: " + err));
   });
 
+router.route("/getExcelInfoByMahlaka/:mahlaka").get((req, res) => {
+  const mahlaka = req.params.mahlaka;
+  ExcelData.find({ mahlaka: mahlaka })
+    .select("fileName  mahlaka fileJason")
+    // .sort({ createdAt: -1 })
+    .then((request) => res.json(request))
+    .catch((err) => res.status(400).json("Error: " + err));
+});
+
 router.route("/:id").get((req, res) => {
   ExcelData.findById(req.params.id)
     .then((request) => res.json(request))
