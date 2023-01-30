@@ -1,3 +1,6 @@
+/* eslint-disable no-nested-ternary */
+/* eslint-disable react/prop-types */
+/* eslint-disable react/destructuring-assignment */
 /* eslint-disable react/jsx-no-bind */
 /* eslint-disable react/function-component-definition */
 /* eslint-disable import/no-unresolved */
@@ -25,17 +28,14 @@ import Icon from "@mui/material/Icon";
 import MDBox from "components/MDBox";
 
 // Material Dashboard 2 React example components
-import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
-import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import Footer from "examples/Footer";
 import ReportsBarChart from "examples/Charts/BarCharts/ReportsBarChart";
 import ReportsLineChart from "examples/Charts/LineCharts/ReportsLineChart";
+import Footer from "examples/Footer";
+import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
+import DashboardNavbar from "examples/Navbars/DashboardNavbar";
 // import ComplexStatisticsCard from "examples/Cards/StatisticsCards/ComplexStatisticsCard";
 
 // Data
-import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
-import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
-import MixedChart from "examples/Charts/MixedChart";
 import {
   Accordion,
   AccordionDetails,
@@ -43,27 +43,41 @@ import {
   FormControl,
   FormGroup,
 } from "@mui/material";
-import { Input, Label } from "reactstrap";
-import { useState, useMemo, useEffect } from "react";
-import { signin, authenticate, isAuthenticated } from "auth/index";
+import { authenticate, isAuthenticated, signin } from "auth/index";
 import axios from "axios";
-import { useParams } from "react-router-dom";
+import MDButton from "components/MDButton";
 import MDTypography from "components/MDTypography";
 import DefaultLineChart from "examples/Charts/LineCharts/DefaultLineChart";
+import MixedChart from "examples/Charts/MixedChart";
 import PolarChart from "examples/Charts/PolarChart";
-import MDButton from "components/MDButton";
+import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
+import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
+import { useEffect, useMemo, useState } from "react";
+import { useParams } from "react-router-dom";
+import { Input, Label } from "reactstrap";
 
+//* Merge jason of excel files help functions
+import {
+  axiosGetGdodJasonById,
+  axiosGetHativaJasonById,
+  axiosGetMahlakaJasonById,
+  axiosGetPlogaJasonById,
+} from "merageJasonExcelFiels";
 //* Graph components
 import GraphicDistance from "./GraphicDistance";
-import GraphicSleep from "./GraphicSleep";
 import GraphicHeart from "./GraphicHeart";
+import GraphicSleep from "./GraphicSleep";
 
 const { user } = isAuthenticated();
 // // Dashboard components
 // import Projects from "layouts/dashboard/components/Projects";
 // import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
-
-function GraphPage() {
+/* 
+? dashboardView - boolean
+? typeView - only if dashboardView is true - [mahlka, ploga, gdod, hativa]
+? idView - only if dashboardView is true - the ID vlue of the typeView - a params.idFile not a prop
+*/
+function GraphPage(props) {
   // const [excelNames, setExcelNames] = useState({});
   const params = useParams();
   const [excelData, setExcelData] = useState([]);
@@ -114,20 +128,40 @@ function GraphPage() {
   //     }
   //   };
   useEffect(() => {
-    console.log(params.idFile);
-    axios
-      .get(`http://localhost:5000/NGmedDB/ExcelData/${params.idFile}`)
-      .then(async (response) => {
-        console.log(response.data);
-        await setExcelData(response.data);
-        await setDataRange({
-          startDate: response.data.fileJason[0].calendarDate,
-          endDate: response.data.fileJason[response.data.fileJason.length - 1].calendarDate,
+    if (props.dashboardView === false || props.dashboardView === undefined) {
+      console.log(params.idFile);
+      axios
+        .get(`http://localhost:5000/NGmedDB/ExcelData/${params.idFile}`)
+        .then(async (response) => {
+          console.log(response.data);
+          await setExcelData(response.data);
+          await setDataRange({
+            startDate: response.data.fileJason[0].calendarDate,
+            endDate: response.data.fileJason[response.data.fileJason.length - 1].calendarDate,
+          });
+        })
+        .catch((error) => {
+          console.log(error);
         });
-      })
-      .catch((error) => {
-        console.log(error);
-      });
+    } else {
+      switch (props.typeView) {
+        case "mahlka":
+          axiosGetMahlakaJasonById(params.idFile);
+          break;
+        case "ploga":
+          axiosGetPlogaJasonById(params.idFile);
+          break;
+        case "gdod":
+          axiosGetGdodJasonById(params.idFile);
+          break;
+        case "hativa":
+          axiosGetHativaJasonById(params.idFile);
+          break;
+        default:
+          axiosGetMahlakaJasonById(params.idFile);
+          break;
+      }
+    }
   }, []);
 
   useMemo(() => {
@@ -219,29 +253,63 @@ function GraphPage() {
       <MDBox py={3}>
         <Grid container mt={5} className="justify-content-center" spacing={3}>
           <Grid item xs={4} md={4} lg={4}>
-            <MDBox
-              variant="gradient"
-              bgColor="mekatnar"
-              borderRadius="lg"
-              coloredShadow="mekatnar"
-              mx={2}
-              mt={-3}
-              p={3}
-              px={7}
-              mb={3}
-              textAlign="left"
-              style={{ maxWidth: 600 }}
-            >
-              <MDTypography variant="h5" fontWeight="medium" color="white" mb={0.5}>
-                {`שם הקובץ: ${excelData.fileName}`}
-              </MDTypography>
-              <MDTypography variant="h5" fontWeight="medium" color="white" mb={0.5}>
-                {`הקובץ הועלה על ידי - מספר אישי: ${excelData.personalnumber}`}
-              </MDTypography>
-              <MDTypography variant="h5" fontWeight="medium" color="white" mb={0.5}>
-                {`מספר השעונים שנפרקו: ${excelData.watchCount}`}
-              </MDTypography>
-            </MDBox>
+            {props.dashboardView === false || props.dashboardView === undefined ? (
+              <MDBox
+                variant="gradient"
+                bgColor="mekatnar"
+                borderRadius="lg"
+                coloredShadow="mekatnar"
+                mx={2}
+                mt={-3}
+                p={3}
+                px={7}
+                mb={3}
+                textAlign="left"
+                style={{ maxWidth: 600 }}
+              >
+                <MDTypography variant="h5" fontWeight="medium" color="white" mb={0.5}>
+                  {`שם הקובץ: ${excelData.fileName}`}
+                </MDTypography>
+                <MDTypography variant="h5" fontWeight="medium" color="white" mb={0.5}>
+                  {`הקובץ הועלה על ידי - מספר אישי: ${excelData.personalnumber}`}
+                </MDTypography>
+                <MDTypography variant="h5" fontWeight="medium" color="white" mb={0.5}>
+                  {`מספר השעונים שנפרקו: ${excelData.watchCount}`}
+                </MDTypography>
+              </MDBox>
+            ) : (
+              <MDBox
+                variant="gradient"
+                bgColor="mekatnar"
+                borderRadius="lg"
+                coloredShadow="mekatnar"
+                mx={2}
+                mt={-3}
+                p={3}
+                px={7}
+                mb={3}
+                textAlign="left"
+                style={{ maxWidth: 600 }}
+              >
+                {props.typeView === "mahlka" ? (
+                  <MDTypography variant="h5" fontWeight="medium" color="white" mb={0.5}>
+                    סיכום מחלקתי
+                  </MDTypography>
+                ) : props.typeView === "ploga" ? (
+                  <MDTypography variant="h5" fontWeight="medium" color="white" mb={0.5}>
+                    סיכום פלוגתי
+                  </MDTypography>
+                ) : props.typeView === "gdod" ? (
+                  <MDTypography variant="h5" fontWeight="medium" color="white" mb={0.5}>
+                    סיכום גדודי
+                  </MDTypography>
+                ) : (
+                  <MDTypography variant="h5" fontWeight="medium" color="white" mb={0.5}>
+                    סיכום חטיבתי
+                  </MDTypography>
+                )}
+              </MDBox>
+            )}
           </Grid>
           <Grid item xs={4} md={4} lg={4}>
             <MDBox

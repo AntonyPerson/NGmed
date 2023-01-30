@@ -39,8 +39,9 @@ import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
 import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
 
 // Dashboard components
-import { Tab } from "@mui/material";
+import { Icon, Tab } from "@mui/material";
 import axios from "axios";
+import MDButton from "components/MDButton";
 import MDTypography from "components/MDTypography";
 import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 import Projects from "layouts/dashboard/components/Projects";
@@ -48,6 +49,7 @@ import Header from "layouts/profile/components/Header";
 import PlatformSettings from "layouts/profile/components/PlatformSettings";
 import { mainExample } from "merageJasonExcelFiels";
 import { useEffect, useMemo, useState } from "react";
+import { Link } from "react-router-dom";
 import {
   Card,
   CardBody,
@@ -75,6 +77,7 @@ function Dashboard() {
   const [plogot, setPlogot] = useState([]);
   const [gdodim, setGdodim] = useState([]);
   const [hativa, setHativa] = useState({ id: "63be8ba2f3509cdcccdee91f", name: "גולני" });
+  const [countSoliders, setCountSoliders] = useState(0);
 
   // ? user Choise
   const [selectedVaules, setSelectedVaules] = useState({
@@ -133,6 +136,110 @@ function Dashboard() {
         console.log(error);
       });
   }, []);
+
+  const setCountSolidersMahlka = (mahlakaID) => {
+    axios
+      .get(`http://localhost:5000/NGmedDB/treeMangment/mahlaka/${mahlakaID}`)
+      .then(
+        (response) => {
+          console.log(response.data.countSoliders);
+          return response.data.countSoliders;
+        }
+
+        // console.log(returnArray);
+      )
+      .catch((error) => 0);
+  };
+
+  const setCountSolidersPloga = (plogaID) => {
+    let count = 0;
+    axios
+      .post(`http://localhost:5000/NGmedDB/treeMangment/mahlaka/mahlakaByPlogaId`, {
+        ploga: plogaID,
+      })
+      .then((response) => {
+        response.data.forEach((mahlaka) => {
+          count += mahlaka.countSoliders;
+        });
+        // console.log(returnArray);
+        console.log(count);
+        return count;
+      })
+      .catch((error) => 0);
+  };
+
+  const setCountSolidersGdod = (gdodID) => {
+    let count = 0;
+    axios
+      .post(`http://localhost:5000/NGmedDB/treeMangment/ploga/plogaByGdodId`, {
+        ploga: gdodID,
+      })
+      .then((response) => {
+        response.data.forEach((ploga) => {
+          count += setCountSolidersPloga(ploga._id);
+        });
+        return count;
+        // console.log(returnArray);
+      })
+      .catch((error) => 0);
+  };
+  const setCountSolidersHativa = (hativaID) => {
+    let count = 0;
+    axios
+      .post(`http://localhost:5000/NGmedDB/treeMangment/mahlaka/mahlakaByHativaId`, {
+        ploga: hativaID,
+      })
+      .then((response) => {
+        response.data.forEach((mahlaka) => {
+          count += mahlaka.countSoliders;
+        });
+        return count;
+        // console.log(returnArray);
+      })
+      .catch((error) => 0);
+  };
+  useMemo(async () => {
+    console.groupCollapsed("useMemo");
+    console.log(tabView);
+    console.log(selectedVaules);
+    console.log(`before switch CountSoliders ${countSoliders}`);
+    switch (tabView) {
+      case 0:
+        if (selectedVaules.mahlaka !== "") {
+          setCountSoliders(await setCountSolidersMahlka(selectedVaules.mahlaka));
+        } else {
+          setCountSoliders(0);
+        }
+        break;
+      case 1:
+        if (selectedVaules.ploga !== "") {
+          setCountSoliders(await setCountSolidersPloga(selectedVaules.ploga));
+        } else {
+          setCountSoliders(0);
+        }
+        break;
+      case 2:
+        if (selectedVaules.gdod !== "") {
+          setCountSoliders(await setCountSolidersGdod(selectedVaules.gdod));
+        } else {
+          setCountSoliders(0);
+        }
+        break;
+      case 3:
+        if (selectedVaules.hativa !== "") {
+          setCountSoliders(await setCountSolidersHativa(selectedVaules.hativa));
+        } else {
+          setCountSoliders(0);
+        }
+        break;
+      default:
+        setCountSoliders(0);
+    }
+    console.log(`after switch CountSoliders ${countSoliders}`);
+
+    console.groupEnd();
+  }, [tabView, selectedVaules]);
+
   function handleChangeSelect(evt) {
     const { value } = evt.target;
     setSelectedVaules({ ...selectedVaules, [evt.target.name]: value });
@@ -165,6 +272,13 @@ function Dashboard() {
             </FormGroup>
           </MDBox>
         </Grid>
+        <Grid item xs={5} md={3} lg={3}>
+          <Link to={`/Graphs/Summary/Mahlaka/${selectedVaules.mahlaka}`}>
+            <MDButton variant="gradient" color="mekatnar">
+              <Icon>leaderboard</Icon>&nbsp; סיכום מחלקתי
+            </MDButton>
+          </Link>
+        </Grid>
       </Grid>
       <Grid container spacing={3}>
         <Grid item xs={12} md={6} lg={3}>
@@ -173,7 +287,7 @@ function Dashboard() {
               color="dark"
               icon="group"
               title="מספר החיילים במחלקה"
-              count={281}
+              count={countSoliders}
               percentage={{
                 label: "עודכן כעת",
               }}
@@ -309,6 +423,13 @@ function Dashboard() {
             </FormGroup>
           </MDBox>
         </Grid>
+        <Grid item xs={5} md={3} lg={3}>
+          <Link to={`/Graphs/Summary/Ploga/${selectedVaules.ploga}`}>
+            <MDButton variant="gradient" color="mekatnar">
+              <Icon>leaderboard</Icon>&nbsp; סיכום פלוגתי
+            </MDButton>
+          </Link>
+        </Grid>
       </Grid>
       <Grid container spacing={3}>
         <Grid item xs={12} md={6} lg={3}>
@@ -318,7 +439,7 @@ function Dashboard() {
               color="dark"
               icon="group"
               title="מספר החיילים בפלוגה"
-              count={281}
+              count={countSoliders}
               percentage={{
                 label: "עודכן כעת",
               }}
@@ -454,6 +575,13 @@ function Dashboard() {
             </FormGroup>
           </MDBox>
         </Grid>
+        <Grid item xs={5} md={3} lg={3}>
+          <Link to={`/Graphs/Summary/Gdod/${selectedVaules.gdod}`}>
+            <MDButton variant="gradient" color="mekatnar">
+              <Icon>leaderboard</Icon>&nbsp; סיכום גדודי
+            </MDButton>
+          </Link>
+        </Grid>
       </Grid>
       <Grid container spacing={3}>
         <Grid item xs={12} md={6} lg={3}>
@@ -462,7 +590,7 @@ function Dashboard() {
               color="dark"
               icon="group"
               title="מספר החיילים בגדוד"
-              count={281}
+              count={countSoliders}
               percentage={{
                 label: "עודכן כעת",
               }}
@@ -573,12 +701,19 @@ function Dashboard() {
   const hativaView = () => (
     <MDBox py={3}>
       <Grid container spacing={3} mb={2.5}>
-        <Grid item xs={5} md={3} lg={3}>
+        {/* <Grid item xs={5} md={3} lg={3}>
           <MDBox mb={1.5}>
             <MDTypography color="mekatnar" variant="h4" fontWeight="medium">
               {hativa.name}
             </MDTypography>
           </MDBox>
+        </Grid> */}
+        <Grid item xs={5} md={3} lg={3} mb={2.5}>
+          <Link to={`/Graphs/Summary/Hativa/${hativa.id}`}>
+            <MDButton variant="gradient" color="mekatnar">
+              <Icon>leaderboard</Icon>&nbsp;{hativa.name} סיכום חטיבתי
+            </MDButton>
+          </Link>
         </Grid>
       </Grid>
       <Grid container spacing={3}>
@@ -588,7 +723,7 @@ function Dashboard() {
               color="dark"
               icon="group"
               title="מספר החיילים חטיבה"
-              count={281}
+              count={countSoliders}
               percentage={{
                 label: "עודכן כעת",
               }}
@@ -699,7 +834,7 @@ function Dashboard() {
     <DashboardLayout>
       {/* <DashboardNavbar /> */}
       <DashboardHeader tabViewValue={tabView} setTabViewValue={setTabView} />
-      {mainExample()}
+      {/* {mainExample()} */}
       {/* <MDTypography color="mekatnar" variant="h4" fontWeight="medium">
         {tabView}
       </MDTypography> */}

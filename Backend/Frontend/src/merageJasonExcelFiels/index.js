@@ -1,3 +1,5 @@
+/* eslint-disable no-underscore-dangle */
+/* eslint-disable no-unused-vars */
 /* eslint-disable no-lonely-if */
 /* eslint-disable no-plusplus */
 /* eslint-disable import/prefer-default-export */
@@ -5,6 +7,8 @@
 /* eslint-disable consistent-return */
 /* eslint-disable no-else-return */
 /* eslint-disable arrow-body-style */
+
+import axios from "axios";
 
 //* Mahlka
 // ? creat a merge between 2 fiels in the recursive function creatMahlakaJasonFile to creat a single Mahlka Jason
@@ -437,6 +441,70 @@ export const creatHativaJasonFile = (AllGdodimOfHativaFiles) => {
   }
   // console.groupEnd();
   return gdod;
+};
+
+export const axiosGetMahlakaJasonById = (mahlakaID) => {
+  axios
+    .get(`http://localhost:5000/NGmedDB/ExcelData/getExcelInfoByMahlaka/${mahlakaID}`)
+    .then((response) => {
+      console.log(response.data);
+      return creatMahlakaJasonFile(response.data);
+      // console.log(returnArray);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+export const axiosGetPlogaJasonById = (plogaID) => {
+  const mahlkotArray = [];
+  axios
+    .post(`http://localhost:5000/NGmedDB/treeMangment/mahlaka/mahlakaByPlogaId`, { ploga: plogaID })
+    .then((response) => {
+      console.log(response.data);
+      response.data.array.forEach((mahlaka) => {
+        mahlkotArray.push(axiosGetMahlakaJasonById(mahlaka._id));
+      });
+      return creatPloagJasonFile(mahlkotArray);
+      // console.log(returnArray);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+export const axiosGetGdodJasonById = (gdodID) => {
+  const plogotArray = [];
+  axios
+    .post(`http://localhost:5000/NGmedDB/treeMangment/ploga/plogaByGdodId`, { gdod: gdodID })
+    .then((response) => {
+      console.log(response.data);
+      response.data.array.forEach((ploga) => {
+        plogotArray.push(axiosGetPlogaJasonById(ploga._id));
+      });
+      return creatGdodJasonFile(plogotArray);
+      // console.log(returnArray);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+};
+
+export const axiosGetHativaJasonById = (hativaID) => {
+  const gdodimArray = [];
+  axios
+    .post(`http://localhost:5000/NGmedDB/treeMangment/gdod/gdodsByHativaId`, { hativa: hativaID })
+    .then((response) => {
+      console.log(response.data);
+      response.data.array.forEach((gdod) => {
+        gdodimArray.push(axiosGetGdodJasonById(gdod._id));
+      });
+      return creatHativaJasonFile(gdodimArray);
+      // console.log(returnArray);
+    })
+    .catch((error) => {
+      console.log(error);
+    });
 };
 
 export const mainExample = () => {
@@ -1710,7 +1778,8 @@ export const mainExample = () => {
   const hativa = [];
 
   console.groupCollapsed("Mahlkot");
-  mahlkot.push(creatMahlakaJasonFile(allf));
+  // mahlkot.push(axiosGetMahlakaJasonById("63be8d8df3509cdcccdee93a"));
+  // axiosGetMahlakaJasonById("63be8d8df3509cdcccdee93a");
   mahlkot.push(creatMahlakaJasonFile(allf));
   mahlkot.push(creatMahlakaJasonFile(allf2));
   // mahlkot.push(creatMahlakaJasonFile(allf2));
@@ -1720,7 +1789,7 @@ export const mainExample = () => {
 
   console.groupCollapsed("Plogot");
   plogot.push(creatPloagJasonFile(mahlkot));
-  plogot.push(creatPloagJasonFile(mahlkot));
+  // plogot.push(creatPloagJasonFile(mahlkot));
   console.log(plogot);
   console.groupEnd();
 

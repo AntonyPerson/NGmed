@@ -44,9 +44,10 @@ exports.createMahlaka = (req, res) => {
   const name = req.body.name;
   const ploga = req.body.ploga;
   const hativa = req.body.hativa;
+  const countSoliders = req.body.countSoliders;
   // const index = req.body.index;
 
-  const mahlaka = new Mahlaka({ name, ploga, hativa });
+  const mahlaka = new Mahlaka({ name, ploga, hativa, countSoliders });
   mahlaka.save((err, data) => {
     if (err) {
       return res.status(400).json({
@@ -64,6 +65,7 @@ exports.updateMahlaka = (req, res) => {
       request.name = req.body.name;
       request.ploga = req.body.ploga;
       request.hativa = req.body.hativa;
+      request.countSoliders = req.body.countSoliders;
       // request.index = req.body.index;
       request
         .save()
