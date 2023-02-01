@@ -37,6 +37,7 @@ import DataTable from "examples/Tables/DataTable";
 // Data
 import { Dialog, DialogContent, Icon } from "@mui/material";
 import userFielsTableData from "layouts/tables/data/userFielsTableData";
+import userFielsTableDataDeleted from "layouts/tables/data/userFielsTableDataDeleted";
 import { useState } from "react";
 
 import axios from "axios";
@@ -46,7 +47,8 @@ import { Outlet } from "react-router-dom";
 import { CardBody, Col, Container, Form, FormGroup, FormText, Input, Label, Row } from "reactstrap";
 
 const UserFielsTable = () => {
-  const tableTittle = "הקבצים שלי";
+  const tableTittle = "קבצי המערכת";
+  const tableTittleDeleted = "היסטוריית מחיקת קבצים";
 
   const [dbError, setDbError] = useState(false);
   const [toAddFile, setToAddFile] = useState(false);
@@ -61,13 +63,21 @@ const UserFielsTable = () => {
     fileId: toUpdateFileID,
   } = userFielsTableData();
 
+  const {
+    columns: pColumnsDeleted,
+    rows: pRowsDeleted,
+    dbError: dbeDeleted,
+    setDBerror: setDbeDeleted,
+  } = userFielsTableDataDeleted();
+
   const handleErrorClose = () => {
     setDbError(true);
     setDbe(false);
+    setDbeDeleted(false);
   };
   const showError = () => (
     <Dialog
-      open={dbe}
+      open={dbe || dbeDeleted}
       onClose={handleErrorClose}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
@@ -223,6 +233,51 @@ const UserFielsTable = () => {
       </Grid>
     </MDBox>
   );
+
+  const tableDelete = () => (
+    <MDBox pt={6} pb={3}>
+      <Grid container spacing={6}>
+        <Grid item xs={12}>
+          <Card>
+            <MDBox
+              mx={2}
+              mt={-3}
+              py={3}
+              px={2}
+              variant="gradient"
+              bgColor="error"
+              borderRadius="lg"
+              coloredShadow="error"
+            >
+              <MDTypography variant="h3" color="white">
+                {tableTittleDeleted}
+              </MDTypography>
+            </MDBox>
+            <MDBox pt={3}>
+              {pRows.length !== 0 ? (
+                <DataTable
+                  table={{ columns: pColumnsDeleted, rows: pRowsDeleted }}
+                  isSorted={true}
+                  canSearch={true}
+                  entriesPerPage={false}
+                  showTotalEntries={true}
+                  noEndBorder={false}
+                />
+              ) : dbError || dbe ? (
+                <MDTypography mx={30} variant="h3" color="error" textGradient={true}>
+                  תקלת שרת{" "}
+                </MDTypography>
+              ) : (
+                <MDTypography mx={30} variant="h3" color="error" textGradient={true}>
+                  לא קיימים קבצים שנמחקו
+                </MDTypography>
+              )}
+            </MDBox>
+          </Card>
+        </Grid>
+      </Grid>
+    </MDBox>
+  );
   return (
     <DashboardLayout>
       <DashboardNavbar />
@@ -230,6 +285,7 @@ const UserFielsTable = () => {
       {addFile()}
       {updateFile()}
       {table()}
+      {tableDelete()}
       <Outlet />
       <Footer />
     </DashboardLayout>

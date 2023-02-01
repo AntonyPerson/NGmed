@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable react/function-component-definition */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-return-assign */

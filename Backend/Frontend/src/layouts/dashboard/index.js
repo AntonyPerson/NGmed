@@ -1,3 +1,4 @@
+/* eslint-disable no-console */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/no-array-index-key */
 /* eslint-disable react/jsx-no-bind */
@@ -39,6 +40,7 @@ import reportsBarChartData from "layouts/dashboard/data/reportsBarChartData";
 import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
 
 // Dashboard components
+import { ConstructionOutlined } from "@mui/icons-material";
 import { Icon, Tab } from "@mui/material";
 import axios from "axios";
 import MDButton from "components/MDButton";
@@ -77,7 +79,10 @@ function Dashboard() {
   const [plogot, setPlogot] = useState([]);
   const [gdodim, setGdodim] = useState([]);
   const [hativa, setHativa] = useState({ id: "63be8ba2f3509cdcccdee91f", name: "גולני" });
+
   const [countSoliders, setCountSoliders] = useState(0);
+  const [countWatches, setCountWatches] = useState(0);
+  const [countWatchesUsed, setCountWatchesUsed] = useState(0);
 
   // ? user Choise
   const [selectedVaules, setSelectedVaules] = useState({
@@ -137,105 +142,159 @@ function Dashboard() {
       });
   }, []);
 
-  const setCountSolidersMahlka = (mahlakaID) => {
-    axios
+  async function setCountSolidersMahlka(mahlakaID) {
+    const count = {
+      countSoldier: 0,
+      countWatches: 0,
+      countWatchesUsed: 0,
+    };
+    await axios
       .get(`http://localhost:5000/NGmedDB/treeMangment/mahlaka/${mahlakaID}`)
       .then(
         (response) => {
-          console.log(response.data.countSoliders);
-          return response.data.countSoliders;
+          console.log(
+            `setCountSolidersMahlka - ${response.data.name} - ${response.data.countSoliders}`
+          );
+          count.countSoldier = response.data.countSoliders;
+          count.countWatches = response.data.countWatches;
+          count.countWatchesUsed = response.data.countWatchesUsed;
         }
 
         // console.log(returnArray);
       )
       .catch((error) => 0);
-  };
+    return count;
+  }
 
-  const setCountSolidersPloga = (plogaID) => {
-    let count = 0;
-    axios
+  async function setCountSolidersPloga(plogaID) {
+    const count = {
+      countSoldier: 0,
+      countWatches: 0,
+      countWatchesUsed: 0,
+    };
+    await axios
       .post(`http://localhost:5000/NGmedDB/treeMangment/mahlaka/mahlakaByPlogaId`, {
         ploga: plogaID,
       })
       .then((response) => {
         response.data.forEach((mahlaka) => {
-          count += mahlaka.countSoliders;
+          count.countSoldier = response.data.countSoliders;
+          count.countWatches = response.data.countWatches;
+          count.countWatchesUsed = response.data.countWatchesUsed;
         });
         // console.log(returnArray);
         console.log(count);
-        return count;
       })
       .catch((error) => 0);
-  };
+    console.log(`setCountSolidersPloga - ${plogaID} - ${count}`);
+    return count;
+  }
 
-  const setCountSolidersGdod = (gdodID) => {
-    let count = 0;
-    axios
+  async function setCountSolidersGdod(gdodID) {
+    console.groupCollapsed("setCountSolidersGdod d");
+    const count = {
+      countSoldier: 0,
+      countWatches: 0,
+      countWatchesUsed: 0,
+    };
+    let temp = {};
+    await axios
       .post(`http://localhost:5000/NGmedDB/treeMangment/ploga/plogaByGdodId`, {
-        ploga: gdodID,
+        gdod: gdodID,
       })
       .then((response) => {
-        response.data.forEach((ploga) => {
-          count += setCountSolidersPloga(ploga._id);
+        response.data.forEach(async (ploga) => {
+          temp = await setCountSolidersPloga(ploga._id);
+          count.countSoldier = temp.countSoliders;
+          count.countWatches = temp.countWatches;
+          count.countWatchesUsed = temp.countWatchesUsed;
+          console.log(ploga);
+          console.log(count);
         });
-        return count;
         // console.log(returnArray);
       })
       .catch((error) => 0);
-  };
-  const setCountSolidersHativa = (hativaID) => {
-    let count = 0;
-    axios
+    console.log(`setCountSolidersGdod - ${gdodID} - ${count}`);
+    console.groupEnd();
+    return count;
+  }
+  async function setCountSolidersHativa(hativaID) {
+    const count = {
+      countSoldier: 0,
+      countWatches: 0,
+      countWatchesUsed: 0,
+    };
+    await axios
       .post(`http://localhost:5000/NGmedDB/treeMangment/mahlaka/mahlakaByHativaId`, {
-        ploga: hativaID,
+        hativa: hativaID,
       })
       .then((response) => {
         response.data.forEach((mahlaka) => {
-          count += mahlaka.countSoliders;
+          count.countSoldier = response.data.countSoliders;
+          count.countWatches = response.data.countWatches;
+          count.countWatchesUsed = response.data.countWatchesUsed;
         });
-        return count;
         // console.log(returnArray);
       })
       .catch((error) => 0);
-  };
-  useMemo(async () => {
-    console.groupCollapsed("useMemo");
+    console.log(`setCountSolidersHativa - ${hativaID} - ${count}`);
+    return count;
+  }
+  useEffect(async () => {
+    console.groupCollapsed("useEffect");
     console.log(tabView);
     console.log(selectedVaules);
     console.log(`before switch CountSoliders ${countSoliders}`);
+    console.log(countSoliders);
     switch (tabView) {
       case 0:
         if (selectedVaules.mahlaka !== "") {
-          setCountSoliders(await setCountSolidersMahlka(selectedVaules.mahlaka));
+          const count = await setCountSolidersMahlka(selectedVaules.mahlaka);
+          setCountSoliders(count.countSoldier);
+          setCountWatches(count.countWatches);
+          setCountWatchesUsed(count.countWatchesUsed);
         } else {
           setCountSoliders(0);
+          setCountWatches(0);
+          setCountWatchesUsed(0);
         }
         break;
       case 1:
         if (selectedVaules.ploga !== "") {
-          setCountSoliders(await setCountSolidersPloga(selectedVaules.ploga));
+          const count = await setCountSolidersPloga(selectedVaules.ploga);
+          setCountSoliders(count.countSoldier);
+          setCountWatches(count.countWatches);
+          setCountWatchesUsed(count.countWatchesUsed);
         } else {
           setCountSoliders(0);
+          setCountWatches(0);
+          setCountWatchesUsed(0);
         }
         break;
       case 2:
         if (selectedVaules.gdod !== "") {
-          setCountSoliders(await setCountSolidersGdod(selectedVaules.gdod));
+          const count = await setCountSolidersGdod(selectedVaules.gdod);
+          setCountSoliders(count.countSoldier);
+          setCountWatches(count.countWatches);
+          setCountWatchesUsed(count.countWatchesUsed);
         } else {
           setCountSoliders(0);
+          setCountWatches(0);
+          setCountWatchesUsed(0);
         }
         break;
       case 3:
-        if (selectedVaules.hativa !== "") {
-          setCountSoliders(await setCountSolidersHativa(selectedVaules.hativa));
-        } else {
-          setCountSoliders(0);
-        }
+        // eslint-disable-next-line no-case-declarations
+        const count = await setCountSolidersHativa(hativa.id);
+        setCountSoliders(count.countSoldier);
+        setCountWatches(count.countWatches);
+        setCountWatchesUsed(count.countWatchesUsed);
         break;
       default:
         setCountSoliders(0);
     }
     console.log(`after switch CountSoliders ${countSoliders}`);
+    console.log(countSoliders);
 
     console.groupEnd();
   }, [tabView, selectedVaules]);
@@ -363,7 +422,7 @@ function Dashboard() {
                   datasets: {
                     label: "מונה שעונים",
                     backgroundColors: ["mekatnar", "dark"],
-                    data: [20, 60],
+                    data: [countWatchesUsed, countWatches],
                   },
                 }}
               />
@@ -515,7 +574,7 @@ function Dashboard() {
                   datasets: {
                     label: "מונה שעונים",
                     backgroundColors: ["mekatnar", "dark"],
-                    data: [20, 60],
+                    data: [countWatchesUsed, countWatches],
                   },
                 }}
               />
@@ -666,7 +725,7 @@ function Dashboard() {
                   datasets: {
                     label: "מונה שעונים",
                     backgroundColors: ["mekatnar", "dark"],
-                    data: [20, 60],
+                    data: [countWatchesUsed, countWatches],
                   },
                 }}
               />
@@ -799,7 +858,7 @@ function Dashboard() {
                   datasets: {
                     label: "מונה שעונים",
                     backgroundColors: ["mekatnar", "dark"],
-                    data: [20, 60],
+                    data: [countWatchesUsed, countWatches],
                   },
                 }}
               />

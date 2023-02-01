@@ -53,6 +53,10 @@ app.use("/NGmedDB/api", userRoutes);
 const excelDataRouter = require("./routes/ExcelData");
 app.use("/NGmedDB/ExcelData", excelDataRouter);
 
+//?Excel Data Deleted routes for Client
+const excelDataDeletedRouter = require("./routes/ExcelDataDeleted");
+app.use("/NGmedDB/DeletedInfo", excelDataDeletedRouter);
+
 //? Manegment tree routes
 const mahlakaRoutes = require("./routes/units/mahlaka");
 const plogaRoutes = require("./routes/units/ploga");

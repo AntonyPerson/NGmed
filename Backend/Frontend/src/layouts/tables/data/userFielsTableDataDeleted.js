@@ -48,18 +48,6 @@ export default function data() {
 
   useEffect(() => {
     console.log(user.personalnumber);
-    // axios
-    //   .get(
-    //     `http://localhost:5000/NGmedDB/ExcelData/getExcelsInfoByPersonalnumber/${user.personalnumber}`
-    //   )
-    //   .then((response) => {
-    //     console.log(response.data);
-    //     setRequestDB(response.data);
-    //   })
-    //   .catch((error) => {
-    //     console.log(error);
-    //     setIsError(true);
-    //   });
     axios
       .get(`http://localhost:5000/NGmedDB/ExcelData/`)
       .then((response) => {
@@ -70,13 +58,21 @@ export default function data() {
         console.log(error);
         setIsError(true);
       });
+    // axios
+    //   .get(`http://localhost:5000/NGmedDB/DeletedInfo/`)
+    //   .then((response) => {
+    //     console.log(response.data);
+    //     setRequestDB(response.data);
+    //   })
+    //   .catch((error) => {
+    //     console.log(error);
+    //     setIsError(true);
+    //   });
   }, []);
 
   const dbRows = requestDB.map((excelFile, index) => ({
-    // project: <Project image={LogoAsana} name="Asana" />,
     // fileID: excelFile._id,
     fileName: excelFile.fileName,
-    dateUpdated: excelFile.updatedAt.split("T")[0],
     // isPublic: (
     //   <>
     //     <MDBadge
@@ -117,90 +113,21 @@ export default function data() {
         />
       </>
     ),
-    watchCount: excelFile.watchCount,
-    // fileDateRange: `${excelFile.fileJason[1].calendarDate} ==> ${
-    //   excelFile.fileJason[excelFile.fileJason.length - 1].calendarDate
-    // }`,
-    fileDateRange: (
-      <>
-        <MDBadge
-          badgeContent={`${excelFile.startDate.split("-").reverse().join("/")} - ${excelFile.endDate
-            .split("-")
-            .reverse()
-            .join("/")}`}
-          variant="contained"
-          container
-        />
-      </>
-    ),
-    graphs: (
-      <Link to={`/Graphs/${excelFile._id}`} key={excelFile._id}>
-        <MDButton variant="gradient" color="mekatnar" circular="true" iconOnly="true" size="medium">
-          <Icon>equalizer</Icon>
-        </MDButton>
-      </Link>
-    ),
-    editFile: (
-      <MDButton
-        variant="gradient"
-        color="mekatnar"
-        onClick={async () => {
-          await setToUpdateFileID(excelFile._id);
-          await setToUpdateFile(true);
-        }}
-        circular="true"
-        iconOnly="true"
-        size="medium"
-      >
-        <Icon>edit</Icon>
-      </MDButton>
-    ),
-    deleteFile: (
-      <MDButton
-        variant="gradient"
-        color="mekatnar"
-        onClick={() => {
-          //! creat a new deleted data
-          axios
-            .post(`http://localhost:5000/NGmedDB/DeletedInfo/add`, {})
-            .then((response) => {
-              //
-              axios
-                .delete(`http://localhost:5000/NGmedDB/ExcelData/${excelFile._id}`)
-                .then((response2) => {
-                  // eslint-disable-next-line no-self-assign
-                  window.location.href = window.location.href;
-                })
-                .catch((error) => {
-                  console.log(error);
-                });
-            })
-            .catch((error) => {
-              console.log(error);
-            });
-        }}
-        circular="true"
-        iconOnly="true"
-        size="medium"
-      >
-        <Icon>delete</Icon>
-      </MDButton>
-    ),
+
+    personalNumberUploader: excelFile.personalNumberUploader,
+    personalNumberDeleter: excelFile.personalNumberDeleter,
+    deletedDate: excelFile.deletedDate,
   }));
   console.log(`isError ${isError}`);
   return {
     //* the tables headers
     columns: [
-      // { Header: "אסמכתא", accessor: "fileID", align: "center" },
       { Header: "שם הקובץ", accessor: "fileName", align: "left" },
-      { Header: "עודכן לאחרונה", accessor: "dateUpdated", align: "left" },
       // { Header: "פרטי / ציבורי", accessor: "isPublic", align: "left" },
       { Header: "שייכות", accessor: "mangmentTree", align: "center" },
-      { Header: "מספר שעונים שנפרקו", accessor: "watchCount", align: "center" },
-      { Header: "טווח תאריכים", accessor: "fileDateRange", align: "center" },
-      { Header: "נתוני הקובץ", accessor: "graphs", align: "center" },
-      { Header: "עידכון פרטים", accessor: "editFile", align: "center" },
-      { Header: "מחיקה", accessor: "deleteFile", align: "center" },
+      { Header: "מספר אישי של מעלה הקובץ", accessor: "personalNumberUploader", align: "center" },
+      { Header: "מספר אישי של מוחק הקובץ", accessor: "personalNumberDeleter", align: "center" },
+      { Header: "תאריך מחיקה", accessor: "deletedDate", align: "center" },
     ],
 
     rows: dbRows,
