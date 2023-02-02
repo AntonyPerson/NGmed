@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
@@ -160,13 +161,31 @@ export default function data() {
         variant="gradient"
         color="mekatnar"
         onClick={() => {
-          //! creat a new deleted data
           axios
-            .post(`http://localhost:5000/NGmedDB/DeletedInfo/add`, {})
+            .delete(`http://localhost:5000/NGmedDB/ExcelData/${excelFile._id}`)
             .then((response) => {
               //
               axios
-                .delete(`http://localhost:5000/NGmedDB/ExcelData/${excelFile._id}`)
+                .post(`http://localhost:5000/NGmedDB/DeletedInfo/add`, {
+                  fileName: excelFile.fileName,
+
+                  pikod: excelFile.pikod,
+                  ogda: excelFile.ogda,
+                  hativa: excelFile.hativa,
+                  gdod: excelFile.gdod,
+                  ploga: excelFile.ploga,
+                  mahlaka: excelFile.mahlaka,
+
+                  pikodName: excelFile.pikodName,
+                  ogdaName: excelFile.ogdaName,
+                  hativaName: excelFile.hativaName,
+                  gdodName: excelFile.gdodName,
+                  plogaName: excelFile.plogaName,
+                  mahlakaName: excelFile.mahlakaName,
+
+                  personalnumberUploader: excelFile.personalnumber,
+                  personalnumberDeleter: user.personalnumber,
+                })
                 .then((response2) => {
                   // eslint-disable-next-line no-self-assign
                   window.location.href = window.location.href;

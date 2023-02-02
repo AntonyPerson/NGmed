@@ -12,6 +12,10 @@ const {
   removeMahlaka,
   mahlakaByHativaId,
   updateHativa,
+  updateCountSoliders,
+  updateCountWatches,
+  updateCountWatchesUsed
+
 } = require("../../controllers/units/mahlaka");
 
 // find spec
@@ -28,6 +32,9 @@ router.post("/mahlaka", createMahlaka); /**/
 router.put("/mahlaka/:mahlakaId", updateMahlaka);
 router.post("/mahlaka/updatePloga", updatePloga);
 router.post("/mahlaka/updateHativa", updateHativa);
+router.post("/mahlaka/:updateCountSoliders", updateCountSoliders);
+router.post("/mahlaka/:updateCountWatches", updateCountWatches);
+router.post("/mahlaka/:updateCountWatchesUsed", updateCountWatchesUsed);
 
 //delete
 router.delete("/mahlaka/:id", removeMahlaka);

@@ -281,10 +281,17 @@ export default function ExcelToJasonFileUploader(props) {
         // mb={2}
         textAlign="center"
       >
-        <MDTypography variant="h1" fontWeight="medium" color="white" mt={1}>
-          הבקשה נשלחה למערכת
-        </MDTypography>
-
+        <DialogContent>
+          {props.task === "create" ? (
+              <MDTypography variant="h1" fontWeight="medium" color="white" mt={1}>
+              הקובץ הועלה למערכת בהצלחה
+              </MDTypography>
+          ) : (
+            <MDTypography variant="h1" fontWeight="medium" color="white" mt={1}>
+              הקובץ עודכן במערכת בהצלחה
+           </MDTypography>
+          )}
+        </DialogContent>
         <DialogContent>
           {props.task === "create" ? (
             <MDTypography variant="h4" fontWeight="medium" color="white" mt={1}>
@@ -510,6 +517,7 @@ export default function ExcelToJasonFileUploader(props) {
             NavigateToReferrer: false,
           });
           console.log(response.data);
+          //! TODO: put here the axios update for the update of the watches used count
         })
         .catch((error) => {
           console.log(error);
@@ -535,6 +543,8 @@ export default function ExcelToJasonFileUploader(props) {
             error: false,
             successmsg: true,
           });
+          //! TODO: put here the axios update for the update of the watches used count
+          
           // eslint-disable-next-line no-self-assign
           window.location.href = window.location.href;
           // console.log(response.data);
@@ -767,17 +777,31 @@ export default function ExcelToJasonFileUploader(props) {
                   </FormGroup>
                 </FormGroup>
                 <FormGroup style={{ textAlign: "center" }}>
+                  {props.task === "create" ? (
+                     <MDButton
+                     color="mekatnar"
+                     size="large"
+                     // onClick={clickSubmit}
+                     className="btn-new-blue"
+                     type="submit"
+                     style={{ width: 200 }}
+                   >
+                     העלאת קובץ
+                     <Icon fontSize="small">upload</Icon>&nbsp;
+                   </MDButton>
+                ) : (
                   <MDButton
-                    color="mekatnar"
-                    size="large"
-                    // onClick={clickSubmit}
-                    className="btn-new-blue"
-                    type="submit"
-                    style={{ width: 150 }}
-                  >
-                    שלח בקשה
-                    <Icon fontSize="small">upload</Icon>&nbsp;
-                  </MDButton>
+                  color="mekatnar"
+                  size="large"
+                  // onClick={clickSubmit}
+                  className="btn-new-blue"
+                  type="submit"
+                  style={{ width: 200 }}
+                >
+                  עדכון הקובץ
+                  <Icon fontSize="small">upload</Icon>&nbsp;
+                </MDButton>
+                )}
                 </FormGroup>
               </Form>
             </CardBody>
