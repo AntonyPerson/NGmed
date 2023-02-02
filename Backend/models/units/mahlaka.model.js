@@ -6,6 +6,8 @@ const mahlakaSchema = new mongoose.Schema({
   ploga: { type: String },
   hativa: { type: String },
   countSoliders: { type: Number, default: 1 },
+  countWatches: { type: Number, default: 0 },
+  countWatchesUsed: { type: Number, default: 0 },
   index: { type: Number },
   // sadir:{type:String},
 });

@@ -45,9 +45,11 @@ exports.createMahlaka = (req, res) => {
   const ploga = req.body.ploga;
   const hativa = req.body.hativa;
   const countSoliders = req.body.countSoliders;
+  const countWatches = req.body.countWatches;
+  const countWatchesUsed = req.body.countWatchesUsed;
   // const index = req.body.index;
 
-  const mahlaka = new Mahlaka({ name, ploga, hativa, countSoliders });
+  const mahlaka = new Mahlaka({ name, ploga, hativa, countSoliders , countWatches , countWatchesUsed });
   mahlaka.save((err, data) => {
     if (err) {
       return res.status(400).json({
@@ -99,6 +101,51 @@ exports.updateHativa = (req, res) => {
       request
         .save()
         .then(() => res.json(`Mahlaka hativa was updated!`))
+        .catch((err) => res.status(400).json("Error: " + err));
+    })
+    .catch((err) => res.status(400).json("Error: " + err));
+};
+
+exports.updateCountSoliders = (req, res) => {
+  // const index = req.body.index;
+  // console.log(req.body);
+  Mahlaka.findById(req.body.id)
+    .then((request) => {
+      request.countSoliders = req.body.countSoliders;
+      // request.index = req.body.index;
+      request
+        .save()
+        .then(() => res.json(`Mahlaka countWatches was updated!`))
+        .catch((err) => res.status(400).json("Error: " + err));
+    })
+    .catch((err) => res.status(400).json("Error: " + err));
+};
+
+exports.updateCountWatches = (req, res) => {
+  // const index = req.body.index;
+  // console.log(req.body);
+  Mahlaka.findById(req.body.id)
+    .then((request) => {
+      request.countWatches = req.body.countWatches;
+      // request.index = req.body.index;
+      request
+        .save()
+        .then(() => res.json(`Mahlaka countWatches was updated!`))
+        .catch((err) => res.status(400).json("Error: " + err));
+    })
+    .catch((err) => res.status(400).json("Error: " + err));
+};
+
+exports.updateCountWatchesUsed = (req, res) => {
+  // const index = req.body.index;
+  // console.log(req.body);
+  Mahlaka.findById(req.body.id)
+    .then((request) => {
+      request.countWatchesUsed = req.body.countWatchesUsed;
+      // request.index = req.body.index;
+      request
+        .save()
+        .then(() => res.json(`Mahlaka countWatchesUsed was updated!`))
         .catch((err) => res.status(400).json("Error: " + err));
     })
     .catch((err) => res.status(400).json("Error: " + err));

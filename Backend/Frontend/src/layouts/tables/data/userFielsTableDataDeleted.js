@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable no-console */
 /* eslint-disable no-unused-vars */
@@ -48,18 +49,8 @@ export default function data() {
 
   useEffect(() => {
     console.log(user.personalnumber);
-    axios
-      .get(`http://localhost:5000/NGmedDB/ExcelData/`)
-      .then((response) => {
-        console.log(response.data);
-        setRequestDB(response.data);
-      })
-      .catch((error) => {
-        console.log(error);
-        setIsError(true);
-      });
     // axios
-    //   .get(`http://localhost:5000/NGmedDB/DeletedInfo/`)
+    //   .get(`http://localhost:5000/NGmedDB/ExcelData/`)
     //   .then((response) => {
     //     console.log(response.data);
     //     setRequestDB(response.data);
@@ -68,11 +59,21 @@ export default function data() {
     //     console.log(error);
     //     setIsError(true);
     //   });
+    axios
+      .get(`http://localhost:5000/NGmedDB/DeletedInfo/`)
+      .then((response) => {
+        console.log(response.data);
+        setRequestDB(response.data);
+      })
+      .catch((error) => {
+        console.log(error);
+        setIsError(true);
+      });
   }, []);
 
-  const dbRows = requestDB.map((excelFile, index) => ({
+  const dbRows = requestDB.map((excelFileDeleted, index) => ({
     // fileID: excelFile._id,
-    fileName: excelFile.fileName,
+    fileName: excelFileDeleted.fileName,
     // isPublic: (
     //   <>
     //     <MDBadge
@@ -85,7 +86,7 @@ export default function data() {
     mangmentTree: (
       <>
         <MDBadge
-          badgeContent={excelFile.gdodName}
+          badgeContent={excelFileDeleted.gdodName}
           // size="sm"
           variant="contained"
           container
@@ -95,7 +96,7 @@ export default function data() {
           keyboard_backspace
         </Icon>
         <MDBadge
-          badgeContent={excelFile.plogaName}
+          badgeContent={excelFileDeleted.plogaName}
           // size="sm"
           color="secondary"
           variant="contained"
@@ -105,7 +106,7 @@ export default function data() {
           keyboard_backspace
         </Icon>
         <MDBadge
-          badgeContent={excelFile.mahlakaName}
+          badgeContent={excelFileDeleted.mahlakaName}
           // size="sm"
           color="mekatnar"
           variant="contained"
@@ -114,9 +115,9 @@ export default function data() {
       </>
     ),
 
-    personalNumberUploader: excelFile.personalNumberUploader,
-    personalNumberDeleter: excelFile.personalNumberDeleter,
-    deletedDate: excelFile.deletedDate,
+    personalNumberUploader: excelFileDeleted.personalnumberUploader,
+    personalNumberDeleter: excelFileDeleted.personalnumberDeleter,
+    deletedDate: excelFileDeleted.createdAt.split("T")[0],
   }));
   console.log(`isError ${isError}`);
   return {

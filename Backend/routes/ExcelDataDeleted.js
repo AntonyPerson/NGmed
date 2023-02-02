@@ -2,10 +2,10 @@
 /* eslint-disable prefer-destructuring */
 /* eslint-disable camelcase */
 const router = require("express").Router();
-const ExcelData = require("../models/ExcelData.model");
+const ExcelDataDeleted = require("../models/ExcelDataDeleted.model");
 
 router.route("/").get((req, res) => {
-  ExcelData.find()
+  ExcelDataDeleted.find()
     // .sort({ createdAt: -1 })
     .then((request) => res.json(request))
     .catch((err) => res.status(400).json("Error: " + err));
@@ -14,16 +14,8 @@ router.route("/").get((req, res) => {
 router.route("/add").post((req, res) => {
   const fileName = req.body.fileName;
 
-  const watchCount = req.body.watchCount;
-
-  const fileJason = req.body.fileJason;
-
-  const startDate = req.body.startDate;
-  const endDate = req.body.endDate;
-
-  const publicFile = req.body.publicFile;
-
-  const personalnumber = req.body.personalnumber;
+  const personalnumberUploader = req.body.personalnumberUploader;
+  const personalnumberDeleter = req.body.personalnumberDeleter;
 
   const pikod = req.body.pikod;
   const ogda = req.body.ogda;
@@ -39,14 +31,10 @@ router.route("/add").post((req, res) => {
   const plogaName = req.body.plogaName;
   const mahlakaName = req.body.mahlakaName;
 
-  const newExcelData = new ExcelData({
+  const newExcelDataDeleted = new ExcelDataDeleted({
     fileName,
-    watchCount,
-    fileJason,
-    startDate,
-    endDate,
-    publicFile,
-    personalnumber,
+    personalnumberUploader,
+    personalnumberDeleter,
     pikod,
     ogda,
     hativa,
@@ -61,7 +49,7 @@ router.route("/add").post((req, res) => {
     mahlakaName,
   });
 
-  const fileId = newExcelData.save((err, form) => {
+  const fileId = newExcelDataDeleted.save((err, form) => {
     if (err) {
       return res.status(400).json("Error: " + err);
     } else {
@@ -75,38 +63,27 @@ router
   .get((req, res) => {
     const personalnumber = req.params.personalnumber;
     // const personalnumber = "7654321";
-    ExcelData.find({ personalnumber: personalnumber })
+    ExcelDataDeleted.find({ personalnumber: personalnumber })
       .then((request) => res.json(request))
       .catch((err) => res.status(400).json("Error: " + err));
   });
 
-router
-  .route("/getExcelsInfoByPersonalnumber/:personalnumber")
-  .get((req, res) => {
-    const personalnumber = req.params.personalnumber;
-    ExcelData.find({ personalnumber: personalnumber })
-      .select(
-        "fileName watchCount startDate endDate publicFile personalnumber pikod ogda hativa gdod ploga mahlaka pikodName ogdaName hativaName gdodName plogaName mahlakaName"
-      )
-      // .sort({ createdAt: -1 })
-      .then((request) => res.json(request))
-      .catch((err) => res.status(400).json("Error: " + err));
-  });
+
 
 router.route("/:id").get((req, res) => {
-  ExcelData.findById(req.params.id)
+  ExcelDataDeleted.findById(req.params.id)
     .then((request) => res.json(request))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
 router.route("/:id").delete((req, res) => {
-  ExcelData.findByIdAndDelete(req.params.id)
+  ExcelDataDeleted.findByIdAndDelete(req.params.id)
     .then(() => res.json("ExcelData deleted."))
     .catch((err) => res.status(400).json("Error: " + err));
 });
 
 router.route("/update/:id").post((req, res) => {
-  ExcelData.findById(req.params.id)
+  ExcelDataDeleted.findById(req.params.id)
     .then((request) => {
       request.fileName = req.body.fileName;
 
