@@ -45,6 +45,8 @@ import { Icon, Tab } from "@mui/material";
 import axios from "axios";
 import MDButton from "components/MDButton";
 import MDTypography from "components/MDTypography";
+import DefaultInfoCard from "examples/Cards/InfoCards/DefaultInfoCard";
+import InfoCardWIthButton from "examples/Cards/InfoCards/InfoCardWIthButton";
 import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 import Projects from "layouts/dashboard/components/Projects";
 import Header from "layouts/profile/components/Header";
@@ -342,13 +344,15 @@ function Dashboard() {
       <Grid container spacing={3}>
         <Grid item xs={12} md={6} lg={3}>
           <MDBox mb={1.5}>
-            <ComplexStatisticsCard
+            <InfoCardWIthButton
               color="dark"
               icon="group"
               title="מספר החיילים במחלקה"
-              count={countSoliders}
-              percentage={{
-                label: "עודכן כעת",
+              valueInfo={countSoliders}
+              buttonInfo={{
+                color: "mekatnar",
+                onClickFunction: () => window.alert("dsasasdadasdas"),
+                icon: "edit",
               }}
             />
           </MDBox>
@@ -424,6 +428,11 @@ function Dashboard() {
                     backgroundColors: ["mekatnar", "dark"],
                     data: [countWatchesUsed, countWatches],
                   },
+                }}
+                buttonInfo={{
+                  color: "mekatnar",
+                  onClickFunction: () => window.alert("dsasasdadasdas"),
+                  icon: "edit",
                 }}
               />
             </MDBox>

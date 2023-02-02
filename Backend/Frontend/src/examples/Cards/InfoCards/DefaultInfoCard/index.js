@@ -25,7 +25,7 @@ import Icon from "@mui/material/Icon";
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
-function DefaultmekatnarCard({ color, icon, title, description, value }) {
+function DefaultInfoCard({ color, icon, title, description, value }) {
   return (
     <Card>
       <MDBox p={2} mx={3} display="flex" justifyContent="center">
@@ -65,14 +65,14 @@ function DefaultmekatnarCard({ color, icon, title, description, value }) {
 }
 
 // Setting default values for the props of DefaultmekatnarCard
-DefaultmekatnarCard.defaultProps = {
+DefaultInfoCard.defaultProps = {
   color: "mekatnar",
   value: "",
   description: "",
 };
 
 // Typechecking props for the DefaultmekatnarCard
-DefaultmekatnarCard.propTypes = {
+DefaultInfoCard.propTypes = {
   color: PropTypes.oneOf([
     "primary",
     "secondary",
@@ -88,4 +88,4 @@ DefaultmekatnarCard.propTypes = {
   value: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
 };
 
-export default DefaultmekatnarCard;
+export default DefaultInfoCard;

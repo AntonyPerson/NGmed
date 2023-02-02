@@ -30,9 +30,10 @@ import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
 // PieChart configurations
+import MDButton from "components/MDButton";
 import configs from "examples/Charts/PieChart/configs";
 
-function PieChart({ icon, title, description, height, chart }) {
+function PieChart({ icon, title, description, height, chart, buttonInfo }) {
   const { data, options } = configs(chart.labels || [], chart.datasets || {});
 
   const renderChart = (
@@ -75,6 +76,14 @@ function PieChart({ icon, title, description, height, chart }) {
         ),
         [chart, height]
       )}
+      <MDButton
+        variant="gradient"
+        color={buttonInfo.color}
+        onClick={buttonInfo.onClickFunction}
+        iconOnly
+      >
+        <Icon>{buttonInfo.icon}</Icon>
+      </MDButton>
     </MDBox>
   );
 
@@ -87,6 +96,7 @@ PieChart.defaultProps = {
   title: "",
   description: "",
   height: "19.125rem",
+  buttonInfo: {},
 };
 
 // Typechecking props for the PieChart
@@ -108,6 +118,21 @@ PieChart.propTypes = {
   description: PropTypes.oneOfType([PropTypes.string, PropTypes.node]),
   height: PropTypes.oneOfType([PropTypes.string, PropTypes.number]),
   chart: PropTypes.objectOf(PropTypes.oneOfType([PropTypes.array, PropTypes.object])).isRequired,
+  buttonInfo: PropTypes.shape({
+    color: PropTypes.oneOf([
+      "info",
+      "primary",
+      "secondary",
+      "mekatnar",
+      "success",
+      "warning",
+      "error",
+      "dark",
+      "white",
+    ]),
+    onClickFunction: PropTypes.func,
+    icon: PropTypes.node.isRequired,
+  }),
 };
 
 export default PieChart;
