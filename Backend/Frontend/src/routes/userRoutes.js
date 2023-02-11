@@ -121,14 +121,14 @@ const routes = [
     route: "/UserFilesTable",
     component: <UserFielsTable />,
   },
-  {
-    type: "collapse",
-    name: "קבצי המערכת",
-    key: "FilesTable",
-    icon: <Icon fontSize="small">content_paste_search</Icon>,
-    route: "/FilesTable",
-    component: <AllFielsTable />,
-  },
+  // {
+  //   type: "collapse",
+  //   name: "קבצי המערכת",
+  //   key: "FilesTable",
+  //   icon: <Icon fontSize="small">content_paste_search</Icon>,
+  //   route: "/FilesTable",
+  //   component: <AllFielsTable />,
+  // },
   // {
   //   type: "collapse",
   //   name: "אודות",

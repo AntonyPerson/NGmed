@@ -1,3 +1,7 @@
+/* eslint-disable no-undef */
+/* eslint-disable no-plusplus */
+/* eslint-disable no-await-in-loop */
+/* eslint-disable no-shadow */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
@@ -28,6 +32,7 @@ import MDBox from "components/MDBox";
 import MDButton from "components/MDButton";
 import MDInput from "components/MDInput";
 import MDTypography from "components/MDTypography";
+// import Select from "components/Select/AnimatedSelect";
 import Dropzone from "react-dropzone-uploader";
 import Popup from "reactjs-popup";
 // import Dialog from "@mui/material/Dialog";
@@ -59,7 +64,6 @@ import {
   Card,
   CardBody,
   CardHeader,
-  Col,
   Container,
   Form,
   FormGroup,
@@ -70,6 +74,7 @@ import {
   InputGroupText,
   Label,
   Row,
+  Col,
 } from "reactstrap";
 
 // Material Dashboard 2 React Components
@@ -103,7 +108,8 @@ export default function ExcelToJasonFileUploader(props) {
 
     fileJason: {},
 
-    watchCount: 1,
+    countWatchesUsed: 1,
+    // countWatchesTotalMahlaka: 1,
 
     startDate: "",
     endDate: "",
@@ -133,9 +139,120 @@ export default function ExcelToJasonFileUploader(props) {
     requestID: "",
   });
 
+  const [ogdot, setOgdot] = useState([]);
+  const [Hativot, setHativot] = useState([]);
   const [gdods, setGdods] = useState([]);
   const [plogot, setPlogot] = useState([]);
   const [mahlakot, setMahlakot] = useState([]);
+
+  //   const loadOgda = async () => {
+  //     await axios
+  //       .get("http://localhost:5000/NGmedDB/treeMangment/ogda")
+  //       .then((response) => {
+  //         setOgdot(response.data);
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   };
+  // const loadHativot = async (ogdot) => {
+  //     let tempOgdot = ogdot;
+  //     if (tempOgdot !== undefined && !tempOgdot.isArray) {
+  //        tempOgdot = [ogdot];
+  //     }
+  //     const tempOgdaHativot = [];
+  //     if (tempOgdot !== undefined && tempOgdot.length > 0) {
+  // 	    for (let i = 0; i < tempOgdot.length; i++) {
+  // 	    	await axios
+  // 	    		.post(`http://localhost:5000/NGmedDB/treeMangment/hativa/hativasbyogdaid`, {
+  // 	    			ogda: tempOgdot[i],
+  // 	    		})
+  // 	    		.then((response) => {
+  // 	    			for (let j = 0; j < response.data.length; j++)
+  // 	    				tempOgdaHativot.push(response.data[j]);
+  // 	    		})
+  // 	    		.catch((error) => {
+  // 	    			console.log(error);
+  // 	    		});
+  // 	    }
+  //     }
+  //     setHativot(tempOgdaHativot);
+  //    // setGdodsrep(temphativasgdods);
+  //   };
+
+  // const loadGdods = async (Hativot) => {
+  //     let temphativot = Hativot;
+  //     if (temphativot !==  undefined && !temphativot.isArray) {
+  //        temphativot = [Hativot];
+  //     }
+  //     const temphativasgdods = [];
+  //     if (temphativot !== undefined && temphativot.length > 0) {
+  // 	    for (let i = 0; i < temphativot.length; i++) {
+  // 	    	await axios
+  // 	    		.post(`http://localhost:5000/NGmedDB/treeMangment/gdod/gdodsByHativaId`, {
+  // 	    			hativa: temphativot[i],
+  // 	    		})
+  // 	    		.then((response) => {
+  // 	    			for (let j = 0; j < response.data.length; j++)
+  // 	    				temphativasgdods.push(response.data[j]);
+  // 	    		})
+  // 	    		.catch((error) => {
+  // 	    			console.log(error);
+  // 	    		});
+  // 	    }
+  //     }
+  //     setGdods(temphativasgdods);
+  //    // setGdodsrep(temphativasgdods);
+  //   };
+  //   const loadPlogot = async (gdods) => {
+  //     let tempgdods = gdods;
+  //     if (tempgdods !== undefined && !tempgdods.isArray) {
+  //       tempgdods = [gdods];
+  //     }
+  //     const tempGdodPlogot = [];
+  //     if (tempgdods !== undefined && tempgdods.length > 0) {
+  // 	    for (let i = 0; i < tempgdods.length; i++) {
+  // 	    	await axios
+  // 	    		.post(`http://localhost:5000/NGmedDB/treeMangment/ploga/plogaByGdodId`, {
+  // 	    			gdod: tempgdods[i],
+  // 	    		})
+  // 	    		.then((response) => {
+  // 	    			for (let j = 0; j < response.data.length; j++)
+  //             tempGdodPlogot.push(response.data[j]);
+  // 	    		})
+  // 	    		.catch((error) => {
+  // 	    			console.log(error);
+  // 	    		});
+  // 	    }
+  //     }
+  //     setPlogot(tempGdodPlogot);
+  //    // setGdodsrep(temphativasgdods);
+  //   };
+
+  //   const loadMahlakot = async (plogot) => {
+  //     let tempPlogot = plogot;
+  //     if (tempPlogot !== undefined && !tempPlogot.isArray) {
+  //       tempPlogot = [plogot];
+  //     }
+  //     const tempPlogamahlakot = [];
+  //     if (tempPlogot !== undefined && tempPlogot.length > 0) {
+  // 	    for (let i = 0; i < tempPlogot.length; i++) {
+  // 	    	await axios
+  // 	    		.post(`http://localhost:5000/NGmedDB/treeMangment/mahlaka/mahlakaByPlogaId`, {
+  // 	    			ploga: tempPlogot[i],
+  // 	    		})
+  // 	    		.then((response) => {
+  // 	    			for (let j = 0; j < response.data.length; j++)
+  //             tempPlogamahlakot.push(response.data[j]);
+  // 	    		})
+  // 	    		.catch((error) => {
+  // 	    			console.log(error);
+  // 	    		});
+  // 	    }
+  //     }
+  //     setMahlakot(tempPlogamahlakot);
+  //    // setGdodsrep(temphativasgdods);
+  //   };
 
   // ? Get all Gdods of the same Hativa
   useEffect(() => {
@@ -176,6 +293,7 @@ export default function ExcelToJasonFileUploader(props) {
   }, [dataDB.gdod]);
 
   // ? Get all Mahlakot of the same Ploga
+
   useEffect(() => {
     if (dataDB.ploga !== "") {
       axios
@@ -205,7 +323,7 @@ export default function ExcelToJasonFileUploader(props) {
           setDataDB({
             ...dataDB,
             fileName: response.data.fileName,
-            watchCount: response.data.watchCount,
+            countWatchesUsed: response.data.countWatchesUsed,
             publicFile: response.data.publicFile,
             pikod: response.data.pikod,
             ogda: response.data.ogda,
@@ -258,11 +376,11 @@ export default function ExcelToJasonFileUploader(props) {
       NavigateToReferrer: false,
     });
   };
-  const NavigateUser = () => {
-    if (dataDB.NavigateToReferrer) {
-      return <Navigate to={`/Graphs/${dataDB.requestID}`} />;
-    }
-  };
+  // const NavigateUser = () => {
+  //   if (dataDB.NavigateToReferrer) {
+  //     return <Navigate to={`/Graphs/${dataDB.requestID}`} />;
+  //   }
+  // };
   const showSuccess = () => (
     <Dialog
       open={dataDB.successmsg}
@@ -283,13 +401,13 @@ export default function ExcelToJasonFileUploader(props) {
       >
         <DialogContent>
           {props.task === "create" ? (
-              <MDTypography variant="h1" fontWeight="medium" color="white" mt={1}>
+            <MDTypography variant="h1" fontWeight="medium" color="white" mt={1}>
               הקובץ הועלה למערכת בהצלחה
-              </MDTypography>
+            </MDTypography>
           ) : (
             <MDTypography variant="h1" fontWeight="medium" color="white" mt={1}>
               הקובץ עודכן במערכת בהצלחה
-           </MDTypography>
+            </MDTypography>
           )}
         </DialogContent>
         <DialogContent>
@@ -384,9 +502,19 @@ export default function ExcelToJasonFileUploader(props) {
     setDataDB({ ...dataDB, [evt.target.name]: value });
   }
 
+  function handleChange2(selectedOption, name) {
+    if (!(selectedOption.value === "בחר")) setDataDB({ ...dataDB, [name]: selectedOption.value });
+    else {
+      const tempdataDB = { ...dataDB };
+      delete tempdataDB[name];
+      setDataDB(tempdataDB);
+    }
+  }
+
   function handleChangeMangmentTreeSelect(evt) {
     const { value, name } = evt.target;
     const op = document.querySelector(`#${name}`);
+
     let id;
 
     let nameOfTree = "";
@@ -418,6 +546,7 @@ export default function ExcelToJasonFileUploader(props) {
       if (mahlakot.length !== 0) {
         id = op.options[op.selectedIndex].id;
         valueName = mahlakot[id].name;
+        // TODO axios request to get mahlaka info (id is value) and set the total count of watches to dataDB.countWatchesTotalMahlaka
       }
     }
     setDataDB({ ...dataDB, [name]: value, [nameOfTree]: valueName });
@@ -467,7 +596,7 @@ export default function ExcelToJasonFileUploader(props) {
 
     const requestData = {
       fileName: dataDB.fileName,
-      watchCount: dataDB.watchCount,
+      countWatchesUsed: dataDB.countWatchesUsed,
       fileJason: dataDB.fileJason,
       startDate: dataDB.startDate,
       endDate: dataDB.endDate,
@@ -488,7 +617,7 @@ export default function ExcelToJasonFileUploader(props) {
     };
     const requestDataToUpdate = {
       fileName: dataDB.fileName,
-      watchCount: dataDB.watchCount,
+      countWatchesUsed: dataDB.countWatchesUsed,
       publicFile: dataDB.publicFile,
       pikod: dataDB.pikod,
       ogda: dataDB.ogda,
@@ -529,6 +658,37 @@ export default function ExcelToJasonFileUploader(props) {
             NavigateToReferrer: false,
           });
         });
+
+      axios
+        .post(
+          `http://localhost:5000/NGmedDB/treeMangment/mahlaka/updateCountWatchesUsed/${requestData.mahlaka}`,
+          requestData
+        )
+        .then((response) => {
+          console.log(response);
+          setDataDB({
+            ...dataDB,
+            requestID: response.data,
+            loading: false,
+            error: false,
+            successmsg: true,
+            NavigateToReferrer: false,
+          });
+          console.log(response.data);
+        })
+        .catch((error) => {
+          console.log(error);
+          setDataDB({
+            ...dataDB,
+            errortype: error.response,
+            loading: false,
+            error: true,
+            NavigateToReferrer: false,
+          });
+        });
+      // eslint-disable-next-line no-self-assign
+      window.location.href = window.location.href;
+      // console.log(response.data);
     } else {
       axios
         .post(
@@ -544,10 +704,6 @@ export default function ExcelToJasonFileUploader(props) {
             successmsg: true,
           });
           //! TODO: put here the axios update for the update of the watches used count
-          
-          // eslint-disable-next-line no-self-assign
-          window.location.href = window.location.href;
-          // console.log(response.data);
         })
         .catch((error) => {
           console.log(error);
@@ -559,8 +715,57 @@ export default function ExcelToJasonFileUploader(props) {
             NavigateToReferrer: false,
           });
         });
+
+      axios
+        .post(
+          `http://localhost:5000/NGmedDB/treeMangment/mahlaka/updateCountWatchesUsed/${requestDataToUpdate.mahlaka}`,
+          requestDataToUpdate
+        )
+        .then((response) => {
+          console.log(response);
+          setDataDB({
+            ...dataDB,
+            loading: false,
+            error: false,
+            successmsg: true,
+          });
+        })
+        .catch((error) => {
+          console.log(error);
+          setDataDB({
+            ...dataDB,
+            errortype: error.response,
+            loading: false,
+            error: true,
+            NavigateToReferrer: false,
+          });
+        });
+      // eslint-disable-next-line no-self-assign
+      window.location.href = window.location.href;
+      // console.log(response.data);
     }
   };
+
+  //   useEffect(() => {
+  //    setHativot([]);
+  //    loadHativot(dataDB.ogda);
+  //  }, [dataDB.ogda]);
+
+  //  useEffect(() => {
+  //   setGdods([]);
+  //   loadGdods(dataDB.hativa);
+  // }, [dataDB.hativa]);
+
+  // useEffect(() => {
+  //   setPlogot([]);
+  //   loadPlogot(dataDB.gdod);
+  // }, [dataDB.gdod]);
+
+  // useEffect(() => {
+  //   setMahlakot([]);
+  //   loadMahlakot(dataDB.ploga);
+  // }, [dataDB.ploga]);
+
   const excelToJasonFileUploader = () => (
     <Container className="" dir="rtl">
       <Row className="justify-content-center">
@@ -621,6 +826,220 @@ export default function ExcelToJasonFileUploader(props) {
                   </FormGroup>
                 )}
 
+                {/* <Row style={{ paddingTop: "2px" }}>
+             {!dataDB.pikod ? (
+               <Col
+                   style={{
+                    justifyContent: "right",
+                    lignContent: "right",
+                    textAlign: "right",
+                   }}
+                 >
+               <h6>פיקוד</h6>
+                <Select
+                   data={pikod}
+                  handleChange2={handleChange2}
+                  name="pikod"
+                  val={dataDB.pikod ? dataDB.pikod : undefined}
+                />
+             </Col>
+         ) : (
+            <Col
+            style={{
+             justifyContent: "right",
+             alignContent: "right",
+             textAlign: "right",
+            }}
+            >
+           <h6>פיקוד</h6>
+            <Select
+             data={pikod}
+             handleChange2={handleChange2}
+             name="pikod"
+             val={dataDB.pikod ? dataDB.pikod : undefined}
+             isDisabled
+            />
+          </Col>
+       )}
+
+        
+         {dataDB.pikod && !dataDB.hativa ? (
+             <Col
+               style={{
+                  justifyContent: "right",
+                  alignContent: "right",
+                 textAlign: "right",
+                }}
+             >
+               <h6>אוגדה</h6>
+               <Select
+                 data={ogda}
+                  handleChange2={handleChange2}
+                  name="ogda"
+                  val={dataDB.ogda ? dataDB.ogda : undefined}
+               />
+             </Col>
+           ) : (
+             <Col
+               style={{
+                 justifyContent: "right",
+                 alignContent: "right",
+                  textAlign: "right",
+               }}
+             >       
+               <h6>אוגדה</h6>
+               <Select
+                  data={ogda}
+                  handleChange2={handleChange2}
+                  name="ogda"
+                 val={dataDB.ogda ? dataDB.ogda : undefined}
+                  isDisabled
+               />
+              </Col>
+           )}
+
+      
+
+           {dataDB.ogda && !dataDB.gdod ? (
+              <Col
+                style={{
+                  justifyContent: "right",
+                  alignContent: "right",
+                  textAlign: "right",
+                }}
+             >
+               <h6>חטיבה</h6>
+               <Select
+                 data={hativa}
+                 handleChange2={handleChange2}
+                name="hativa"
+                val={dataDB.hativa ? dataDB.hativa : undefined}
+              />
+            </Col>
+         ) : (
+            <Col
+             style={{
+                justifyContent: "right",
+                alignContent: "right",
+               textAlign: "right",
+              }}
+           >
+              <h6>חטיבה</h6>
+              <Select
+                data={hativa}
+                handleChange2={handleChange2}
+                name="hativa"
+                val={dataDB.hativa ? dataDB.hativa : undefined}
+                isDisabled
+              />
+             </Col>
+           )}
+          
+           {dataDB.hativa ? (
+              <Col
+               style={{
+                 justifyContent: "right",
+                 alignContent: "right",
+                  textAlign: "right",
+                }}
+             >
+                <h6>גדוד</h6>
+                <Select
+                  data={gdod}
+                  handleChange2={handleChange2}
+                  name="gdod"
+                  val={dataDB.gdod ? dataDB.gdod : undefined}
+                />
+             </Col>
+           ) : (
+             <Col
+                style={{
+                  justifyContent: "right",
+                  alignContent: "right",
+                  textAlign: "right",
+                }}
+              >
+                 <h6>גדוד</h6>
+               <Select
+                  data={gdod}
+                  handleChange2={handleChange2}
+                  name="gdod"
+                  val={dataDB.gdod ? dataDB.gdod : undefined}
+                  isDisabled
+                />
+              </Col>
+            )}
+           
+            {dataDB.gdod ? (
+              <Col
+                style={{
+                  justifyContent: "right",
+                  alignContent: "right",
+                  textAlign: "right",
+                }}
+              >
+              <h6>פלוגה</h6>
+               <Select
+                  data={ploga}
+                  handleChange2={handleChange2}
+                  name="ploga"
+                  val={dataDB.ploga ? dataDB.ploga : undefined}
+               />
+              </Col>
+           ) : (
+              <Col
+                style={{
+                  justifyContent: "right",
+                  alignContent: "right",
+                  textAlign: "right",
+                }}
+             >
+               <h6>פלוגה</h6>
+               <Select
+                 data={ploga}
+                 handleChange2={handleChange2}
+                 name="ploga"
+                 val={dataDB.ploga ? dataDB.ploga : undefined}
+                 isDisabled
+               />
+             </Col>
+             )}
+        
+           {dataDB.ploga ? (
+             <Col
+                style={{
+                  justifyContent: "right",
+                  alignContent: "right",
+                  textAlign: "right",
+                }}
+              >
+                <h6>מחלקה</h6>
+                <Select
+                  data={mahlaka}
+                  handleChange2={handleChange2}
+                  name="gdod"
+                  val={dataDB.mahlaka ? dataDB.mahlaka : undefined}
+                />
+              </Col>
+           ) : (
+             <Col
+               style={{
+                 justifyContent: "right",
+                 alignContent: "right",
+                 textAlign: "right",
+                }}
+             >
+               <h6>מחלקה</h6>
+               <Select
+                 data= {mahlaka}
+                 handleChange2={handleChange2}
+                 name= "mahlaka"
+                 val={dataDB.mahlaka ? dataDB.mahlaka : undefined}
+                 isDisabled
+                />
+              </Col>
+              )}
+   </Row>              */}
                 <Row>
                   <Col>
                     <FormGroup>
@@ -632,6 +1051,7 @@ export default function ExcelToJasonFileUploader(props) {
                         type="select"
                         value={dataDB.pikod}
                         onChange={handleChangeMangmentTreeSelect}
+                        // onChange={handleChange2}
                         required
                       >
                         <option defult value="" disabled>
@@ -651,6 +1071,7 @@ export default function ExcelToJasonFileUploader(props) {
                         type="select"
                         value={dataDB.ogda}
                         onChange={handleChangeMangmentTreeSelect}
+                        // onChange={handleChange2}
                         required
                       >
                         <option defult value="" disabled>
@@ -669,6 +1090,7 @@ export default function ExcelToJasonFileUploader(props) {
                         type="select"
                         value={dataDB.hativa}
                         onChange={handleChangeMangmentTreeSelect}
+                        // onChange={handleChange2}
                         required
                       >
                         <option defult value="" disabled>
@@ -690,6 +1112,7 @@ export default function ExcelToJasonFileUploader(props) {
                         type="select"
                         value={dataDB.gdod}
                         onChange={handleChangeMangmentTreeSelect}
+                        // onChange={handleChange2}
                         required
                         disabled={dataDB.hativa === ""}
                       >
@@ -714,6 +1137,7 @@ export default function ExcelToJasonFileUploader(props) {
                         type="select"
                         value={dataDB.ploga}
                         onChange={handleChangeMangmentTreeSelect}
+                        // onChange={handleChange2}
                         required
                         disabled={dataDB.gdod === ""}
                       >
@@ -738,6 +1162,7 @@ export default function ExcelToJasonFileUploader(props) {
                         type="select"
                         value={dataDB.mahlaka}
                         onChange={handleChangeMangmentTreeSelect}
+                        // onChange={handleChange2}
                         required
                         disabled={dataDB.ploga === ""}
                       >
@@ -755,18 +1180,19 @@ export default function ExcelToJasonFileUploader(props) {
                 </Row>
                 <FormGroup row>
                   <FormGroup>
-                    <Label for="watchCount">מספר שעונים שנפרקו</Label>
+                    <Label for="countWatchesUsed">מספר שעונים שנפרקו</Label>
                     <Input
                       required
                       checked
-                      name="watchCount"
+                      name="countWatchesUsed"
                       type="number"
                       min="1"
-                      value={dataDB.watchCount}
+                     // max={dataDB.countWatchesTotalMahlaka}
+                      value={dataDB.countWatchesUsed}
                       onChange={handleChange}
                     />
                   </FormGroup>
-                  <FormGroup>
+                  {/* <FormGroup>
                     <Label for="isPublic">ציבורי</Label>
                     <Switch
                       color="mekatnar"
@@ -774,34 +1200,34 @@ export default function ExcelToJasonFileUploader(props) {
                       checked={dataDB.publicFile}
                       onChange={handleChangeSwitch}
                     />
-                  </FormGroup>
+                  </FormGroup> */}
                 </FormGroup>
                 <FormGroup style={{ textAlign: "center" }}>
                   {props.task === "create" ? (
-                     <MDButton
-                     color="mekatnar"
-                     size="large"
-                     // onClick={clickSubmit}
-                     className="btn-new-blue"
-                     type="submit"
-                     style={{ width: 200 }}
-                   >
-                     העלאת קובץ
-                     <Icon fontSize="small">upload</Icon>&nbsp;
-                   </MDButton>
-                ) : (
-                  <MDButton
-                  color="mekatnar"
-                  size="large"
-                  // onClick={clickSubmit}
-                  className="btn-new-blue"
-                  type="submit"
-                  style={{ width: 200 }}
-                >
-                  עדכון הקובץ
-                  <Icon fontSize="small">upload</Icon>&nbsp;
-                </MDButton>
-                )}
+                    <MDButton
+                      color="mekatnar"
+                      size="large"
+                      // onClick={clickSubmit}
+                      className="btn-new-blue"
+                      type="submit"
+                      style={{ width: 200 }}
+                    >
+                      העלאת קובץ
+                      <Icon fontSize="small">upload</Icon>&nbsp;
+                    </MDButton>
+                  ) : (
+                    <MDButton
+                      color="mekatnar"
+                      size="large"
+                      // onClick={clickSubmit}
+                      className="btn-new-blue"
+                      type="submit"
+                      style={{ width: 200 }}
+                    >
+                      עדכון הקובץ
+                      <Icon fontSize="small">upload</Icon>&nbsp;
+                    </MDButton>
+                  )}
                 </FormGroup>
               </Form>
             </CardBody>
@@ -816,7 +1242,7 @@ export default function ExcelToJasonFileUploader(props) {
       {showError()}
       {showSuccess()}
       {showLoading()}
-      {NavigateUser()}
+      {/* {NavigateUser()} */}
 
       {excelToJasonFileUploader()}
     </>

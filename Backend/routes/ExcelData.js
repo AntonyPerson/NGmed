@@ -15,7 +15,7 @@ router.route("/").get((req, res) => {
 router.route("/getExcelsInfo").get((req, res) => {
   ExcelData.find()
     .select(
-      "fileName watchCount startDate endDate personalnumber pikodName ogdaName hativaName gdodName plogaName mahlakaName"
+      "fileName countWatchesUsed startDate endDate personalnumber pikodName ogdaName hativaName gdodName plogaName mahlakaName"
     )
     // .sort({ createdAt: -1 })
     .where("publicFile")
@@ -27,7 +27,7 @@ router.route("/getExcelsInfo").get((req, res) => {
 router.route("/add").post((req, res) => {
   const fileName = req.body.fileName;
 
-  const watchCount = req.body.watchCount;
+  const countWatchesUsed = req.body.countWatchesUsed;
 
   const fileJason = req.body.fileJason;
 
@@ -54,7 +54,7 @@ router.route("/add").post((req, res) => {
 
   const newExcelData = new ExcelData({
     fileName,
-    watchCount,
+    countWatchesUsed,
     fileJason,
     startDate,
     endDate,
@@ -99,7 +99,7 @@ router
     const personalnumber = req.params.personalnumber;
     ExcelData.find({ personalnumber: personalnumber })
       .select(
-        "fileName watchCount startDate endDate publicFile personalnumber pikod ogda hativa gdod ploga mahlaka pikodName ogdaName hativaName gdodName plogaName mahlakaName"
+        "fileName countWatchesUsed startDate endDate publicFile personalnumber pikod ogda hativa gdod ploga mahlaka pikodName ogdaName hativaName gdodName plogaName mahlakaName"
       )
       // .sort({ createdAt: -1 })
       .then((request) => res.json(request))
@@ -124,7 +124,7 @@ router.route("/:id").get((req, res) => {
 router.route("/ExcelInfo/:id").get((req, res) => {
   ExcelData.findById(req.params.id)
     .select(
-      "fileName watchCount publicFile pikod ogda hativa gdod ploga mahlaka pikodName ogdaName hativaName gdodName plogaName mahlakaName"
+      "fileName countWatchesUsed publicFile pikod ogda hativa gdod ploga mahlaka pikodName ogdaName hativaName gdodName plogaName mahlakaName"
     )
     // .sort({ createdAt: -1 })
     .then((request) => res.json(request))
@@ -141,7 +141,7 @@ router.route("/updateInfo/:id").post((req, res) => {
   ExcelData.findById(req.params.id)
     .then((request) => {
       request.fileName = req.body.fileName;
-      request.watchCount = req.body.watchCount;
+      request.countWatchesUsed = req.body.countWatchesUsed;
       request.publicFile = req.body.publicFile;
 
       request.pikod = req.body.pikod;
@@ -171,7 +171,7 @@ router.route("/update/:id").post((req, res) => {
     .then((request) => {
       request.fileName = req.body.fileName;
 
-      request.watchCount = req.body.watchCount;
+      request.countWatchesUsed = req.body.countWatchesUsed;
 
       request.publicFile = req.body.publicFile;
 

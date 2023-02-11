@@ -1,3 +1,4 @@
+const { mongo } = require("mongoose");
 const Mahlaka = require("../../models/units/mahlaka.model");
 
 exports.findMahlakaByIdG = (req, res) => {
@@ -18,7 +19,7 @@ exports.findAll = (req, res) => {
 };
 
 exports.findMahlakaById = (req, res) => {
-  Mahlaka.find(req.body.id)
+  Mahlaka.findById(req.body.id)
     .then((job) => res.json(job))
     .catch((err) => res.status(400).json("Error: " + err));
 };
@@ -49,7 +50,14 @@ exports.createMahlaka = (req, res) => {
   const countWatchesUsed = req.body.countWatchesUsed;
   // const index = req.body.index;
 
-  const mahlaka = new Mahlaka({ name, ploga, hativa, countSoliders , countWatches , countWatchesUsed });
+  const mahlaka = new Mahlaka({
+    name,
+    ploga,
+    hativa,
+    countSoliders,
+    countWatches,
+    countWatchesUsed,
+  });
   mahlaka.save((err, data) => {
     if (err) {
       return res.status(400).json({
@@ -62,12 +70,14 @@ exports.createMahlaka = (req, res) => {
 exports.updateMahlaka = (req, res) => {
   // const index = req.body.index;
   // console.log(req.body);
-  Mahlaka.findById(req.params.id)
+  Mahlaka.findById(req.params.mahlakaId)
     .then((request) => {
       request.name = req.body.name;
       request.ploga = req.body.ploga;
       request.hativa = req.body.hativa;
       request.countSoliders = req.body.countSoliders;
+      request.countWatches = req.body.countWatches;
+      request.countWatchesUsed = req.body.countWatchesUsed;
       // request.index = req.body.index;
       request
         .save()
@@ -80,7 +90,7 @@ exports.updateMahlaka = (req, res) => {
 exports.updatePloga = (req, res) => {
   // const index = req.body.index;
   // console.log(req.body);
-  Mahlaka.findById(req.params.id)
+  Mahlaka.findById(req.params.mahlakaId)
     .then((request) => {
       request.ploga = req.body.ploga;
       // request.index = req.body.index;
@@ -91,10 +101,11 @@ exports.updatePloga = (req, res) => {
     })
     .catch((err) => res.status(400).json("Error: " + err));
 };
+
 exports.updateHativa = (req, res) => {
   // const index = req.body.index;
   // console.log(req.body);
-  Mahlaka.findById(req.params.id)
+  Mahlaka.findById(req.params.mahlakaId)
     .then((request) => {
       request.hativa = req.body.hativa;
       // request.index = req.body.index;
@@ -107,15 +118,15 @@ exports.updateHativa = (req, res) => {
 };
 
 exports.updateCountSoliders = (req, res) => {
-  // const index = req.body.index;
+    // const index = req.body.index;
   // console.log(req.body);
-  Mahlaka.findById(req.body.id)
+  Mahlaka.findById(req.params.mahlakaId)
     .then((request) => {
       request.countSoliders = req.body.countSoliders;
       // request.index = req.body.index;
       request
         .save()
-        .then(() => res.json(`Mahlaka countWatches was updated!`))
+        .then(() => res.json(`Mahlaka countSoliders was updated!`))
         .catch((err) => res.status(400).json("Error: " + err));
     })
     .catch((err) => res.status(400).json("Error: " + err));
@@ -124,7 +135,7 @@ exports.updateCountSoliders = (req, res) => {
 exports.updateCountWatches = (req, res) => {
   // const index = req.body.index;
   // console.log(req.body);
-  Mahlaka.findById(req.body.id)
+  Mahlaka.findById(req.params.mahlakaId)
     .then((request) => {
       request.countWatches = req.body.countWatches;
       // request.index = req.body.index;
@@ -139,7 +150,7 @@ exports.updateCountWatches = (req, res) => {
 exports.updateCountWatchesUsed = (req, res) => {
   // const index = req.body.index;
   // console.log(req.body);
-  Mahlaka.findById(req.body.id)
+  Mahlaka.findById(req.params.mahlakaId)
     .then((request) => {
       request.countWatchesUsed = req.body.countWatchesUsed;
       // request.index = req.body.index;

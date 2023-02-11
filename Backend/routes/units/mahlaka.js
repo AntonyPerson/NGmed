@@ -30,11 +30,11 @@ router.post("/mahlaka", createMahlaka); /**/
 
 //update
 router.put("/mahlaka/:mahlakaId", updateMahlaka);
-router.post("/mahlaka/updatePloga", updatePloga);
-router.post("/mahlaka/updateHativa", updateHativa);
-router.post("/mahlaka/:updateCountSoliders", updateCountSoliders);
-router.post("/mahlaka/:updateCountWatches", updateCountWatches);
-router.post("/mahlaka/:updateCountWatchesUsed", updateCountWatchesUsed);
+router.post("/mahlaka/updatePloga/:mahlakaId", updatePloga);
+router.post("/mahlaka/updateHativa/:mahlakaId", updateHativa);
+router.post("/mahlaka/updateCountSoliders/:mahlakaId", updateCountSoliders);
+router.post("/mahlaka/updateCountWatches/:mahlakaId", updateCountWatches);
+router.post("/mahlaka/updateCountWatchesUsed/:mahlakaId", updateCountWatchesUsed);
 
 //delete
 router.delete("/mahlaka/:id", removeMahlaka);

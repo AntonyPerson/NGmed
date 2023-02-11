@@ -71,6 +71,7 @@ const UserFielsTable = () => {
     setDBerror: setDbeDeleted,
   } = userFielsTableDataDeleted();
 
+
   const handleErrorClose = () => {
     setDbError(true);
     setDbe(false);
@@ -153,7 +154,7 @@ const UserFielsTable = () => {
       <MDBox variant="gradient" bgColor="mekatnar" coloredShadow="mekatnar" borderRadius="l">
         <DialogContent>
           {console.log(toUpdateFileID)}
-          <ExcelToJasonFileUploader task="update" fileID={toUpdateFileID} />
+          <ExcelToJasonFileUploader task="update" fileID={toUpdateFileID}  />
           {/* <MDBox
         variant="gradient"
         bgColor="error"
@@ -255,7 +256,7 @@ const UserFielsTable = () => {
               </MDTypography>
             </MDBox>
             <MDBox pt={3}>
-              {pRows.length !== 0 ? (
+              {pRowsDeleted.length !== 0 ? (
                 <DataTable
                   table={{ columns: pColumnsDeleted, rows: pRowsDeleted }}
                   isSorted={true}

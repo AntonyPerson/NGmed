@@ -118,7 +118,7 @@ export default function data() {
         />
       </>
     ),
-    watchCount: excelFile.watchCount,
+    countWatchesUsed: excelFile.countWatchesUsed,
     // fileDateRange: `${excelFile.fileJason[1].calendarDate} ==> ${
     //   excelFile.fileJason[excelFile.fileJason.length - 1].calendarDate
     // }`,
@@ -164,7 +164,6 @@ export default function data() {
           axios
             .delete(`http://localhost:5000/NGmedDB/ExcelData/${excelFile._id}`)
             .then((response) => {
-              //
               axios
                 .post(`http://localhost:5000/NGmedDB/DeletedInfo/add`, {
                   fileName: excelFile.fileName,
@@ -215,7 +214,7 @@ export default function data() {
       { Header: "עודכן לאחרונה", accessor: "dateUpdated", align: "left" },
       // { Header: "פרטי / ציבורי", accessor: "isPublic", align: "left" },
       { Header: "שייכות", accessor: "mangmentTree", align: "center" },
-      { Header: "מספר שעונים שנפרקו", accessor: "watchCount", align: "center" },
+      { Header: "מספר שעונים שנפרקו", accessor: "countWatchesUsed", align: "center" },
       { Header: "טווח תאריכים", accessor: "fileDateRange", align: "center" },
       { Header: "נתוני הקובץ", accessor: "graphs", align: "center" },
       { Header: "עידכון פרטים", accessor: "editFile", align: "center" },

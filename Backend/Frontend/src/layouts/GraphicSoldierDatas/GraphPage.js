@@ -274,7 +274,7 @@ function GraphPage(props) {
                   {`הקובץ הועלה על ידי - מספר אישי: ${excelData.personalnumber}`}
                 </MDTypography>
                 <MDTypography variant="h5" fontWeight="medium" color="white" mb={0.5}>
-                  {`מספר השעונים שנפרקו: ${excelData.watchCount}`}
+                  {`מספר השעונים שנפרקו: ${excelData.countWatchesUsed}`}
                 </MDTypography>
               </MDBox>
             ) : (

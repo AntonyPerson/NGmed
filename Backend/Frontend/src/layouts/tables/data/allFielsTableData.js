@@ -92,7 +92,7 @@ export default function data() {
       </>
     ),
     authersPersonalnumber: excelFile.personalnumber,
-    watchCount: excelFile.watchCount,
+    countWatchesUsed: excelFile.countWatchesUsed,
     // fileDateRange: `${excelFile.fileJason[1].calendarDate} ==> ${
     //   excelFile.fileJason[excelFile.fileJason.length - 1].calendarDate
     // }`,
@@ -124,7 +124,7 @@ export default function data() {
       { Header: "שם הקובץ", accessor: "fileName", align: "left" },
       { Header: "שייכות", accessor: "mangmentTree", align: "center" },
       { Header: "מספר אישי של מעלה הקובץ", accessor: "authersPersonalnumber", align: "left" },
-      { Header: "מספר שעונים שנפרקו", accessor: "watchCount", align: "center" },
+      { Header: "מספר שעונים שנפרקו", accessor: "watchCoucountWatchesUsednt", align: "center" },
       { Header: "טווח תאריכים", accessor: "fileDateRange", align: "center" },
       { Header: "נתוני הקובץ", accessor: "graphs", align: "center" },
     ],
