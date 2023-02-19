@@ -52,6 +52,7 @@ const UserFielsTable = () => {
   const tableTittleDeleted = "היסטוריית מחיקת קבצים";
 
   const [dbError, setDbError] = useState(false);
+  const [dbErrorDeleted, setDbErrorDeleted] = useState(false);
   const [toAddFile, setToAddFile] = useState(false);
   //   const { columns, rows } = authorsTableData();
   const {
@@ -71,10 +72,10 @@ const UserFielsTable = () => {
     setDBerror: setDbeDeleted,
   } = userFielsTableDataDeleted();
 
-
   const handleErrorClose = () => {
     setDbError(true);
     setDbe(false);
+    setDbErrorDeleted(true);
     setDbeDeleted(false);
   };
   const showError = () => (
@@ -154,7 +155,7 @@ const UserFielsTable = () => {
       <MDBox variant="gradient" bgColor="mekatnar" coloredShadow="mekatnar" borderRadius="l">
         <DialogContent>
           {console.log(toUpdateFileID)}
-          <ExcelToJasonFileUploader task="update" fileID={toUpdateFileID}  />
+          <ExcelToJasonFileUploader task="update" fileID={toUpdateFileID} />
           {/* <MDBox
         variant="gradient"
         bgColor="error"
@@ -220,7 +221,7 @@ const UserFielsTable = () => {
                   showTotalEntries={true}
                   noEndBorder={false}
                 />
-              ) : dbError || dbe ? (
+              ) : dbeDeleted || dbe ? (
                 <MDTypography mx={30} variant="h3" color="error" textGradient={true}>
                   תקלת שרת{" "}
                 </MDTypography>
@@ -265,7 +266,7 @@ const UserFielsTable = () => {
                   showTotalEntries={true}
                   noEndBorder={false}
                 />
-              ) : dbError || dbe ? (
+              ) : dbErrorDeleted || dbeDeleted ? (
                 <MDTypography mx={30} variant="h3" color="error" textGradient={true}>
                   תקלת שרת{" "}
                 </MDTypography>

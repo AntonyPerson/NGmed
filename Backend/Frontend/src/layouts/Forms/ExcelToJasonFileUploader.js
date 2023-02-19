@@ -64,6 +64,7 @@ import {
   Card,
   CardBody,
   CardHeader,
+  Col,
   Container,
   Form,
   FormGroup,
@@ -74,7 +75,6 @@ import {
   InputGroupText,
   Label,
   Row,
-  Col,
 } from "reactstrap";
 
 // Material Dashboard 2 React Components
@@ -144,6 +144,7 @@ export default function ExcelToJasonFileUploader(props) {
   const [gdods, setGdods] = useState([]);
   const [plogot, setPlogot] = useState([]);
   const [mahlakot, setMahlakot] = useState([]);
+  const [maxMahlakaWatchCount, setMaxMahlakaWatchCount] = useState(1);
 
   //   const loadOgda = async () => {
   //     await axios
@@ -338,6 +339,14 @@ export default function ExcelToJasonFileUploader(props) {
             plogaName: response.data.plogaName,
             mahlakaName: response.data.mahlakaName,
           });
+          axios
+            .get(`http://localhost:5000/NGmedDB/treeMangment/mahlaka/${response.data.mahlaka}`)
+            .then((response2) => {
+              setMaxMahlakaWatchCount(response2.data.countWatches);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
         })
         .catch((error) => {
           console.log(error);
@@ -546,7 +555,14 @@ export default function ExcelToJasonFileUploader(props) {
       if (mahlakot.length !== 0) {
         id = op.options[op.selectedIndex].id;
         valueName = mahlakot[id].name;
-        // TODO axios request to get mahlaka info (id is value) and set the total count of watches to dataDB.countWatchesTotalMahlaka
+        axios
+          .get(`http://localhost:5000/NGmedDB/treeMangment/mahlaka/${value}`)
+          .then((response) => {
+            setMaxMahlakaWatchCount(response.data.countWatches);
+          })
+          .catch((error) => {
+            console.log(error);
+          });
       }
     }
     setDataDB({ ...dataDB, [name]: value, [nameOfTree]: valueName });
@@ -646,7 +662,33 @@ export default function ExcelToJasonFileUploader(props) {
             NavigateToReferrer: false,
           });
           console.log(response.data);
-          //! TODO: put here the axios update for the update of the watches used count
+          axios
+            .post(
+              `http://localhost:5000/NGmedDB/treeMangment/mahlaka/updateCountWatchesUsed/${requestData.mahlaka}`,
+              { countWatchesUsed: requestData.countWatchesUsed }
+            )
+            .then((response) => {
+              console.log(response);
+              setDataDB({
+                ...dataDB,
+                requestID: response.data,
+                loading: false,
+                error: false,
+                successmsg: true,
+                NavigateToReferrer: false,
+              });
+              console.log(response.data);
+            })
+            .catch((error) => {
+              console.log(error);
+              setDataDB({
+                ...dataDB,
+                errortype: error.response,
+                loading: false,
+                error: true,
+                NavigateToReferrer: false,
+              });
+            });
         })
         .catch((error) => {
           console.log(error);
@@ -659,33 +701,6 @@ export default function ExcelToJasonFileUploader(props) {
           });
         });
 
-      axios
-        .post(
-          `http://localhost:5000/NGmedDB/treeMangment/mahlaka/updateCountWatchesUsed/${requestData.mahlaka}`,
-          requestData
-        )
-        .then((response) => {
-          console.log(response);
-          setDataDB({
-            ...dataDB,
-            requestID: response.data,
-            loading: false,
-            error: false,
-            successmsg: true,
-            NavigateToReferrer: false,
-          });
-          console.log(response.data);
-        })
-        .catch((error) => {
-          console.log(error);
-          setDataDB({
-            ...dataDB,
-            errortype: error.response,
-            loading: false,
-            error: true,
-            NavigateToReferrer: false,
-          });
-        });
       // eslint-disable-next-line no-self-assign
       window.location.href = window.location.href;
       // console.log(response.data);
@@ -703,7 +718,30 @@ export default function ExcelToJasonFileUploader(props) {
             error: false,
             successmsg: true,
           });
-          //! TODO: put here the axios update for the update of the watches used count
+          axios
+            .post(
+              `http://localhost:5000/NGmedDB/treeMangment/mahlaka/updateCountWatchesUsed/${requestDataToUpdate.mahlaka}`,
+              { countWatchesUsed: requestDataToUpdate.countWatchesUsed }
+            )
+            .then((response) => {
+              console.log(response);
+              setDataDB({
+                ...dataDB,
+                loading: false,
+                error: false,
+                successmsg: true,
+              });
+            })
+            .catch((error) => {
+              console.log(error);
+              setDataDB({
+                ...dataDB,
+                errortype: error.response,
+                loading: false,
+                error: true,
+                NavigateToReferrer: false,
+              });
+            });
         })
         .catch((error) => {
           console.log(error);
@@ -716,30 +754,6 @@ export default function ExcelToJasonFileUploader(props) {
           });
         });
 
-      axios
-        .post(
-          `http://localhost:5000/NGmedDB/treeMangment/mahlaka/updateCountWatchesUsed/${requestDataToUpdate.mahlaka}`,
-          requestDataToUpdate
-        )
-        .then((response) => {
-          console.log(response);
-          setDataDB({
-            ...dataDB,
-            loading: false,
-            error: false,
-            successmsg: true,
-          });
-        })
-        .catch((error) => {
-          console.log(error);
-          setDataDB({
-            ...dataDB,
-            errortype: error.response,
-            loading: false,
-            error: true,
-            NavigateToReferrer: false,
-          });
-        });
       // eslint-disable-next-line no-self-assign
       window.location.href = window.location.href;
       // console.log(response.data);
@@ -1187,7 +1201,7 @@ export default function ExcelToJasonFileUploader(props) {
                       name="countWatchesUsed"
                       type="number"
                       min="1"
-                     // max={dataDB.countWatchesTotalMahlaka}
+                      max={maxMahlakaWatchCount}
                       value={dataDB.countWatchesUsed}
                       onChange={handleChange}
                     />
