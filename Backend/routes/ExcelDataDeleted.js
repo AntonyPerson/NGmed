@@ -87,7 +87,7 @@ router.route("/update/:id").post((req, res) => {
     .then((request) => {
       request.fileName = req.body.fileName;
 
-      request.watchCount = req.body.watchCount;
+      request.countWatchesUsed = req.body.countWatchesUsed;
 
       request.publicFile = req.body.publicFile;
 

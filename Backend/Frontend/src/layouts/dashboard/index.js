@@ -1,3 +1,5 @@
+/* eslint-disable import/no-duplicates */
+/* eslint-disable react/jsx-no-undef */
 /* eslint-disable no-console */
 /* eslint-disable no-underscore-dangle */
 /* eslint-disable react/no-array-index-key */
@@ -42,6 +44,7 @@ import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
 // Dashboard components
 import { ConstructionOutlined } from "@mui/icons-material";
 import { Icon, Tab } from "@mui/material";
+import { Dialog, DialogContent } from "@mui/material";
 import axios from "axios";
 import MDButton from "components/MDButton";
 import MDTypography from "components/MDTypography";
@@ -70,6 +73,7 @@ import {
   Label,
   Row,
 } from "reactstrap";
+import EditCountSoliders from "layouts/Forms/EditCountSoliders";
 import DashboardHeader from "./components/DashboardHeader";
 
 function Dashboard() {
@@ -85,6 +89,9 @@ function Dashboard() {
   const [countSoliders, setCountSoliders] = useState(0);
   const [countWatches, setCountWatches] = useState(0);
   const [countWatchesUsed, setCountWatchesUsed] = useState(0);
+  const [dbError, setDbError] = useState(false);
+  const [toEditCountSoliders, setToEditCountSoliders] = useState(false);
+  const [toUpdateCountWatches, setToUpdateCountWatches] = useState(false);
 
   // ? user Choise
   const [selectedVaules, setSelectedVaules] = useState({
@@ -92,6 +99,41 @@ function Dashboard() {
     ploga: "",
     gdod: "",
   });
+
+  const updateCountSoliders = () => (
+    <Dialog
+      px={5}
+      open={toEditCountSoliders}
+      onClose={() => {
+        setToEditCountSoliders(false);
+      }}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <MDBox variant="gradient" bgColor="mekatnar" coloredShadow="mekatnar" borderRadius="l">
+        <DialogContent>
+          <EditCountSoliders task="updateCountSoliders" mahlakaID={selectedVaules.mahlaka} />
+        </DialogContent>
+      </MDBox>
+    </Dialog>
+  );
+  const updateCountWatches = () => (
+    <Dialog
+      px={5}
+      open={toUpdateCountWatches}
+      onClose={() => {
+        setToUpdateCountWatches(false);
+      }}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <MDBox variant="gradient" bgColor="mekatnar" coloredShadow="mekatnar" borderRadius="l">
+        <DialogContent>
+          <EditCountSoliders task="updateCountWatches" mahlakaID={selectedVaules.mahlaka} />
+        </DialogContent>
+      </MDBox>
+    </Dialog>
+  );
 
   // useMemo(() => {
   //   if (typeof window !== "undefined") {
@@ -351,7 +393,10 @@ function Dashboard() {
               valueInfo={countSoliders}
               buttonInfo={{
                 color: "mekatnar",
-                onClickFunction: () => window.alert("dsasasdadasdas"),
+                onClickFunction: () =>
+                  tabView === 0 && selectedVaules.mahlaka !== ""
+                    ? setToEditCountSoliders(true)
+                    : setToEditCountSoliders(false),
                 icon: "edit",
               }}
             />
@@ -408,9 +453,9 @@ function Dashboard() {
             <MDBox mb={3}>
               <ReportsBarChart
                 color="mekatnar"
-                title="website views"
-                description="Last Campaign Performance"
-                date="campaign sent 2 days ago"
+                title="מדדי שינה במחלקה"
+                description="ממוצע שעות השינה"
+                date="מעודכן "
                 chart={reportsBarChartData}
               />
             </MDBox>
@@ -426,12 +471,15 @@ function Dashboard() {
                   datasets: {
                     label: "מונה שעונים",
                     backgroundColors: ["mekatnar", "dark"],
-                    data: [countWatchesUsed, countWatches],
+                    data: [countWatchesUsed, countWatches - countWatchesUsed],
                   },
                 }}
                 buttonInfo={{
                   color: "mekatnar",
-                  onClickFunction: () => window.alert("dsasasdadasdas"),
+                  onClickFunction: () =>
+                    tabView === 0 && selectedVaules.mahlaka !== ""
+                      ? setToUpdateCountWatches(true)
+                      : setToUpdateCountWatches(false),
                   icon: "edit",
                 }}
               />
@@ -441,8 +489,8 @@ function Dashboard() {
             <MDBox mb={3}>
               <ReportsLineChart
                 color="dark"
-                title="completed tasks"
-                description="Last Campaign Performance"
+                title=" קצב מרחק יומי"
+                description="ממוצע מרחק מחלקתי"
                 date="just updated"
                 chart={tasks}
               />
@@ -565,9 +613,9 @@ function Dashboard() {
             <MDBox mb={3}>
               <ReportsBarChart
                 color="mekatnar"
-                title="website views"
-                description="Last Campaign Performance"
-                date="campaign sent 2 days ago"
+                title="מדדי שינה "
+                description="ממוצע שעות שינה פלוגתית"
+                date="מעודכן "
                 chart={reportsBarChartData}
               />
             </MDBox>
@@ -593,8 +641,8 @@ function Dashboard() {
             <MDBox mb={3}>
               <ReportsLineChart
                 color="dark"
-                title="completed tasks"
-                description="Last Campaign Performance"
+                title=" קצב מרחק יומי"
+                description="ממוצע מרחק פלוגתי"
                 date="just updated"
                 chart={tasks}
               />
@@ -716,9 +764,9 @@ function Dashboard() {
             <MDBox mb={3}>
               <ReportsBarChart
                 color="mekatnar"
-                title="website views"
-                description="Last Campaign Performance"
-                date="campaign sent 2 days ago"
+                title="מדדי שינה "
+                description="ממוצע שעות שינה גדודי"
+                date="מעודכן "
                 chart={reportsBarChartData}
               />
             </MDBox>
@@ -744,8 +792,8 @@ function Dashboard() {
             <MDBox mb={3}>
               <ReportsLineChart
                 color="dark"
-                title="completed tasks"
-                description="Last Campaign Performance"
+                title=" קצב מרחק יומי"
+                description="ממוצע מרחק גדודי"
                 date="just updated"
                 chart={tasks}
               />
@@ -849,9 +897,9 @@ function Dashboard() {
             <MDBox mb={3}>
               <ReportsBarChart
                 color="mekatnar"
-                title="website views"
-                description="Last Campaign Performance"
-                date="campaign sent 2 days ago"
+                title="מדדי שינה "
+                description="ממוצע שעות שינה חטיבתי"
+                date="מעודכן "
                 chart={reportsBarChartData}
               />
             </MDBox>
@@ -877,8 +925,8 @@ function Dashboard() {
             <MDBox mb={3}>
               <ReportsLineChart
                 color="dark"
-                title="completed tasks"
-                description="Last Campaign Performance"
+                title=" קצב מרחק יומי"
+                description="ממוצע מרחק חטיבתי"
                 date="just updated"
                 chart={tasks}
               />
@@ -902,6 +950,8 @@ function Dashboard() {
     <DashboardLayout>
       {/* <DashboardNavbar /> */}
       <DashboardHeader tabViewValue={tabView} setTabViewValue={setTabView} />
+      {updateCountSoliders()}
+      {updateCountWatches()}
       {/* {mainExample()} */}
       {/* <MDTypography color="mekatnar" variant="h4" fontWeight="medium">
         {tabView}
@@ -915,7 +965,11 @@ function Dashboard() {
           ? gdodView()
           : hativaView() //* hativa view
       }
-
+      {/* {EditCountSoliders()} */}
+      {/* {toEditCountSoliders === true && tabView === 0 && selectedVaules.mahlaka !== "" && (
+        <EditCountSoliders mahlakaID={selectedVaules.mahlaka} />
+      )} */}
+      {/* <EditCountSoliders mahlakaID={selectedVaules.mahlaka} /> */}
       <Footer />
     </DashboardLayout>
   );
