@@ -71,7 +71,7 @@ import {
   InputGroupAddon,
   InputGroupText,
   Label,
-  Row,
+  Row
 } from "reactstrap";
 import DashboardHeader from "./components/DashboardHeader";
 
@@ -184,7 +184,7 @@ function Dashboard() {
         console.log(error);
       });
 
-    mainExample();
+    // mainExample();
   }, []);
 
   async function setCountSolidersMahlka(mahlakaID) {
@@ -197,9 +197,9 @@ function Dashboard() {
       .get(`http://localhost:5000/NGmedDB/treeMangment/mahlaka/${mahlakaID}`)
       .then(
         (response) => {
-          console.log(
-            `setCountSolidersMahlka - ${response.data.name} - ${response.data.countSoliders}`
-          );
+          // console.log(
+          //   `setCountSolidersMahlka - ${response.data.name} - ${response.data.countSoliders}`
+          // );
           count.countSoldier = response.data.countSoliders;
           count.countWatches = response.data.countWatches;
           count.countWatchesUsed = response.data.countWatchesUsed;
@@ -222,16 +222,21 @@ function Dashboard() {
         ploga: plogaID,
       })
       .then((response) => {
+        // console.groupCollapsed("forEach of ploga");
         response.data.forEach((mahlaka) => {
-          count.countSoldier = response.data.countSoliders;
-          count.countWatches = response.data.countWatches;
-          count.countWatchesUsed = response.data.countWatchesUsed;
+          // console.groupCollapsed("forEach - mahlaka");
+          // console.log(mahlaka);
+          count.countSoldier += mahlaka.countSoliders;
+          count.countWatches += mahlaka.countWatches;
+          count.countWatchesUsed += mahlaka.countWatchesUsed;
+          // console.groupEnd();
         });
+        // console.groupEnd();
         // console.log(returnArray);
-        console.log(count);
+        // console.log(count);
       })
       .catch((error) => 0);
-    console.log(`setCountSolidersPloga - ${plogaID} - ${count}`);
+    // console.log(`setCountSolidersPloga - ${plogaID} - ${count}`);
     return count;
   }
 
@@ -248,14 +253,20 @@ function Dashboard() {
         gdod: gdodID,
       })
       .then((response) => {
+        console.log("-------------------count---------------------------");
         response.data.forEach(async (ploga) => {
           temp = await setCountSolidersPloga(ploga._id);
-          count.countSoldier = temp.countSoliders;
-          count.countWatches = temp.countWatches;
-          count.countWatchesUsed = temp.countWatchesUsed;
-          console.log(ploga);
-          console.log(count);
+          console.log(temp);
+
+          count.countSoldier += temp.countSoldier;
+          count.countWatches += temp.countWatches;
+          count.countWatchesUsed += temp.countWatchesUsed;
+          // console.log(ploga);
+          // console.log(count);
         });
+        console.log(count);
+
+        console.log("--------------------------------------------------");
         // console.log(returnArray);
       })
       .catch((error) => 0);
@@ -275,9 +286,9 @@ function Dashboard() {
       })
       .then((response) => {
         response.data.forEach((mahlaka) => {
-          count.countSoldier = response.data.countSoliders;
-          count.countWatches = response.data.countWatches;
-          count.countWatchesUsed = response.data.countWatchesUsed;
+          count.countSoldier += mahlaka.countSoliders;
+          count.countWatches += mahlaka.countWatches;
+          count.countWatchesUsed += mahlaka.countWatchesUsed;
         });
         // console.log(returnArray);
       })
@@ -296,7 +307,7 @@ function Dashboard() {
         if (selectedVaules.mahlaka !== "") {
           const count = await setCountSolidersMahlka(selectedVaules.mahlaka);
           setCountSoliders(count.countSoldier);
-          setCountWatches(count.countWatches);
+          setCountWatches(count.countWatches - count.countWatchesUsed);
           setCountWatchesUsed(count.countWatchesUsed);
         } else {
           setCountSoliders(0);
@@ -308,7 +319,7 @@ function Dashboard() {
         if (selectedVaules.ploga !== "") {
           const count = await setCountSolidersPloga(selectedVaules.ploga);
           setCountSoliders(count.countSoldier);
-          setCountWatches(count.countWatches);
+          setCountWatches(count.countWatches - count.countWatchesUsed);
           setCountWatchesUsed(count.countWatchesUsed);
         } else {
           setCountSoliders(0);
@@ -319,8 +330,11 @@ function Dashboard() {
       case 2:
         if (selectedVaules.gdod !== "") {
           const count = await setCountSolidersGdod(selectedVaules.gdod);
+          console.log("=========================count======================");
+          console.log(count);
+          console.log("====================================================");
           setCountSoliders(count.countSoldier);
-          setCountWatches(count.countWatches);
+          setCountWatches(count.countWatches - count.countWatchesUsed);
           setCountWatchesUsed(count.countWatchesUsed);
         } else {
           setCountSoliders(0);
@@ -332,7 +346,7 @@ function Dashboard() {
         // eslint-disable-next-line no-case-declarations
         const count = await setCountSolidersHativa(hativa.id);
         setCountSoliders(count.countSoldier);
-        setCountWatches(count.countWatches);
+        setCountWatches(count.countWatches - count.countWatchesUsed);
         setCountWatchesUsed(count.countWatchesUsed);
         break;
       default:
