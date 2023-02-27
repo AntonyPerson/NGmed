@@ -143,25 +143,26 @@ function GraphPage(props) {
         .catch((error) => {
           console.log(error);
         });
-    } else {
-      switch (props.typeView) {
-        case "mahlka":
-          axiosGetMahlakaJasonById(params.idFile);
-          break;
-        case "ploga":
-          axiosGetPlogaJasonById(params.idFile);
-          break;
-        case "gdod":
-          axiosGetGdodJasonById(params.idFile);
-          break;
-        case "hativa":
-          axiosGetHativaJasonById(params.idFile);
-          break;
-        default:
-          axiosGetMahlakaJasonById(params.idFile);
-          break;
-      }
     }
+    //  else {
+    //   switch (props.typeView) {
+    //     case "mahlka":
+    //       axiosGetMahlakaJasonById(params.idFile);
+    //       break;
+    //     case "ploga":
+    //       axiosGetPlogaJasonById(params.idFile);
+    //       break;
+    //     case "gdod":
+    //       axiosGetGdodJasonById(params.idFile);
+    //       break;
+    //     case "hativa":
+    //       axiosGetHativaJasonById(params.idFile);
+    //       break;
+    //     default:
+    //       axiosGetMahlakaJasonById(params.idFile);
+    //       break;
+    //   }
+    // }
   }, []);
 
   useMemo(() => {

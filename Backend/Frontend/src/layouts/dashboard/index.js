@@ -43,8 +43,7 @@ import reportsLineChartData from "layouts/dashboard/data/reportsLineChartData";
 
 // Dashboard components
 import { ConstructionOutlined } from "@mui/icons-material";
-import { Icon, Tab } from "@mui/material";
-import { Dialog, DialogContent } from "@mui/material";
+import { Dialog, DialogContent, Icon, Tab } from "@mui/material";
 import axios from "axios";
 import MDButton from "components/MDButton";
 import MDTypography from "components/MDTypography";
@@ -52,6 +51,7 @@ import DefaultInfoCard from "examples/Cards/InfoCards/DefaultInfoCard";
 import InfoCardWIthButton from "examples/Cards/InfoCards/InfoCardWIthButton";
 import OrdersOverview from "layouts/dashboard/components/OrdersOverview";
 import Projects from "layouts/dashboard/components/Projects";
+import EditCountSoliders from "layouts/Forms/EditCountSoliders";
 import Header from "layouts/profile/components/Header";
 import PlatformSettings from "layouts/profile/components/PlatformSettings";
 import { mainExample } from "merageJasonExcelFiels";
@@ -73,7 +73,6 @@ import {
   Label,
   Row,
 } from "reactstrap";
-import EditCountSoliders from "layouts/Forms/EditCountSoliders";
 import DashboardHeader from "./components/DashboardHeader";
 
 function Dashboard() {
@@ -184,6 +183,8 @@ function Dashboard() {
       .catch((error) => {
         console.log(error);
       });
+
+    mainExample();
   }, []);
 
   async function setCountSolidersMahlka(mahlakaID) {
@@ -952,7 +953,6 @@ function Dashboard() {
       <DashboardHeader tabViewValue={tabView} setTabViewValue={setTabView} />
       {updateCountSoliders()}
       {updateCountWatches()}
-      {/* {mainExample()} */}
       {/* <MDTypography color="mekatnar" variant="h4" fontWeight="medium">
         {tabView}
       </MDTypography> */}

@@ -224,6 +224,9 @@ export const pormola = (jasonData1, jasonData2, divider) => {
 // ? create a single pormola file from all of the mahlkot fiels
 export const creatPloagJasonFile = (AllMahlakotOfPlogaFiles) => {
   // console.groupCollapsed("Function creatPloagJasonFile");
+  if (AllMahlakotOfPlogaFiles === undefined || AllMahlakotOfPlogaFiles.length === 0) {
+    return null;
+  }
   const arrayMahlakot = [];
   const ploga = [];
   let j = 0;
@@ -305,6 +308,9 @@ export const creatPloagJasonFile = (AllMahlakotOfPlogaFiles) => {
 
 export const creatGdodJasonFile = (AllPlogotOfGdodFiles) => {
   // console.groupCollapsed("Function creatPloagJasonFile");
+  if (AllPlogotOfGdodFiles === undefined || AllPlogotOfGdodFiles.length === 0) {
+    return null;
+  }
   const arrayPlogot = [];
   const gdod = [];
   let j = 0;
@@ -376,6 +382,9 @@ export const creatGdodJasonFile = (AllPlogotOfGdodFiles) => {
 
 export const creatHativaJasonFile = (AllGdodimOfHativaFiles) => {
   // console.groupCollapsed("Function creatPloagJasonFile");
+  if (AllGdodimOfHativaFiles === undefined || AllGdodimOfHativaFiles.length === 0) {
+    return null;
+  }
   const arrayGdodim = [];
   const gdod = [];
   let j = 0;
@@ -446,9 +455,10 @@ export const creatHativaJasonFile = (AllGdodimOfHativaFiles) => {
 export const axiosGetMahlakaJasonById = (mahlakaID) => {
   axios
     .get(`http://localhost:5000/NGmedDB/ExcelData/getExcelInfoByMahlaka/${mahlakaID}`)
-    .then((response) => {
+    .then(async (response) => {
       console.log(response.data);
-      return creatMahlakaJasonFile(response.data);
+      const mahlakaJason = await creatMahlakaJasonFile(response.data);
+      return mahlakaJason;
       // console.log(returnArray);
     })
     .catch((error) => {
@@ -462,8 +472,9 @@ export const axiosGetPlogaJasonById = (plogaID) => {
     .post(`http://localhost:5000/NGmedDB/treeMangment/mahlaka/mahlakaByPlogaId`, { ploga: plogaID })
     .then((response) => {
       console.log(response.data);
-      response.data.array.forEach((mahlaka) => {
-        mahlkotArray.push(axiosGetMahlakaJasonById(mahlaka._id));
+      response.data.forEach(async (mahlaka) => {
+        const temp = await axiosGetMahlakaJasonById(mahlaka._id);
+        mahlkotArray.push(temp);
       });
       return creatPloagJasonFile(mahlkotArray);
       // console.log(returnArray);
@@ -479,8 +490,9 @@ export const axiosGetGdodJasonById = (gdodID) => {
     .post(`http://localhost:5000/NGmedDB/treeMangment/ploga/plogaByGdodId`, { gdod: gdodID })
     .then((response) => {
       console.log(response.data);
-      response.data.array.forEach((ploga) => {
-        plogotArray.push(axiosGetPlogaJasonById(ploga._id));
+      response.data.forEach(async (ploga) => {
+        const temp = await axiosGetPlogaJasonById(ploga._id);
+        plogotArray.push(temp);
       });
       return creatGdodJasonFile(plogotArray);
       // console.log(returnArray);
@@ -496,8 +508,10 @@ export const axiosGetHativaJasonById = (hativaID) => {
     .post(`http://localhost:5000/NGmedDB/treeMangment/gdod/gdodsByHativaId`, { hativa: hativaID })
     .then((response) => {
       console.log(response.data);
-      response.data.array.forEach((gdod) => {
-        gdodimArray.push(axiosGetGdodJasonById(gdod._id));
+      response.data.forEach(async (gdod) => {
+        // eslint-disable-next-line prefer-const
+        let temp = await axiosGetGdodJasonById(gdod._id);
+        gdodimArray.push(temp);
       });
       return creatHativaJasonFile(gdodimArray);
       // console.log(returnArray);
@@ -507,7 +521,7 @@ export const axiosGetHativaJasonById = (hativaID) => {
     });
 };
 
-export const mainExample = () => {
+export const mainExample = async () => {
   console.groupCollapsed("mainExample");
 
   const allf = [
@@ -1772,37 +1786,38 @@ export const mainExample = () => {
       ],
     },
   ];
-  const mahlkot = [];
+  let mahlkot = [];
   const plogot = [];
   const gdodim = [];
   const hativa = [];
 
   console.groupCollapsed("Mahlkot");
-  // mahlkot.push(axiosGetMahlakaJasonById("63be8d8df3509cdcccdee93a"));
-  // axiosGetMahlakaJasonById("63be8d8df3509cdcccdee93a");
-  mahlkot.push(creatMahlakaJasonFile(allf));
-  mahlkot.push(creatMahlakaJasonFile(allf2));
-  // mahlkot.push(creatMahlakaJasonFile(allf2));
-  // mahlkot.push(creatMahlakaJasonFile(allf3));
+  mahlkot = await axiosGetMahlakaJasonById("63be8d5df3509cdcccdee939");
+  // mahlkot.push(mahlkot);
+  // // axiosGetMahlakaJasonById("63be8d8df3509cdcccdee93a");
+  // // mahlkot.push(creatMahlakaJasonFile(allf));
+  // // mahlkot.push(creatMahlakaJasonFile(allf2));
+  // // mahlkot.push(creatMahlakaJasonFile(allf2));
+  // // mahlkot.push(creatMahlakaJasonFile(allf3));
   console.log(mahlkot);
   console.groupEnd();
 
-  console.groupCollapsed("Plogot");
-  plogot.push(creatPloagJasonFile(mahlkot));
+  // console.groupCollapsed("Plogot");
   // plogot.push(creatPloagJasonFile(mahlkot));
-  console.log(plogot);
-  console.groupEnd();
+  // // plogot.push(creatPloagJasonFile(mahlkot));
+  // console.log(plogot);
+  // console.groupEnd();
 
-  console.groupCollapsed("Gdodim");
-  gdodim.push(creatGdodJasonFile(plogot));
-  gdodim.push(creatGdodJasonFile(plogot));
-  console.log(gdodim);
-  console.groupEnd();
+  // console.groupCollapsed("Gdodim");
+  // gdodim.push(creatGdodJasonFile(plogot));
+  // gdodim.push(creatGdodJasonFile(plogot));
+  // console.log(gdodim);
+  // console.groupEnd();
 
-  console.groupCollapsed("Hativa");
-  hativa.push(creatHativaJasonFile(gdodim));
-  console.log(hativa);
-  console.groupEnd();
+  // console.groupCollapsed("Hativa");
+  // hativa = await axiosGetHativaJasonById("63be8ba2f3509cdcccdee91f");
+  // console.log(hativa);
+  // console.groupEnd();
 
   console.groupEnd();
 };
