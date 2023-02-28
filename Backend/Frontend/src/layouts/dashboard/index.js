@@ -54,7 +54,7 @@ import Projects from "layouts/dashboard/components/Projects";
 import EditCountSoliders from "layouts/Forms/EditCountSoliders";
 import Header from "layouts/profile/components/Header";
 import PlatformSettings from "layouts/profile/components/PlatformSettings";
-import { mainExample } from "merageJasonExcelFiels";
+// import { mainExample } from "merageJasonExcelFiels";
 import { useEffect, useMemo, useState } from "react";
 import { Link } from "react-router-dom";
 import {
@@ -71,7 +71,7 @@ import {
   InputGroupAddon,
   InputGroupText,
   Label,
-  Row
+  Row,
 } from "reactstrap";
 import DashboardHeader from "./components/DashboardHeader";
 
@@ -247,13 +247,14 @@ function Dashboard() {
       countWatches: 0,
       countWatchesUsed: 0,
     };
-    let temp = {};
+    const temp = {};
     await axios
       .post(`http://localhost:5000/NGmedDB/treeMangment/ploga/plogaByGdodId`, {
         gdod: gdodID,
       })
-      .then((response) => {
+      .then(async (response) => {
         console.log("-------------------count---------------------------");
+        /*
         response.data.forEach(async (ploga) => {
           temp = await setCountSolidersPloga(ploga._id);
           console.log(temp);
@@ -264,12 +265,32 @@ function Dashboard() {
           // console.log(ploga);
           // console.log(count);
         });
+        */
+        const result = await Promise.all(
+          response.data.map(async (ploga) => setCountSolidersPloga(ploga._id))
+        );
+        console.log("RESULT: ");
+        console.log(result);
+        // eslint-disable-next-line no-plusplus
+        for (let index = 0; index < result.length; index++) {
+          console.log(result[index]);
+          count.countSoldier += result[index].countSoldier;
+          count.countWatches += result[index].countWatches;
+          count.countWatchesUsed += result[index].countWatchesUsed;
+        }
         console.log(count);
 
         console.log("--------------------------------------------------");
         // console.log(returnArray);
       })
-      .catch((error) => 0);
+      .catch((error) => {
+        const e = {
+          countSoldier: 0,
+          countWatches: 0,
+          countWatchesUsed: 0,
+        };
+        return e;
+      });
     console.log(`setCountSolidersGdod - ${gdodID} - ${count}`);
     console.groupEnd();
     return count;

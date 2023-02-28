@@ -1,3 +1,4 @@
+/* eslint-disable no-case-declarations */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable react/prop-types */
 /* eslint-disable react/destructuring-assignment */
@@ -127,7 +128,7 @@ function GraphPage(props) {
   //       console.log(walkData.walkDistanceInDate);
   //     }
   //   };
-  useEffect(() => {
+  useEffect(async () => {
     if (props.dashboardView === false || props.dashboardView === undefined) {
       console.log(params.idFile);
       axios
@@ -143,26 +144,49 @@ function GraphPage(props) {
         .catch((error) => {
           console.log(error);
         });
+    } else {
+      switch (props.typeView) {
+        case "mahlka":
+          const tempM = await axiosGetMahlakaJasonById(params.idView);
+          console.log({ fileJason: tempM });
+          await setExcelData({ fileJason: tempM });
+          await setDataRange({
+            startDate: tempM.calendarDate,
+            endDate: tempM[tempM.length - 1].calendarDate,
+          });
+          break;
+        case "ploga":
+          const tempP = await axiosGetPlogaJasonById(params.idView);
+          console.log(tempP);
+          await setExcelData({ fileJason: tempP });
+          await setDataRange({
+            startDate: tempP[0].calendarDate,
+            endDate: tempP[tempP.length - 1].calendarDate,
+          });
+          break;
+        case "gdod":
+          const tempG = await axiosGetGdodJasonById(params.idView);
+          console.log(tempG);
+          await setExcelData({ fileJason: tempG });
+          await setDataRange({
+            startDate: tempG[0].calendarDate,
+            endDate: tempG[tempG.length - 1].calendarDate,
+          });
+          break;
+        case "hativa":
+          const tempH = await axiosGetHativaJasonById(params.idView);
+          console.log(tempH);
+          await setExcelData({ fileJason: tempH });
+          await setDataRange({
+            startDate: tempH[0].calendarDate,
+            endDate: tempH[tempH.length - 1].calendarDate,
+          });
+          break;
+        default:
+          console.log("Defoult");
+          break;
+      }
     }
-    //  else {
-    //   switch (props.typeView) {
-    //     case "mahlka":
-    //       axiosGetMahlakaJasonById(params.idFile);
-    //       break;
-    //     case "ploga":
-    //       axiosGetPlogaJasonById(params.idFile);
-    //       break;
-    //     case "gdod":
-    //       axiosGetGdodJasonById(params.idFile);
-    //       break;
-    //     case "hativa":
-    //       axiosGetHativaJasonById(params.idFile);
-    //       break;
-    //     default:
-    //       axiosGetMahlakaJasonById(params.idFile);
-    //       break;
-    //   }
-    // }
   }, []);
 
   useMemo(() => {
