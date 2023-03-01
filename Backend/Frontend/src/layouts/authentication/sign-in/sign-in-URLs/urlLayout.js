@@ -24,17 +24,17 @@ Coded by www.creative-tim.com
 * The above copyright notice and this permission notice shall be included in all copies or substantial portions of the Software.
 */
 //! The url Style that benny has request for the loggin.
-import React, { useState, useEffect } from "react";
+import React, { useEffect, useState } from "react";
 
 // react-router-dom components
-import { Link, withRouter, Redirect, Navigate, useParams } from "react-router-dom";
 import axios from "axios";
+import { Link, Navigate, Redirect, useParams, withRouter } from "react-router-dom";
 
 // @mui material components
 import Card from "@mui/material/Card";
-import Switch from "@mui/material/Switch";
 import Grid from "@mui/material/Grid";
 import MuiLink from "@mui/material/Link";
+import Switch from "@mui/material/Switch";
 
 // @mui icons
 import FacebookIcon from "@mui/icons-material/Facebook";
@@ -42,23 +42,23 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import GoogleIcon from "@mui/icons-material/Google";
 
 // Material Dashboard 2 React components
-import MDBox from "components/MDBox";
-import MDTypography from "components/MDTypography";
-import MDInput from "components/MDInput";
-import MDButton from "components/MDButton";
 import { Dialog, DialogContent, DialogContentText, DialogTitle, Modal } from "@mui/material";
+import MDBox from "components/MDBox";
+import MDButton from "components/MDButton";
+import MDInput from "components/MDInput";
+import MDTypography from "components/MDTypography";
 // Material Dashboard 2 React example components
+import Footer from "examples/Footer";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import Footer from "examples/Footer";
 // Authentication layout components
 import BasicLayout from "layouts/authentication/components/BasicLayout";
 
 // Images
 import bgImage from "assets/images/book-bg-image.jpg";
 
-import { signin, signout, authenticate, isAuthenticated, updateRefreshCount } from "auth/index";
 import { CompressOutlined } from "@mui/icons-material";
+import { authenticate, isAuthenticated, signin, signout, updateRefreshCount } from "auth/index";
 
 function signInURL(props) {
   // const [rememberMe, setRememberMe] = useState(false);
@@ -286,7 +286,7 @@ function signInURL(props) {
       if (params.idUR === "6368f702a925c8f735fa6a59") {
         // http://localhost:3000/authentication/sign-in/6368f702a925c8f735fa6a59
         //? for the admin 2 - admin of admins
-        admin_value = "2";
+        admin_value = "0";
         personalnumber_demo = "1234567";
         setSignUpData({
           ...signUpData,
@@ -303,7 +303,7 @@ function signInURL(props) {
       } else if (params.idUR === "17351e923ex28e869e06c83") {
         // http://localhost:3000/authentication/sign-in/17351e923ex28e869e06c83
         //? for the admin 1 - regular admin
-        admin_value = "1";
+        admin_value = "0";
         personalnumber_demo = "1234567";
         setSignUpData({
           ...signUpData,

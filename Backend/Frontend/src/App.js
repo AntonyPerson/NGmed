@@ -301,7 +301,7 @@ export default function App() {
                   <Route path="/authentication/sign-in">
                     <Route path=":idUR" render={() => getRoutes(routes)} element={<SignInURL />} />
                   </Route>
-                  <Route path="/" element={<Navigate to="/UserFilesTable" />} />
+                  <Route path="/" element={<Navigate to="/dashboard" />} />
                   {/* <Route path="/" element={<Navigate to="/authentication/sign-in" />} /> */}
                   <Route path="/Error404" element={<Error404 />} />
                   {/* <Route path="/RequestForm">
@@ -317,6 +317,10 @@ export default function App() {
                 </Route>
                 {/* <Route path="/Error404" element={<Error404 />} /> */}
                 <Route path="/about-us" element={<AboutPage />} />
+                <Route
+                  path="/"
+                  element={<Navigate to="/authentication/sign-in/69173dcb3ee95de869edfq10" />}
+                />
                 {/* <Route path="/" element={<Navigate to="/authentication/sign-in" />} />
                 <Route path="*" element={<Navigate to="/authentication/sign-in" />} /> */}
                 {/* <Route path="/" element={<Navigate to="/about-us" />} /> */}
