@@ -342,7 +342,9 @@ export default function ExcelToJasonFileUploader(props) {
           axios
             .get(`http://localhost:5000/NGmedDB/treeMangment/mahlaka/${response.data.mahlaka}`)
             .then((response2) => {
-              setMaxMahlakaWatchCount(response2.data.countWatches);
+              setMaxMahlakaWatchCount(
+                Math.min(response2.data.countWatches, response2.data.countSoliders)
+              );
             })
             .catch((error) => {
               console.log(error);
@@ -580,7 +582,9 @@ export default function ExcelToJasonFileUploader(props) {
           axios
             .get(`http://localhost:5000/NGmedDB/treeMangment/mahlaka/${value}`)
             .then((response) => {
-              setMaxMahlakaWatchCount(response.data.countWatches);
+              setMaxMahlakaWatchCount(
+                Math.min(response.data.countWatches, response.data.countSoliders)
+              );
             })
             .catch((error) => {
               console.log(error);
