@@ -118,16 +118,16 @@ export default function ExcelToJasonFileUploader(props) {
 
     publicFile: true,
 
-    pikod: "",
-    ogda: "",
-    hativa: "",
+    pikod: "63bfd8b0128c3fc55027930c",
+    ogda: "63be8b4af3509cdcccdee91b",
+    hativa: "63be8ba2f3509cdcccdee91f",
     gdod: "",
     ploga: "",
     mahlaka: "",
 
-    pikodName: "",
-    ogdaName: "",
-    hativaName: "",
+    pikodName: "צפון",
+    ogdaName: "אוגדה1",
+    hativaName: "גולני",
     gdodName: "",
     plogaName: "",
     mahlakaName: "",
@@ -529,43 +529,66 @@ export default function ExcelToJasonFileUploader(props) {
     let nameOfTree = "";
     let valueName = "";
 
-    if (name === "pikod") {
-      nameOfTree = "pikodName";
-      valueName = "צפון";
-    } else if (name === "ogda") {
-      nameOfTree = "ogdaName";
-      valueName = "אוגדה1";
-    } else if (name === "hativa") {
-      nameOfTree = "hativaName";
-      valueName = "גולני";
-    } else if (name === "gdod") {
-      nameOfTree = "gdodName";
-      if (gdods.length !== 0) {
-        id = op.options[op.selectedIndex].id;
-        valueName = gdods[id].name;
+    if (value === "") {
+      if (name === "pikod") {
+        nameOfTree = "pikodName";
+        valueName = "צפון";
+      } else if (name === "ogda") {
+        nameOfTree = "ogdaName";
+        valueName = "אוגדה1";
+      } else if (name === "hativa") {
+        nameOfTree = "hativaName";
+        valueName = "גולני";
+      } else if (name === "gdod") {
+        nameOfTree = "gdodName";
+        valueName = "";
+      } else if (name === "ploga") {
+        nameOfTree = "plogaName";
+        valueName = "";
+      } else if (name === "mahlaka") {
+        nameOfTree = "mahlakaName";
+        valueName = "";
       }
-    } else if (name === "ploga") {
-      nameOfTree = "plogaName";
-      if (plogot.length !== 0) {
-        id = op.options[op.selectedIndex].id;
-        valueName = plogot[id].name;
+      setDataDB({ ...dataDB, [name]: value, [nameOfTree]: valueName });
+    } else {
+      if (name === "pikod") {
+        nameOfTree = "pikodName";
+        valueName = "צפון";
+      } else if (name === "ogda") {
+        nameOfTree = "ogdaName";
+        valueName = "אוגדה1";
+      } else if (name === "hativa") {
+        nameOfTree = "hativaName";
+        valueName = "גולני";
+      } else if (name === "gdod") {
+        nameOfTree = "gdodName";
+        if (gdods.length !== 0) {
+          id = op.options[op.selectedIndex].id;
+          valueName = gdods[id].name;
+        }
+      } else if (name === "ploga") {
+        nameOfTree = "plogaName";
+        if (plogot.length !== 0) {
+          id = op.options[op.selectedIndex].id;
+          valueName = plogot[id].name;
+        }
+      } else if (name === "mahlaka") {
+        nameOfTree = "mahlakaName";
+        if (mahlakot.length !== 0) {
+          id = op.options[op.selectedIndex].id;
+          valueName = mahlakot[id].name;
+          axios
+            .get(`http://localhost:5000/NGmedDB/treeMangment/mahlaka/${value}`)
+            .then((response) => {
+              setMaxMahlakaWatchCount(response.data.countWatches);
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+        }
       }
-    } else if (name === "mahlaka") {
-      nameOfTree = "mahlakaName";
-      if (mahlakot.length !== 0) {
-        id = op.options[op.selectedIndex].id;
-        valueName = mahlakot[id].name;
-        axios
-          .get(`http://localhost:5000/NGmedDB/treeMangment/mahlaka/${value}`)
-          .then((response) => {
-            setMaxMahlakaWatchCount(response.data.countWatches);
-          })
-          .catch((error) => {
-            console.log(error);
-          });
-      }
+      setDataDB({ ...dataDB, [name]: value, [nameOfTree]: valueName });
     }
-    setDataDB({ ...dataDB, [name]: value, [nameOfTree]: valueName });
   }
 
   function handleChangeSwitch(evt) {
@@ -1067,10 +1090,8 @@ export default function ExcelToJasonFileUploader(props) {
                         onChange={handleChangeMangmentTreeSelect}
                         // onChange={handleChange2}
                         required
+                        disabled
                       >
-                        <option defult value="" disabled>
-                          בחר
-                        </option>
                         <option value="63bfd8b0128c3fc55027930c">צפון</option>
                       </Input>
                     </FormGroup>
@@ -1087,10 +1108,8 @@ export default function ExcelToJasonFileUploader(props) {
                         onChange={handleChangeMangmentTreeSelect}
                         // onChange={handleChange2}
                         required
+                        disabled
                       >
-                        <option defult value="" disabled>
-                          בחר
-                        </option>
                         <option value="63be8b4af3509cdcccdee91b">אוגדה1</option>
                       </Input>
                     </FormGroup>
@@ -1106,10 +1125,8 @@ export default function ExcelToJasonFileUploader(props) {
                         onChange={handleChangeMangmentTreeSelect}
                         // onChange={handleChange2}
                         required
+                        disabled
                       >
-                        <option defult value="" disabled>
-                          בחר
-                        </option>
                         <option value="63be8ba2f3509cdcccdee91f">גולני</option>
                       </Input>
                     </FormGroup>
@@ -1128,11 +1145,9 @@ export default function ExcelToJasonFileUploader(props) {
                         onChange={handleChangeMangmentTreeSelect}
                         // onChange={handleChange2}
                         required
-                        disabled={dataDB.hativa === ""}
+                        disabled={dataDB.gdod && !(dataDB.ploga === "")}
                       >
-                        <option defult value="" disabled>
-                          בחר
-                        </option>
+                        <option value="">בחר</option>
                         {gdods.map((gdod, index) => (
                           <option id={index} key={index} value={gdod._id}>
                             {gdod.name}
@@ -1153,11 +1168,13 @@ export default function ExcelToJasonFileUploader(props) {
                         onChange={handleChangeMangmentTreeSelect}
                         // onChange={handleChange2}
                         required
-                        disabled={dataDB.gdod === ""}
+                        disabled={
+                          (dataDB.ploga !== "" && dataDB.mahlaka !== "") ||
+                          dataDB.gdod === "" ||
+                          (dataDB.ploga === "" && dataDB.gdod === "")
+                        }
                       >
-                        <option defult value="" disabled>
-                          בחר
-                        </option>
+                        <option value="">בחר</option>
                         {plogot.map((ploga, index) => (
                           <option key={index} id={index} value={ploga._id}>
                             {ploga.name}
@@ -1180,7 +1197,7 @@ export default function ExcelToJasonFileUploader(props) {
                         required
                         disabled={dataDB.ploga === ""}
                       >
-                        <option defult value="" disabled>
+                        <option id="" value="">
                           בחר
                         </option>
                         {mahlakot.map((mahlaka, index) => (

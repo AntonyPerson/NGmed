@@ -123,6 +123,14 @@ const routes = [
   },
   // {
   //   type: "collapse",
+  //   name: "תכנון שבועי",
+  //   key: "weeklyPlanTable",
+  //   icon: <Icon fontSize="small">EventAvailable</Icon>,
+  //   route: "/weeklyPlanTable",
+  //   component: <weeklyPlanTable />,
+  // },
+  // {
+  //   type: "collapse",
   //   name: "קבצי המערכת",
   //   key: "FilesTable",
   //   icon: <Icon fontSize="small">content_paste_search</Icon>,
