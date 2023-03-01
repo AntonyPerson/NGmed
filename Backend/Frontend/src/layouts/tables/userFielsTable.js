@@ -1,3 +1,4 @@
+/* eslint-disable import/no-unresolved */
 /* eslint-disable react/function-component-definition */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-return-assign */
@@ -21,44 +22,65 @@ Coded by www.creative-tim.com
 */
 
 // @mui material components
-import Grid from "@mui/material/Grid";
 import Card from "@mui/material/Card";
+import Grid from "@mui/material/Grid";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 import MDTypography from "components/MDTypography";
 
 // Material Dashboard 2 React example components
+import Footer from "examples/Footer";
 import DashboardLayout from "examples/LayoutContainers/DashboardLayout";
 import DashboardNavbar from "examples/Navbars/DashboardNavbar";
-import Footer from "examples/Footer";
 import DataTable from "examples/Tables/DataTable";
 
 // Data
-import userFielsTableData from "layouts/tables/data/userFielsTableData";
 import { Dialog, DialogContent, Icon } from "@mui/material";
+import userFielsTableData from "layouts/tables/data/userFielsTableData";
+import userFielsTableDataDeleted from "layouts/tables/data/userFielsTableDataDeleted";
 import { useState } from "react";
 
-import { CardBody, Col, Container, Form, FormGroup, FormText, Input, Label, Row } from "reactstrap";
 import axios from "axios";
-import { Outlet } from "react-router-dom";
 import MDButton from "components/MDButton";
 import ExcelToJasonFileUploader from "layouts/Forms/ExcelToJasonFileUploader";
+import { Outlet } from "react-router-dom";
+import { CardBody, Col, Container, Form, FormGroup, FormText, Input, Label, Row } from "reactstrap";
 
 const UserFielsTable = () => {
-  const tableTittle = "הקבצים שלי";
+  const tableTittle = "קבצי המערכת";
+  const tableTittleDeleted = "היסטוריית מחיקת קבצים";
 
   const [dbError, setDbError] = useState(false);
+  const [dbErrorDeleted, setDbErrorDeleted] = useState(false);
   const [toAddFile, setToAddFile] = useState(false);
   //   const { columns, rows } = authorsTableData();
-  const { columns: pColumns, rows: pRows, dbError: dbe, setDBerror: setDbe } = userFielsTableData();
+  const {
+    columns: pColumns,
+    rows: pRows,
+    dbError: dbe,
+    setDBerror: setDbe,
+    fileUpdate: toUpdateFile,
+    setFileUpdate: setToUpdateFile,
+    fileId: toUpdateFileID,
+  } = userFielsTableData();
+
+  const {
+    columns: pColumnsDeleted,
+    rows: pRowsDeleted,
+    dbError: dbeDeleted,
+    setDBerror: setDbeDeleted,
+  } = userFielsTableDataDeleted();
+
   const handleErrorClose = () => {
     setDbError(true);
     setDbe(false);
+    setDbErrorDeleted(true);
+    setDbeDeleted(false);
   };
   const showError = () => (
     <Dialog
-      open={dbe}
+      open={dbe || dbeDeleted}
       onClose={handleErrorClose}
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
@@ -94,15 +116,10 @@ const UserFielsTable = () => {
       aria-labelledby="alert-dialog-title"
       aria-describedby="alert-dialog-description"
     >
-    <MDBox
-        variant="gradient"
-        bgColor="mekatnar"
-        coloredShadow="mekatnar"
-        borderRadius="l"
-      >
-      <DialogContent>
-      <ExcelToJasonFileUploader />
-      {/* <MDBox
+      <MDBox variant="gradient" bgColor="mekatnar" coloredShadow="mekatnar" borderRadius="l">
+        <DialogContent>
+          <ExcelToJasonFileUploader task="create" />
+          {/* <MDBox
         variant="gradient"
         bgColor="error"
         coloredShadow="error"
@@ -121,7 +138,44 @@ const UserFielsTable = () => {
             אנא נסה שנית מאוחר יותר
           </MDTypography>
       </MDBox> */}
-      </DialogContent>
+        </DialogContent>
+      </MDBox>
+    </Dialog>
+  );
+  const updateFile = () => (
+    <Dialog
+      px={5}
+      open={toUpdateFile}
+      onClose={() => {
+        setToUpdateFile(false);
+      }}
+      aria-labelledby="alert-dialog-title"
+      aria-describedby="alert-dialog-description"
+    >
+      <MDBox variant="gradient" bgColor="mekatnar" coloredShadow="mekatnar" borderRadius="l">
+        <DialogContent>
+          {console.log(toUpdateFileID)}
+          <ExcelToJasonFileUploader task="update" fileID={toUpdateFileID} />
+          {/* <MDBox
+        variant="gradient"
+        bgColor="error"
+        coloredShadow="error"
+        borderRadius="l"
+        // mx={2}
+        // mt={2}
+        p={3}
+        // mb={2}
+        textAlign="center"
+      >
+        <MDTypography variant="h1" fontWeight="medium" color="white" mt={1}>
+          שגיאה בקבלת הקבצים
+        </MDTypography>
+
+          <MDTypography variant="h6" fontWeight="medium" color="white" mt={1}>
+            אנא נסה שנית מאוחר יותר
+          </MDTypography>
+      </MDBox> */}
+        </DialogContent>
       </MDBox>
     </Dialog>
   );
@@ -167,7 +221,7 @@ const UserFielsTable = () => {
                   showTotalEntries={true}
                   noEndBorder={false}
                 />
-              ) : dbError || dbe ? (
+              ) : dbeDeleted || dbe ? (
                 <MDTypography mx={30} variant="h3" color="error" textGradient={true}>
                   תקלת שרת{" "}
                 </MDTypography>
@@ -182,12 +236,59 @@ const UserFielsTable = () => {
       </Grid>
     </MDBox>
   );
+
+  const tableDelete = () => (
+    <MDBox pt={6} pb={3}>
+      <Grid container spacing={6}>
+        <Grid item xs={12}>
+          <Card>
+            <MDBox
+              mx={2}
+              mt={-3}
+              py={3}
+              px={2}
+              variant="gradient"
+              bgColor="error"
+              borderRadius="lg"
+              coloredShadow="error"
+            >
+              <MDTypography variant="h3" color="white">
+                {tableTittleDeleted}
+              </MDTypography>
+            </MDBox>
+            <MDBox pt={3}>
+              {pRowsDeleted.length !== 0 ? (
+                <DataTable
+                  table={{ columns: pColumnsDeleted, rows: pRowsDeleted }}
+                  isSorted={true}
+                  canSearch={true}
+                  entriesPerPage={false}
+                  showTotalEntries={true}
+                  noEndBorder={false}
+                />
+              ) : dbErrorDeleted || dbeDeleted ? (
+                <MDTypography mx={30} variant="h3" color="error" textGradient={true}>
+                  תקלת שרת{" "}
+                </MDTypography>
+              ) : (
+                <MDTypography mx={30} variant="h3" color="error" textGradient={true}>
+                  לא קיימים קבצים שנמחקו
+                </MDTypography>
+              )}
+            </MDBox>
+          </Card>
+        </Grid>
+      </Grid>
+    </MDBox>
+  );
   return (
     <DashboardLayout>
       <DashboardNavbar />
       {showError()}
       {addFile()}
+      {updateFile()}
       {table()}
+      {tableDelete()}
       <Outlet />
       <Footer />
     </DashboardLayout>

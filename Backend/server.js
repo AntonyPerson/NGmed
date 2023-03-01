@@ -22,7 +22,7 @@ app.use(express.json());
 app.use(morgan("dev"));
 app.use(cookieParser());
 // !
-app.use("/uploads", express.static("uploads")); // to acsses the uploades folder in the server
+app.use("/NGmedDB/uploads", express.static("uploads")); // to acsses the uploades folder in the server
 // Configure Mongo
 // const dbUrl = "mongodb://localhost/HozlaDB";
 const dbUrl = process.env.DB_URL;
@@ -39,19 +39,37 @@ mongoose
     console.log("MongoDB database connection established successfully")
   )
   .catch((err) => console.log(err));
-  //user routes
-  const authRoutes = require("./routes/authentication/auth");
-  const userRoutes = require("./routes/authentication/users");
-  app.use("/api", authRoutes);
-  app.use("/api", userRoutes);
+//user routes
+const authRoutes = require("./routes/authentication/auth");
+const userRoutes = require("./routes/authentication/users");
+app.use("/NGmedDB/api", authRoutes);
+app.use("/NGmedDB/api", userRoutes);
 
 //* file uploader Routes
 // const fileuploaderRoutes = require("./routes/fileuploader100/fileuploader");
 // app.use('/api',fileuploaderRoutes)
 
-//Excel Data routes for Client
+//?Excel Data routes for Client
 const excelDataRouter = require("./routes/ExcelData");
-app.use("/ExcelData", excelDataRouter);
+app.use("/NGmedDB/ExcelData", excelDataRouter);
+
+//?Excel Data Deleted routes for Client
+const excelDataDeletedRouter = require("./routes/ExcelDataDeleted");
+app.use("/NGmedDB/DeletedInfo", excelDataDeletedRouter);
+
+//? Manegment tree routes
+const mahlakaRoutes = require("./routes/units/mahlaka");
+const plogaRoutes = require("./routes/units/ploga");
+const gdodRoutes = require("./routes/units/gdod");
+const hativaRoutes = require("./routes/units/hativa");
+const ogdaRoutes = require("./routes/units/ogda");
+const pikodRoutes = require("./routes/units/pikod");
+app.use("/NGmedDB/treeMangment", mahlakaRoutes);
+app.use("/NGmedDB/treeMangment", plogaRoutes);
+app.use("/NGmedDB/treeMangment", gdodRoutes);
+app.use("/NGmedDB/treeMangment", hativaRoutes);
+app.use("/NGmedDB/treeMangment", ogdaRoutes);
+app.use("/NGmedDB/treeMangment", pikodRoutes);
 
 // Hozla Requests routes for admin
 // const hozlaAdminRequestsRouter = require("./routes/hozlaAdminRequests");

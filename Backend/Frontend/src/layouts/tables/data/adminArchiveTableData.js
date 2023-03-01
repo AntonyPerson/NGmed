@@ -99,7 +99,7 @@ export default function data() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/hozlaRequests/archivedRequests`)
+      .get(`http://localhost:5000/NGmedDB/hozlaRequests/archivedRequests`)
       .then((response) => {
         console.log(response.data);
         setRequestDB(response.data);
@@ -107,7 +107,7 @@ export default function data() {
         response.data.forEach((element) => {
           if (getDaysDiff(element.updatedAt.split("T")[0]) >= 7) {
             axios
-              .delete(`http://localhost:5000/hozlaRequests/${element._id}`)
+              .delete(`http://localhost:5000/NGmedDB/hozlaRequests/${element._id}`)
               .then((delRespone) => {
                 console.log(delRespone.data);
               })
@@ -126,7 +126,7 @@ export default function data() {
 
   // useEffect(() => {
   //   axios
-  //     .get(`http://localhost:5000/hozlaAdminRequests/`)
+  //     .get(`http://localhost:5000/NGmedDB/hozlaAdminRequests/`)
   //       .then((response) => {
   //         // console.log(`the object data`);
   //         console.log(response.data);
@@ -148,7 +148,7 @@ export default function data() {
   // }, []);
   // useEffect(() => {
   //   axios
-  //     .get(`http://localhost:5000/hozlaRequests/`)
+  //     .get(`http://localhost:5000/NGmedDB/hozlaRequests/`)
   //     .then((response) => {
   //       console.log(response.data);
   //       setRequestDB(response.data);

@@ -1,3 +1,4 @@
+/* eslint-disable import/no-named-default */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable react/jsx-curly-brace-presence */
@@ -20,22 +21,22 @@ Coded by www.creative-tim.com
 */
 import "react-toastify/dist/ReactToastify.css";
 
-import { useState, useEffect, useMemo } from "react";
 import "bootstrap/dist/css/bootstrap.min.css";
+import { useEffect, useMemo, useState } from "react";
 // react-router components
-import { Routes, Route, Navigate, useLocation, useParams } from "react-router-dom";
+import { Navigate, Route, Routes, useLocation, useParams } from "react-router-dom";
 
 // @mui material components
-import { ThemeProvider } from "@mui/material/styles";
 import CssBaseline from "@mui/material/CssBaseline";
 import Icon from "@mui/material/Icon";
+import { ThemeProvider } from "@mui/material/styles";
 
 // Material Dashboard 2 React components
 import MDBox from "components/MDBox";
 
 // Material Dashboard 2 React example components
-import Sidenav from "examples/Sidenav";
 import Configurator from "examples/Configurator";
+import Sidenav from "examples/Sidenav";
 
 // Material Dashboard 2 React themes
 import theme from "assets/theme";
@@ -46,16 +47,16 @@ import themeDark from "assets/theme-dark";
 import themeDarkRTL from "assets/theme-dark/theme-rtl";
 
 // RTL plugins
-import rtlPlugin from "stylis-plugin-rtl";
-import { CacheProvider } from "@emotion/react";
 import createCache from "@emotion/cache";
+import { CacheProvider } from "@emotion/react";
+import rtlPlugin from "stylis-plugin-rtl";
 
 // Material Dashboard 2 React routes
-import routes from "routes/userRoutes";
 import AdminRoutes from "routes/AdminRoutes";
+import routes from "routes/userRoutes";
 
 // Material Dashboard 2 React contexts
-import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "context";
+import { setMiniSidenav, setOpenConfigurator, useMaterialUIController } from "context";
 
 // Images
 // import brandWhite from "assets/images/unitsimg/mekatnar58.png";
@@ -63,21 +64,20 @@ import { useMaterialUIController, setMiniSidenav, setOpenConfigurator } from "co
 
 // import NGMedLogo from "assets/images/NGMedLogoSVG.svg";
 
-import brandWhite from "assets/images/NGMedLogoSVG.svg";
-import brandDark from "assets/images/NGMedLogoSVG.svg";
+import { default as brandDark, default as brandWhite } from "assets/images/NGMedLogoSVG.svg";
 
 import WebsiteLoader from "components/WebsiteLoader/WebsiteLoader";
-import Error404 from "views/Error404";
-import FieldReuestFormDB from "layouts/Forms/FieldReuestFormDB";
 import SignIn from "layouts/authentication/sign-in";
 import SignInURL from "layouts/authentication/sign-in/sign-in-URLs/urlLayout";
+import FieldReuestFormDB from "layouts/Forms/FieldReuestFormDB";
+import Error404 from "views/Error404";
 
-import HozlaAdminPrintInfoForm from "layouts/Forms/HozlaAdminPrintInfoForm";
-import AdminFeildPrintInfoFormDB from "layouts/Forms/AdminFeildPrintInfoFormDB";
-import { signin, authenticate, isAuthenticated, updateRefreshCount } from "auth/index";
 import sidenav from "assets/theme/components/sidenav";
-import AboutPage from "views/aboutpage/AboutPage";
+import { authenticate, isAuthenticated, signin, updateRefreshCount } from "auth/index";
+import AdminFeildPrintInfoFormDB from "layouts/Forms/AdminFeildPrintInfoFormDB";
+import HozlaAdminPrintInfoForm from "layouts/Forms/HozlaAdminPrintInfoForm";
 import GraphPage from "layouts/GraphicSoldierDatas/GraphPage";
+import AboutPage from "views/aboutpage/AboutPage";
 
 export default function App() {
   const params = useParams();
@@ -279,12 +279,29 @@ export default function App() {
                 <Routes>
                   {getRoutes(routes)}
                   <Route path="/Graphs">
-                    <Route path=":idFile" element={<GraphPage />} />
+                    <Route path=":idFile" element={<GraphPage dashboardView={false} />} />
+
+                    <Route
+                      path="Summary/Mahlaka/:idView"
+                      element={<GraphPage dashboardView typeView={"mahlka"} />}
+                    />
+                    <Route
+                      path="Summary/Ploga/:idView"
+                      element={<GraphPage dashboardView typeView={"ploga"} />}
+                    />
+                    <Route
+                      path="Summary/Gdod/:idView"
+                      element={<GraphPage dashboardView typeView={"gdod"} />}
+                    />
+                    <Route
+                      path="Summary/Hativa/:idView"
+                      element={<GraphPage dashboardView typeView={"hativa"} />}
+                    />
                   </Route>
                   <Route path="/authentication/sign-in">
                     <Route path=":idUR" render={() => getRoutes(routes)} element={<SignInURL />} />
                   </Route>
-                  <Route path="/" element={<Navigate to="/FileTable" />} />
+                  <Route path="/" element={<Navigate to="/dashboard" />} />
                   {/* <Route path="/" element={<Navigate to="/authentication/sign-in" />} /> */}
                   <Route path="/Error404" element={<Error404 />} />
                   {/* <Route path="/RequestForm">
@@ -300,9 +317,13 @@ export default function App() {
                 </Route>
                 {/* <Route path="/Error404" element={<Error404 />} /> */}
                 <Route path="/about-us" element={<AboutPage />} />
+                <Route
+                  path="/"
+                  element={<Navigate to="/authentication/sign-in/69173dcb3ee95de869edfq10" />}
+                />
                 {/* <Route path="/" element={<Navigate to="/authentication/sign-in" />} />
                 <Route path="*" element={<Navigate to="/authentication/sign-in" />} /> */}
-                <Route path="/" element={<Navigate to="/about-us" />} />
+                {/* <Route path="/" element={<Navigate to="/about-us" />} /> */}
                 {/* <Route path="*" element={<Navigate to="/Error404" />} /> */}
               </Routes>
             )}

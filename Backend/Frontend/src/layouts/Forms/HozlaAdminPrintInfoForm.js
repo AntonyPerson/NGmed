@@ -138,8 +138,8 @@ export default function HozlaPrintRequestForm() {
   //takes the data drom the DB and gives inital values to the useState data, each time the page gets rendred/refreshed
   useEffect(() => {
     axios
-      // ! .get(`http://localhost:5000/hozlaAdminRequests/${params.formID}`)
-      .get(`http://localhost:5000/hozlaRequests/${params.formID}`)
+      // ! .get(`http://localhost:5000/NGmedDB/hozlaAdminRequests/${params.formID}`)
+      .get(`http://localhost:5000/NGmedDB/hozlaRequests/${params.formID}`)
       .then((response) => {
         // console.log(`the object data`);
         console.log(response.data);
@@ -172,10 +172,10 @@ export default function HozlaPrintRequestForm() {
         // }
       });
     axios
-      .get(`http://localhost:5000/AnnualInfoAdmin/`)
+      .get(`http://localhost:5000/NGmedDB/AnnualInfoAdmin/`)
       .then((response) => {
         if (response.data === null) {
-          axios.post(`http://localhost:5000/AnnualInfoAdmin/add`, adminData).then((res) => {
+          axios.post(`http://localhost:5000/NGmedDB/AnnualInfoAdmin/add`, adminData).then((res) => {
             setAdminData({
               ...adminData,
               countPrintInYear: response.data.countPrintInYear,
@@ -379,7 +379,7 @@ export default function HozlaPrintRequestForm() {
     console.log(adminRequestData);
 
     axios
-      .post(`http://localhost:5000/hozlaAdminRequests/add`, requestData)
+      .post(`http://localhost:5000/NGmedDB/hozlaAdminRequests/add`, requestData)
       .then((res) => {
         setData({
           ...data,
@@ -404,7 +404,7 @@ export default function HozlaPrintRequestForm() {
         });
       });
     axios
-      .post(`http://localhost:5000/AnnualInfoAdmin/update`, adminRequestData)
+      .post(`http://localhost:5000/NGmedDB/AnnualInfoAdmin/update`, adminRequestData)
       .then((res) => {
         setData({
           ...data,

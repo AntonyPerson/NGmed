@@ -109,7 +109,7 @@ export default function PrintInfoRequestFormDB() {
   //takes the data drom the DB and gives inital values to the useState data, each time the page gets rendred/refreshed
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/hozlaAdminRequests/${params.formID}`)
+      .get(`http://localhost:5000/NGmedDB/hozlaAdminRequests/${params.formID}`)
       .then((response) => {
         // console.log(`the object data`);
         console.log(response.data);

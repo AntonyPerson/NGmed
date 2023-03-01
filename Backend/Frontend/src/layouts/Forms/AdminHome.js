@@ -86,7 +86,7 @@ function Dashboard() {
 
   useEffect(() => {
     axios
-      .get(`http://localhost:5000/hozlaRequests/getCountStatus`)
+      .get(`http://localhost:5000/NGmedDB/hozlaRequests/getCountStatus`)
       .then((responseStatus) => {
         console.log(responseStatus.data);
         setRequestDB(responseStatus.data);
@@ -104,7 +104,7 @@ function Dashboard() {
         setIsError(true);
       });
     axios
-      .get(`http://localhost:5000/hozlaAdminRequests/getAnafPrintCount`)
+      .get(`http://localhost:5000/NGmedDB/hozlaAdminRequests/getAnafPrintCount`)
       .then((responseAnaf) => {
         console.log(responseAnaf.data);
         setAnaf({
