@@ -75,6 +75,8 @@ export default function data() {
 
   const dbRows = requestDB.map((excelFile, index) => ({
     // project: <Project image={LogoAsana} name="Asana" />,
+    personalNumber: excelFile.personalnumber,
+
     // fileID: excelFile._id,
     fileName: excelFile.fileName,
     dateUpdated: excelFile.updatedAt.split("T")[0],
@@ -211,6 +213,7 @@ export default function data() {
     columns: [
       // { Header: "אסמכתא", accessor: "fileID", align: "center" },
       { Header: "שם הקובץ", accessor: "fileName", align: "left" },
+      { Header: "מ.א של מעלה הקובץ", accessor: "personalNumber", align: "left" },
       { Header: "עודכן לאחרונה", accessor: "dateUpdated", align: "left" },
       // { Header: "פרטי / ציבורי", accessor: "isPublic", align: "left" },
       { Header: "שייכות", accessor: "mangmentTree", align: "center" },
