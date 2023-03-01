@@ -98,127 +98,130 @@ export const creatMahlakaJasonFile = (AllMahlakaFiles) => {
 //* Ploga
 // ? Pormola - the type of culcolation we need to do
 export const pormola = (jasonData1, jasonData2, divider) => {
-  const returnJasonValue = {
-    calendarDate: "",
-    distanceInKM: "",
-    minHeartRateInBeatsPerMinute: "",
-    maxHeartRateInBeatsPerMinute: "",
-    averageHeartRateInBeatsPerMinute: "",
-    sleepDurationInHours: "",
-    deepSleepDurationInHours: "",
-    lightSleepDurationInHours: "",
-    remSleepInHours: "",
-  };
-  if (jasonData2 === null && divider !== -1) {
-    returnJasonValue.calendarDate = jasonData1.calendarDate;
+  if (jasonData1 !== undefined && jasonData2 !== undefined && divider !== undefined) {
+    const returnJasonValue = {
+      calendarDate: "",
+      distanceInKM: "",
+      minHeartRateInBeatsPerMinute: "",
+      maxHeartRateInBeatsPerMinute: "",
+      averageHeartRateInBeatsPerMinute: "",
+      sleepDurationInHours: "",
+      deepSleepDurationInHours: "",
+      lightSleepDurationInHours: "",
+      remSleepInHours: "",
+    };
+    if (jasonData2 === null && divider !== -1) {
+      returnJasonValue.calendarDate = jasonData1.calendarDate;
 
-    returnJasonValue.distanceInKM = (
-      parseFloat(jasonData1.distanceInKM, 10) / parseFloat(divider)
-    ).toString();
+      returnJasonValue.distanceInKM = (
+        parseFloat(jasonData1.distanceInKM, 10) / parseFloat(divider)
+      ).toString();
 
-    returnJasonValue.minHeartRateInBeatsPerMinute = (
-      parseFloat(jasonData1.minHeartRateInBeatsPerMinute, 10) / parseFloat(divider)
-    ).toString();
-    returnJasonValue.maxHeartRateInBeatsPerMinute = (
-      parseFloat(jasonData1.maxHeartRateInBeatsPerMinute, 10) / parseFloat(divider)
-    ).toString();
-    returnJasonValue.averageHeartRateInBeatsPerMinute = (
-      parseFloat(jasonData1.averageHeartRateInBeatsPerMinute, 10) / parseFloat(divider)
-    ).toString();
+      returnJasonValue.minHeartRateInBeatsPerMinute = (
+        parseFloat(jasonData1.minHeartRateInBeatsPerMinute, 10) / parseFloat(divider)
+      ).toString();
+      returnJasonValue.maxHeartRateInBeatsPerMinute = (
+        parseFloat(jasonData1.maxHeartRateInBeatsPerMinute, 10) / parseFloat(divider)
+      ).toString();
+      returnJasonValue.averageHeartRateInBeatsPerMinute = (
+        parseFloat(jasonData1.averageHeartRateInBeatsPerMinute, 10) / parseFloat(divider)
+      ).toString();
 
-    returnJasonValue.sleepDurationInHours = (
-      parseFloat(jasonData1.sleepDurationInHours, 10) / parseFloat(divider)
-    ).toString();
-    returnJasonValue.deepSleepDurationInHours = (
-      parseFloat(jasonData1.deepSleepDurationInHours, 10) / parseFloat(divider)
-    ).toString();
-    returnJasonValue.lightSleepDurationInHours = (
-      parseFloat(jasonData1.lightSleepDurationInHours, 10) / parseFloat(divider)
-    ).toString();
-    returnJasonValue.remSleepInHours = (
-      parseFloat(jasonData1.remSleepInHours, 10) / parseFloat(divider)
-    ).toString();
-  } else if (jasonData2 !== null && divider === -1) {
-    returnJasonValue.calendarDate = jasonData1.calendarDate;
+      returnJasonValue.sleepDurationInHours = (
+        parseFloat(jasonData1.sleepDurationInHours, 10) / parseFloat(divider)
+      ).toString();
+      returnJasonValue.deepSleepDurationInHours = (
+        parseFloat(jasonData1.deepSleepDurationInHours, 10) / parseFloat(divider)
+      ).toString();
+      returnJasonValue.lightSleepDurationInHours = (
+        parseFloat(jasonData1.lightSleepDurationInHours, 10) / parseFloat(divider)
+      ).toString();
+      returnJasonValue.remSleepInHours = (
+        parseFloat(jasonData1.remSleepInHours, 10) / parseFloat(divider)
+      ).toString();
+    } else if (jasonData2 !== null && divider === -1) {
+      returnJasonValue.calendarDate = jasonData1.calendarDate;
 
-    returnJasonValue.distanceInKM = (
-      parseFloat(jasonData1.distanceInKM, 10) + parseFloat(jasonData2.distanceInKM, 10)
-    ).toString();
+      returnJasonValue.distanceInKM = (
+        parseFloat(jasonData1.distanceInKM, 10) + parseFloat(jasonData2.distanceInKM, 10)
+      ).toString();
 
-    returnJasonValue.minHeartRateInBeatsPerMinute = (
-      parseFloat(jasonData1.minHeartRateInBeatsPerMinute, 10) +
-      parseFloat(jasonData2.minHeartRateInBeatsPerMinute, 10)
-    ).toString();
-    returnJasonValue.maxHeartRateInBeatsPerMinute = (
-      parseFloat(jasonData1.maxHeartRateInBeatsPerMinute, 10) +
-      parseFloat(jasonData2.maxHeartRateInBeatsPerMinute, 10)
-    ).toString();
-    returnJasonValue.averageHeartRateInBeatsPerMinute = (
-      parseFloat(jasonData1.averageHeartRateInBeatsPerMinute, 10) +
-      parseFloat(jasonData2.averageHeartRateInBeatsPerMinute, 10)
-    ).toString();
+      returnJasonValue.minHeartRateInBeatsPerMinute = (
+        parseFloat(jasonData1.minHeartRateInBeatsPerMinute, 10) +
+        parseFloat(jasonData2.minHeartRateInBeatsPerMinute, 10)
+      ).toString();
+      returnJasonValue.maxHeartRateInBeatsPerMinute = (
+        parseFloat(jasonData1.maxHeartRateInBeatsPerMinute, 10) +
+        parseFloat(jasonData2.maxHeartRateInBeatsPerMinute, 10)
+      ).toString();
+      returnJasonValue.averageHeartRateInBeatsPerMinute = (
+        parseFloat(jasonData1.averageHeartRateInBeatsPerMinute, 10) +
+        parseFloat(jasonData2.averageHeartRateInBeatsPerMinute, 10)
+      ).toString();
 
-    returnJasonValue.sleepDurationInHours = (
-      parseFloat(jasonData1.sleepDurationInHours, 10) +
-      parseFloat(jasonData2.sleepDurationInHours, 10)
-    ).toString();
-    returnJasonValue.deepSleepDurationInHours = (
-      parseFloat(jasonData1.deepSleepDurationInHours, 10) +
-      parseFloat(jasonData2.deepSleepDurationInHours, 10)
-    ).toString();
-    returnJasonValue.lightSleepDurationInHours = (
-      parseFloat(jasonData1.lightSleepDurationInHours, 10) +
-      parseFloat(jasonData2.lightSleepDurationInHours, 10)
-    ).toString();
-    returnJasonValue.remSleepInHours = (
-      parseFloat(jasonData1.remSleepInHours, 10) + parseFloat(jasonData2.remSleepInHours, 10)
-    ).toString();
-  } else if (jasonData2 !== null && divider !== -1) {
-    // console.log("===========");
-    returnJasonValue.calendarDate = jasonData1.calendarDate;
+      returnJasonValue.sleepDurationInHours = (
+        parseFloat(jasonData1.sleepDurationInHours, 10) +
+        parseFloat(jasonData2.sleepDurationInHours, 10)
+      ).toString();
+      returnJasonValue.deepSleepDurationInHours = (
+        parseFloat(jasonData1.deepSleepDurationInHours, 10) +
+        parseFloat(jasonData2.deepSleepDurationInHours, 10)
+      ).toString();
+      returnJasonValue.lightSleepDurationInHours = (
+        parseFloat(jasonData1.lightSleepDurationInHours, 10) +
+        parseFloat(jasonData2.lightSleepDurationInHours, 10)
+      ).toString();
+      returnJasonValue.remSleepInHours = (
+        parseFloat(jasonData1.remSleepInHours, 10) + parseFloat(jasonData2.remSleepInHours, 10)
+      ).toString();
+    } else if (jasonData2 !== null && divider !== -1) {
+      // console.log("===========");
+      returnJasonValue.calendarDate = jasonData1.calendarDate;
 
-    returnJasonValue.distanceInKM = (
-      (parseFloat(jasonData1.distanceInKM, 10) + parseFloat(jasonData2.distanceInKM, 10)) /
-      parseFloat(divider)
-    ).toString();
+      returnJasonValue.distanceInKM = (
+        (parseFloat(jasonData1.distanceInKM, 10) + parseFloat(jasonData2.distanceInKM, 10)) /
+        parseFloat(divider)
+      ).toString();
 
-    returnJasonValue.minHeartRateInBeatsPerMinute = (
-      (parseFloat(jasonData1.minHeartRateInBeatsPerMinute, 10) +
-        parseFloat(jasonData2.minHeartRateInBeatsPerMinute, 10)) /
-      parseFloat(divider)
-    ).toString();
-    returnJasonValue.maxHeartRateInBeatsPerMinute = (
-      (parseFloat(jasonData1.maxHeartRateInBeatsPerMinute, 10) +
-        parseFloat(jasonData2.maxHeartRateInBeatsPerMinute, 10)) /
-      parseFloat(divider)
-    ).toString();
-    returnJasonValue.averageHeartRateInBeatsPerMinute = (
-      (parseFloat(jasonData1.averageHeartRateInBeatsPerMinute, 10) +
-        parseFloat(jasonData2.averageHeartRateInBeatsPerMinute, 10)) /
-      parseFloat(divider)
-    ).toString();
+      returnJasonValue.minHeartRateInBeatsPerMinute = (
+        (parseFloat(jasonData1.minHeartRateInBeatsPerMinute, 10) +
+          parseFloat(jasonData2.minHeartRateInBeatsPerMinute, 10)) /
+        parseFloat(divider)
+      ).toString();
+      returnJasonValue.maxHeartRateInBeatsPerMinute = (
+        (parseFloat(jasonData1.maxHeartRateInBeatsPerMinute, 10) +
+          parseFloat(jasonData2.maxHeartRateInBeatsPerMinute, 10)) /
+        parseFloat(divider)
+      ).toString();
+      returnJasonValue.averageHeartRateInBeatsPerMinute = (
+        (parseFloat(jasonData1.averageHeartRateInBeatsPerMinute, 10) +
+          parseFloat(jasonData2.averageHeartRateInBeatsPerMinute, 10)) /
+        parseFloat(divider)
+      ).toString();
 
-    returnJasonValue.sleepDurationInHours = (
-      (parseFloat(jasonData1.sleepDurationInHours, 10) +
-        parseFloat(jasonData2.sleepDurationInHours, 10)) /
-      parseFloat(divider)
-    ).toString();
-    returnJasonValue.deepSleepDurationInHours = (
-      (parseFloat(jasonData1.deepSleepDurationInHours, 10) +
-        parseFloat(jasonData2.deepSleepDurationInHours, 10)) /
-      parseFloat(divider)
-    ).toString();
-    returnJasonValue.lightSleepDurationInHours = (
-      (parseFloat(jasonData1.lightSleepDurationInHours, 10) +
-        parseFloat(jasonData2.lightSleepDurationInHours, 10)) /
-      parseFloat(divider)
-    ).toString();
-    returnJasonValue.remSleepInHours = (
-      (parseFloat(jasonData1.remSleepInHours, 10) + parseFloat(jasonData2.remSleepInHours, 10)) /
-      parseFloat(divider)
-    ).toString();
+      returnJasonValue.sleepDurationInHours = (
+        (parseFloat(jasonData1.sleepDurationInHours, 10) +
+          parseFloat(jasonData2.sleepDurationInHours, 10)) /
+        parseFloat(divider)
+      ).toString();
+      returnJasonValue.deepSleepDurationInHours = (
+        (parseFloat(jasonData1.deepSleepDurationInHours, 10) +
+          parseFloat(jasonData2.deepSleepDurationInHours, 10)) /
+        parseFloat(divider)
+      ).toString();
+      returnJasonValue.lightSleepDurationInHours = (
+        (parseFloat(jasonData1.lightSleepDurationInHours, 10) +
+          parseFloat(jasonData2.lightSleepDurationInHours, 10)) /
+        parseFloat(divider)
+      ).toString();
+      returnJasonValue.remSleepInHours = (
+        (parseFloat(jasonData1.remSleepInHours, 10) + parseFloat(jasonData2.remSleepInHours, 10)) /
+        parseFloat(divider)
+      ).toString();
+    }
+    return returnJasonValue;
   }
-  return returnJasonValue;
+  return [];
 };
 
 // ? create a single pormola file from all of the mahlkot fiels
@@ -471,17 +474,21 @@ export const axiosGetPlogaJasonById = (plogaID) => {
     .post(`http://localhost:5000/NGmedDB/treeMangment/mahlaka/mahlakaByPlogaId`, { ploga: plogaID })
     .then(async (response) => {
       console.log(response.data);
-      const mahlkotArray = await Promise.all(
-        response.data.map(async (mahlaka) => axiosGetMahlakaJasonById(mahlaka._id) || [])
-      );
-      // response.data.forEach(async (mahlaka) => {
-      //  const temp = await axiosGetMahlakaJasonById(mahlaka._id);
-      //  mahlkotArray.push(temp);
-      // });
-      console.log("ERROR MAHLKOT:");
-      console.log(mahlkotArray);
-      return creatPloagJasonFile(mahlkotArray);
-      // console.log(returnArray);
+      if (response.data.length !== 0) {
+        const mahlkotArray = await Promise.all(
+          response.data.map(async (mahlaka) => axiosGetMahlakaJasonById(mahlaka._id) || [])
+        );
+        // response.data.forEach(async (mahlaka) => {
+        //  const temp = await axiosGetMahlakaJasonById(mahlaka._id);
+        //  mahlkotArray.push(temp);
+        // });
+        console.log("ERROR MAHLKOT:");
+        console.log(mahlkotArray);
+        return creatPloagJasonFile(mahlkotArray);
+        // console.log(returnArray);
+      } else {
+        return [];
+      }
     })
     .catch((error) => {
       console.log(error);
@@ -493,11 +500,15 @@ export const axiosGetGdodJasonById = (gdodID) => {
     .post(`http://localhost:5000/NGmedDB/treeMangment/ploga/plogaByGdodId`, { gdod: gdodID })
     .then(async (response) => {
       console.log(response.data);
-      const plogotArray = await Promise.all(
-        response.data.map(async (ploga) => axiosGetPlogaJasonById(ploga._id) || [])
-      );
+      if (response.data.length !== 0) {
+        const plogotArray = await Promise.all(
+          response.data.map(async (ploga) => axiosGetPlogaJasonById(ploga._id) || [])
+        );
 
-      return creatGdodJasonFile(plogotArray);
+        return creatGdodJasonFile(plogotArray);
+      } else {
+        return [];
+      }
       // console.log(returnArray);
     })
     .catch((error) => {
@@ -511,7 +522,7 @@ export const axiosGetHativaJasonById = (hativaID) => {
     .then(async (response) => {
       console.log(response.data);
       const gdodimArray = await Promise.all(
-        response.data.map(async (gdod) => axiosGetPlogaJasonById(gdod._id) || [])
+        response.data.map(async (gdod) => axiosGetGdodJasonById(gdod._id) || [])
       );
 
       return creatHativaJasonFile(gdodimArray);

@@ -328,7 +328,7 @@ function Dashboard() {
         if (selectedVaules.mahlaka !== "") {
           const count = await setCountSolidersMahlka(selectedVaules.mahlaka);
           setCountSoliders(count.countSoldier);
-          setCountWatches(count.countWatches - count.countWatchesUsed);
+          setCountWatches(count.countWatches);
           setCountWatchesUsed(count.countWatchesUsed);
         } else {
           setCountSoliders(0);

@@ -151,7 +151,7 @@ function GraphPage(props) {
           console.log({ fileJason: tempM });
           await setExcelData({ fileJason: tempM });
           await setDataRange({
-            startDate: tempM.calendarDate,
+            startDate: tempM[0].calendarDate,
             endDate: tempM[tempM.length - 1].calendarDate,
           });
           break;
