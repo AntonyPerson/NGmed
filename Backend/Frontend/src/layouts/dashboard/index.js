@@ -441,13 +441,13 @@ function Dashboard() {
         <Grid item xs={12} md={6} lg={3}>
           <MDBox mb={1.5}>
             <ComplexStatisticsCard
-              icon="leaderboard"
-              title="Today's Users"
-              count="2,300"
+              icon="hotel"
+              title="מס' שעות שינה שבועי ממוצע"
+              count="7.35"
               percentage={{
                 color: "success",
-                amount: "+3%",
-                label: "than last month",
+                amount: "",
+                label: "",
               }}
             />
           </MDBox>
@@ -456,14 +456,10 @@ function Dashboard() {
           <MDBox mb={1.5}>
             <ComplexStatisticsCard
               color="success"
-              icon="store"
-              title="Revenue"
-              count="34k"
-              percentage={{
-                color: "success",
-                amount: "+1%",
-                label: "than yesterday",
-              }}
+              icon="map"
+              title="מרחק שבועי ממוצע (קילומטרים)"
+              count="150"
+              percentage={{}}
             />
           </MDBox>
         </Grid>
@@ -471,14 +467,10 @@ function Dashboard() {
           <MDBox mb={1.5}>
             <ComplexStatisticsCard
               color="primary"
-              icon="person_add"
-              title="Followers"
-              count="+91"
-              percentage={{
-                color: "success",
-                amount: "",
-                label: "Just updated",
-              }}
+              icon="monitor_heart"
+              title="דופק לב מקסימלי ממוצע"
+              count="151"
+              percentage={{}}
             />
           </MDBox>
         </Grid>
@@ -491,7 +483,7 @@ function Dashboard() {
                 color="mekatnar"
                 title="מדדי שינה במחלקה"
                 description="ממוצע שעות השינה"
-                date="מעודכן "
+                date="עודכן כעת "
                 chart={reportsBarChartData}
               />
             </MDBox>
