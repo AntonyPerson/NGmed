@@ -67,9 +67,10 @@ import { setMiniSidenav, setOpenConfigurator, useMaterialUIController } from "co
 import { default as brandDark, default as brandWhite } from "assets/images/NGMedLogoSVG.svg";
 
 import WebsiteLoader from "components/WebsiteLoader/WebsiteLoader";
+import FieldReuestFormDB from "layouts/Forms/FieldReuestFormDB";
 import SignIn from "layouts/authentication/sign-in";
 import SignInURL from "layouts/authentication/sign-in/sign-in-URLs/urlLayout";
-import FieldReuestFormDB from "layouts/Forms/FieldReuestFormDB";
+import SignUp from "layouts/authentication/sign-up";
 import Error404 from "views/Error404";
 
 import sidenav from "assets/theme/components/sidenav";
@@ -259,6 +260,7 @@ export default function App() {
                       element={<SignInURL />}
                     />
                   </Route>
+                  <Route path="/authentication/sign-up" element={<SignUp />} />
                   <Route path="/" element={<Navigate to="/AdminHome" />} />
                   {/* <Route path="/" element={<Navigate to="/authentication/sign-in" />} /> */}
                   <Route path="/Error404" element={<Error404 />} />
@@ -307,6 +309,8 @@ export default function App() {
                   {/* <Route path="/RequestForm">
                     <Route path=":formID" element={<FieldReuestFormDB />} />
                   </Route> */}
+                  <Route path="/authentication/sign-up" element={<SignUp />} />
+
                   <Route path="*" element={<Error404 />} />
                 </Routes>
               )

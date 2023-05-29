@@ -1,0 +1,21 @@
+FROM node:18 AS Production
+
+ENV NODE_ENV=production
+
+WORKDIR /usr/src/Frontend
+
+COPY package.json .
+COPY package-lock.json .
+
+COPY . .
+
+RUN npm run build
+
+EXPOSE 3000
+
+CMD ["sh", "-c", "npm start"]
+#TODO build:
+#* docker build -t "hozla_client" ./Frontend/
+
+#TODO After build to run image in container:
+#* docker run -d -p 3000:3000 --name build-client hozla_client
