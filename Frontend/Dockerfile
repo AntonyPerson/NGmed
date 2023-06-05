@@ -1,16 +1,18 @@
 
 # Create image based on the official Node image from dockerhub
-FROM node:16 AS Production
+FROM node
 
 # Create NGmed_App directory
-WORKDIR /usr/src/NGmed_App
+WORKDIR /NGmed_App
 
 # Copy dependency definitions
-COPY package.json /usr/src/NGmed_App
-COPY package-lock.json /usr/src/NGmed_App
+COPY package.json .
+COPY package-lock.json .
+# RUN npm install
+
 
 # Get all the code needed to run the NGmed_App not inatalltion of packages they are coppied
-COPY . /usr/src/NGmed_App
+COPY . .
 
 # Expose the port the NGmed_App runs in
 EXPOSE 3000

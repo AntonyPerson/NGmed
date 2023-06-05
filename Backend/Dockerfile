@@ -1,19 +1,20 @@
 # syntax=docker/dockerfile:1.4
 
-FROM node:18 AS Production
+FROM node
 
 # Create NGmed_App directory
-WORKDIR /usr/src/NGmed_App
+WORKDIR /NGmed_App
 
-COPY package.json /usr/src/NGmed_App/package.json
-COPY package-lock.json /usr/src/NGmed_App/package-lock.json
-# RUN npm ci
+COPY package.json .
+COPY package-lock.json .
+# RUN npm install
 
-COPY . /usr/src/NGmed_App
+# Get all the code needed to run the NGmed_App not inatalltion of packages they are coppied
+COPY . .
 
-EXPOSE 3000
+EXPOSE 5000
 
-CMD [ "npm", "run", "dev" ]
+CMD [ "npm", "run", "devStart" ]
 
 # FROM development as dev-envs
 # RUN <<EOF
