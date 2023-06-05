@@ -51,19 +51,24 @@
 services:
   mongodb:
     image: "mongo"
+    restart: always
     ports:
-      - '27017:27017'
+      - '2717:27017'
+    networks:
+      - ngmed-app-network
     volumes:
-      - mongo:/data/db
+      - mongodb:/data/db
 
   backend:
     build: ./Backend
     ports:
       - "5000:5000"
-    volumes:
-      - logs:/app/logs
-      - ./Backend:/app
-      - /app/node_modules
+    networks:
+      - ngmed-app-network
+    # volumes:
+    #   - logs:/app/logs
+    #   - ./Backend:/app
+    #   - /app/node_modules
     depends_on:
       - mongodb
 
@@ -71,15 +76,21 @@ services:
     build: ./Frontend
     ports:
       - "3000:3000"
-    volumes:
-      - ./Frontend/src:/app/src
+    networks:
+      - ngmed-app-network
+    # volumes:
+    #   - ./Frontend/src:/app/src
     stdin_open: true
     tty: true
     depends_on:
       - backend
 
 volumes:
-  mongo:
-  logs:
+  mongodb:
+    driver: local
+  # logs:
 
 
+networks:
+  ngmed-app-network:
+    driver: bridge
