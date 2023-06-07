@@ -94,3 +94,8 @@ volumes:
 networks:
   ngmed-app-network:
     driver: bridge
+  # TODO: 
+  # 1. Connect the app throw the container to an outside MongoDB database (so data will not be lost when the container is down)
+  # 2. Check how to use images withat internet connection.
+  # 3. Get user connection abbility from Ori.
+  # 4. How to run and update the app without its crashing.
