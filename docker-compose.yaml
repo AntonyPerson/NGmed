@@ -57,7 +57,7 @@ services:
     networks:
       - ngmed-app-network
     volumes:
-      - ./ng_med-data/db:/data/db
+      - ./ng_med_data/db:/data/db
       # - mongodb:/data/db
 
   backend:
