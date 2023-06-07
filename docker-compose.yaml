@@ -57,7 +57,8 @@ services:
     networks:
       - ngmed-app-network
     volumes:
-      - mongodb:/data/db
+      - ./ng_med-data/db:/data/db
+      # - mongodb:/data/db
 
   backend:
     build: ./Backend
@@ -85,10 +86,10 @@ services:
     depends_on:
       - backend
 
-volumes:
-  mongodb:
-    driver: local
-  # logs:
+# volumes:
+#   mongodb:
+#     driver: local
+#   # logs:
 
 
 networks:
